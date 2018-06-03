@@ -1,0 +1,10 @@
+{
+  "development": {
+    "use_env_variable": "RAZZLE_CONNECTION_STRING_DEV",
+    "operatorsAliases": false
+  },
+  "production": {
+    "use_env_variable": "RAZZLE_CONNECTION_STRING_PROD",
+    "operatorsAliases": false
+  }
+}

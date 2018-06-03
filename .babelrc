@@ -1,0 +1,7 @@
+{
+  "presets": [
+    "razzle/babel",
+    "stage-0",
+    "flow"
+   ]
+}
