@@ -2,15 +2,15 @@
 
 import React, { Component } from 'react';
 import VideoItem from './VideoItem';
-import { PageContentContainer } from './util/sharedStyles';
-import { Hits } from 'react-instantsearch/dom';
+import { SectionTitle, PageContentContainer } from './util/sharedStyles';
+import { InfiniteHits } from 'react-instantsearch/dom';
 
 class Explore extends Component<*> {
   render() {
     return (
       <PageContentContainer>
-        <p>My list / New / Popular / Search results</p>
-        <Hits hitComponent={VideoItem} />
+        <SectionTitle>Popular Talks</SectionTitle>
+        <InfiniteHits hitComponent={VideoItem} />
       </PageContentContainer>
     );
   }
