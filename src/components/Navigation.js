@@ -65,12 +65,6 @@ const Navigation = ({ user }) => (
     <NavListItem>
       <StyledLink to="/about">About</StyledLink>
     </NavListItem>
-    {/* <NavListItem>
-      <StyledLink to="/contribute">Contribute</StyledLink>
-    </NavListItem>
-    <NavListItem>
-      <SignIn user={user} />
-    </NavListItem> */}
   </NavWrapper>
 );
 

@@ -99,7 +99,15 @@ const VideoItem = withRouter(
     };
     render() {
       const { hit } = this.props;
-      const { eventName, title, videoId, thumbnailUrl, views, duration, year } = hit;
+      const {
+        eventName,
+        title,
+        videoId,
+        thumbnailUrl,
+        views,
+        duration,
+        year
+      } = hit;
       return (
         <VideoItemInner
           onClick={this.handleClick}
@@ -152,7 +160,9 @@ const VideoItemInner = ({
       </VideoImageContainer>
       <VideoItemDescription>
         <VideoDescriptionContainer>
-          <VideoItemTextMuted>{eventName}, {year}</VideoItemTextMuted>
+          <VideoItemTextMuted>
+            {eventName}, {year}
+          </VideoItemTextMuted>
           <MutedLink
             href={url}
             target="_blank"
@@ -160,10 +170,10 @@ const VideoItemInner = ({
             onClick={e => {
               e.stopPropagation();
             }}
-            >
-              On YouTube
-            </MutedLink>
-          </VideoDescriptionContainer>
+          >
+            On YouTube
+          </MutedLink>
+        </VideoDescriptionContainer>
         <VideoTitle>{title}</VideoTitle>
       </VideoItemDescription>
     </VideoItemWrapper>

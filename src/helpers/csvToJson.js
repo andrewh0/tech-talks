@@ -36,7 +36,6 @@ function writeJsonFile(jsonInput, outputJsonFilePath) {
 }
 
 async function csvToJson(inputCsvFilePath, outputJsonFilePath) {
-
   /*
     The YouTube API doesn't give us all the video data when using the playlist
     endpoint, so 1) get all the videos from each playlist and 2) look up those

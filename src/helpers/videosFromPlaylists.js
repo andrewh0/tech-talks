@@ -113,7 +113,9 @@ function normalizeYouTubeVideos(videos) {
 
 function formatDate(isoDateString) {
   const d = new Date(isoDateString);
-  return d.getUTCFullYear() * 10000 + (d.getUTCMonth() + 1) * 100 + d.getUTCDate();
+  return (
+    d.getUTCFullYear() * 10000 + (d.getUTCMonth() + 1) * 100 + d.getUTCDate()
+  );
 }
 
 function normalizeYouTubeVideo(video) {
