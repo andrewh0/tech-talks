@@ -9,10 +9,13 @@ const DARK_GRAY = '#131313';
 const WHITE = '#dedede';
 
 const BRAND_COLOR = '#56A4FF';
-const TEXT_COLOR = BLACK;
+const TEXT_COLOR = WHITE;
 const MUTED_TEXT_COLOR = GRAY;
 
 const PageContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 16px 24px;
 `;
 
