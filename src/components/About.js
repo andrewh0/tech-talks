@@ -26,7 +26,7 @@ const About = () => (
         Tech Talks was inspired by and built for the web development community.
         The website is open-source so if you want to make it better, you can
         head over to GitHub and submit a pull request. Or if there’s a talk
-        missing here, you can add one on the Contribute page.
+        missing here, you can contact me.
       </Copy>
     </Section>
     <Section>
@@ -41,6 +41,8 @@ const About = () => (
     <Section>
       <Copy>
         Created by <A href="https://twitter.com/andrewlho">@andrewlho</A>.
+        Open-source on{' '}
+        <A href="https://github.com/andrewh0/tech-talks">GitHub</A>.
       </Copy>
     </Section>
   </PageContentContainer>
