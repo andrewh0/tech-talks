@@ -1,31 +1,12 @@
-// @flow
-/* eslint-disable no-console */
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import * as serviceWorker from './serviceWorker';
 
-import app from './server';
-import http from 'http';
+ReactDOM.render(<App />, document.getElementById('root'));
 
-const server = http.createServer(app);
-
-let currentApp = app;
-
-server.listen(process.env.PORT || 3000, error => {
-  if (error) {
-    console.log(error);
-  }
-  console.log('🚀 started');
-});
-
-// https://medium.com/flow-type/new-flow-errors-on-unknown-property-access-in-conditionals-461da66ea10
-// $FlowFixMe
-if (module.hot) {
-  console.log('✅  Server-side HMR Enabled!');
-
-  // $FlowFixMe
-  module.hot.accept('./server', () => {
-    console.log('🔁  HMR Reloading `./server`...');
-    server.removeListener('request', currentApp);
-    const newApp = require('./server').default;
-    server.on('request', newApp);
-    currentApp = newApp;
-  });
-}
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: http://bit.ly/CRA-PWA
+serviceWorker.unregister();
