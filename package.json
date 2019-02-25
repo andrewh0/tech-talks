@@ -1,0 +1,20 @@
+{
+  "name": "tech-talks",
+  "version": "1.0.0",
+  "description": "![tech-talks](https://user-images.githubusercontent.com/2905455/40894060-b0cea240-675b-11e8-8b7c-61eb6cab3be0.gif)",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd server && yarn start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrewh0/tech-talks.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andrewh0/tech-talks/issues"
+  },
+  "homepage": "https://github.com/andrewh0/tech-talks#readme"
+}
