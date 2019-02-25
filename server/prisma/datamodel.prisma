@@ -1,0 +1,32 @@
+enum VideoSource {
+  YOUTUBE,
+  VIMEO
+}
+
+type Talk {
+  id: ID! @unique
+  title: String!
+  description: String
+  videoLink: String
+  source: VideoSource
+  private: Boolean
+  event: Event
+  speakers: [Speaker!]!
+  duration: Int
+  publishedAt: DateTime
+}
+
+type Speaker {
+  id: ID! @unique
+  name: String!
+  twitterHandle: String
+  talks: [Talk!]!
+}
+
+type Event {
+  id: ID! @unique
+  type: String
+  youtubeChannel: String
+  speakers: [Speaker!]!
+  talks: [Talk!]!
+}
