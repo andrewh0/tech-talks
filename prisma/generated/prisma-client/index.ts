@@ -15,6 +15,7 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 
 export interface Exists {
   event: (where?: EventWhereInput) => Promise<boolean>;
+  organization: (where?: OrganizationWhereInput) => Promise<boolean>;
   speaker: (where?: SpeakerWhereInput) => Promise<boolean>;
   talk: (where?: TalkWhereInput) => Promise<boolean>;
 }
@@ -61,6 +62,29 @@ export interface Prisma {
       last?: Int;
     }
   ) => EventConnectionPromise;
+  organization: (where: OrganizationWhereUniqueInput) => OrganizationPromise;
+  organizations: (
+    args?: {
+      where?: OrganizationWhereInput;
+      orderBy?: OrganizationOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<Organization>;
+  organizationsConnection: (
+    args?: {
+      where?: OrganizationWhereInput;
+      orderBy?: OrganizationOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => OrganizationConnectionPromise;
   speaker: (where: SpeakerWhereUniqueInput) => SpeakerPromise;
   speakers: (
     args?: {
@@ -129,6 +153,29 @@ export interface Prisma {
   ) => EventPromise;
   deleteEvent: (where: EventWhereUniqueInput) => EventPromise;
   deleteManyEvents: (where?: EventWhereInput) => BatchPayloadPromise;
+  createOrganization: (data: OrganizationCreateInput) => OrganizationPromise;
+  updateOrganization: (
+    args: { data: OrganizationUpdateInput; where: OrganizationWhereUniqueInput }
+  ) => OrganizationPromise;
+  updateManyOrganizations: (
+    args: {
+      data: OrganizationUpdateManyMutationInput;
+      where?: OrganizationWhereInput;
+    }
+  ) => BatchPayloadPromise;
+  upsertOrganization: (
+    args: {
+      where: OrganizationWhereUniqueInput;
+      create: OrganizationCreateInput;
+      update: OrganizationUpdateInput;
+    }
+  ) => OrganizationPromise;
+  deleteOrganization: (
+    where: OrganizationWhereUniqueInput
+  ) => OrganizationPromise;
+  deleteManyOrganizations: (
+    where?: OrganizationWhereInput
+  ) => BatchPayloadPromise;
   createSpeaker: (data: SpeakerCreateInput) => SpeakerPromise;
   updateSpeaker: (
     args: { data: SpeakerUpdateInput; where: SpeakerWhereUniqueInput }
@@ -173,6 +220,9 @@ export interface Subscription {
   event: (
     where?: EventSubscriptionWhereInput
   ) => EventSubscriptionPayloadSubscription;
+  organization: (
+    where?: OrganizationSubscriptionWhereInput
+  ) => OrganizationSubscriptionPayloadSubscription;
   speaker: (
     where?: SpeakerSubscriptionWhereInput
   ) => SpeakerSubscriptionPayloadSubscription;
@@ -191,6 +241,8 @@ export interface ClientConstructor<T> {
 
 export type VideoSource = "YOUTUBE" | "VIMEO";
 
+export type EventType = "MEETUP" | "CONFERENCE";
+
 export type SpeakerOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -203,33 +255,57 @@ export type SpeakerOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
-export type TalkOrderByInput =
+export type EventOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "title_ASC"
-  | "title_DESC"
-  | "description_ASC"
-  | "description_DESC"
-  | "videoLink_ASC"
-  | "videoLink_DESC"
-  | "source_ASC"
-  | "source_DESC"
-  | "private_ASC"
-  | "private_DESC"
-  | "duration_ASC"
-  | "duration_DESC"
-  | "publishedAt_ASC"
-  | "publishedAt_DESC"
+  | "city_ASC"
+  | "city_DESC"
+  | "country_ASC"
+  | "country_DESC"
+  | "endDate_ASC"
+  | "endDate_DESC"
+  | "startDate_ASC"
+  | "startDate_DESC"
+  | "type_ASC"
+  | "type_DESC"
+  | "youtubePlaylist_ASC"
+  | "youtubePlaylist_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
-export type EventOrderByInput =
+export type TalkOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "type_ASC"
-  | "type_DESC"
+  | "description_ASC"
+  | "description_DESC"
+  | "duration_ASC"
+  | "duration_DESC"
+  | "hidden_ASC"
+  | "hidden_DESC"
+  | "private_ASC"
+  | "private_DESC"
+  | "publishedAt_ASC"
+  | "publishedAt_DESC"
+  | "source_ASC"
+  | "source_DESC"
+  | "title_ASC"
+  | "title_DESC"
+  | "videoLink_ASC"
+  | "videoLink_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type OrganizationOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "twitterHandle_ASC"
+  | "twitterHandle_DESC"
+  | "website_ASC"
+  | "website_DESC"
   | "youtubeChannel_ASC"
   | "youtubeChannel_DESC"
   | "createdAt_ASC"
@@ -258,6 +334,12 @@ export interface SpeakerWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
+  events_every?: EventWhereInput;
+  events_some?: EventWhereInput;
+  events_none?: EventWhereInput;
+  talks_every?: TalkWhereInput;
+  talks_some?: TalkWhereInput;
+  talks_none?: TalkWhereInput;
   name?: String;
   name_not?: String;
   name_in?: String[] | String;
@@ -286,100 +368,9 @@ export interface SpeakerWhereInput {
   twitterHandle_not_starts_with?: String;
   twitterHandle_ends_with?: String;
   twitterHandle_not_ends_with?: String;
-  talks_every?: TalkWhereInput;
-  talks_some?: TalkWhereInput;
-  talks_none?: TalkWhereInput;
   AND?: SpeakerWhereInput[] | SpeakerWhereInput;
   OR?: SpeakerWhereInput[] | SpeakerWhereInput;
   NOT?: SpeakerWhereInput[] | SpeakerWhereInput;
-}
-
-export interface TalkWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  title?: String;
-  title_not?: String;
-  title_in?: String[] | String;
-  title_not_in?: String[] | String;
-  title_lt?: String;
-  title_lte?: String;
-  title_gt?: String;
-  title_gte?: String;
-  title_contains?: String;
-  title_not_contains?: String;
-  title_starts_with?: String;
-  title_not_starts_with?: String;
-  title_ends_with?: String;
-  title_not_ends_with?: String;
-  description?: String;
-  description_not?: String;
-  description_in?: String[] | String;
-  description_not_in?: String[] | String;
-  description_lt?: String;
-  description_lte?: String;
-  description_gt?: String;
-  description_gte?: String;
-  description_contains?: String;
-  description_not_contains?: String;
-  description_starts_with?: String;
-  description_not_starts_with?: String;
-  description_ends_with?: String;
-  description_not_ends_with?: String;
-  videoLink?: String;
-  videoLink_not?: String;
-  videoLink_in?: String[] | String;
-  videoLink_not_in?: String[] | String;
-  videoLink_lt?: String;
-  videoLink_lte?: String;
-  videoLink_gt?: String;
-  videoLink_gte?: String;
-  videoLink_contains?: String;
-  videoLink_not_contains?: String;
-  videoLink_starts_with?: String;
-  videoLink_not_starts_with?: String;
-  videoLink_ends_with?: String;
-  videoLink_not_ends_with?: String;
-  source?: VideoSource;
-  source_not?: VideoSource;
-  source_in?: VideoSource[] | VideoSource;
-  source_not_in?: VideoSource[] | VideoSource;
-  private?: Boolean;
-  private_not?: Boolean;
-  event?: EventWhereInput;
-  speakers_every?: SpeakerWhereInput;
-  speakers_some?: SpeakerWhereInput;
-  speakers_none?: SpeakerWhereInput;
-  duration?: Int;
-  duration_not?: Int;
-  duration_in?: Int[] | Int;
-  duration_not_in?: Int[] | Int;
-  duration_lt?: Int;
-  duration_lte?: Int;
-  duration_gt?: Int;
-  duration_gte?: Int;
-  publishedAt?: DateTimeInput;
-  publishedAt_not?: DateTimeInput;
-  publishedAt_in?: DateTimeInput[] | DateTimeInput;
-  publishedAt_not_in?: DateTimeInput[] | DateTimeInput;
-  publishedAt_lt?: DateTimeInput;
-  publishedAt_lte?: DateTimeInput;
-  publishedAt_gt?: DateTimeInput;
-  publishedAt_gte?: DateTimeInput;
-  AND?: TalkWhereInput[] | TalkWhereInput;
-  OR?: TalkWhereInput[] | TalkWhereInput;
-  NOT?: TalkWhereInput[] | TalkWhereInput;
 }
 
 export interface EventWhereInput {
@@ -397,20 +388,231 @@ export interface EventWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
-  type?: String;
-  type_not?: String;
-  type_in?: String[] | String;
-  type_not_in?: String[] | String;
-  type_lt?: String;
-  type_lte?: String;
-  type_gt?: String;
-  type_gte?: String;
-  type_contains?: String;
-  type_not_contains?: String;
-  type_starts_with?: String;
-  type_not_starts_with?: String;
-  type_ends_with?: String;
-  type_not_ends_with?: String;
+  speakers_every?: SpeakerWhereInput;
+  speakers_some?: SpeakerWhereInput;
+  speakers_none?: SpeakerWhereInput;
+  talks_every?: TalkWhereInput;
+  talks_some?: TalkWhereInput;
+  talks_none?: TalkWhereInput;
+  city?: String;
+  city_not?: String;
+  city_in?: String[] | String;
+  city_not_in?: String[] | String;
+  city_lt?: String;
+  city_lte?: String;
+  city_gt?: String;
+  city_gte?: String;
+  city_contains?: String;
+  city_not_contains?: String;
+  city_starts_with?: String;
+  city_not_starts_with?: String;
+  city_ends_with?: String;
+  city_not_ends_with?: String;
+  country?: String;
+  country_not?: String;
+  country_in?: String[] | String;
+  country_not_in?: String[] | String;
+  country_lt?: String;
+  country_lte?: String;
+  country_gt?: String;
+  country_gte?: String;
+  country_contains?: String;
+  country_not_contains?: String;
+  country_starts_with?: String;
+  country_not_starts_with?: String;
+  country_ends_with?: String;
+  country_not_ends_with?: String;
+  endDate?: String;
+  endDate_not?: String;
+  endDate_in?: String[] | String;
+  endDate_not_in?: String[] | String;
+  endDate_lt?: String;
+  endDate_lte?: String;
+  endDate_gt?: String;
+  endDate_gte?: String;
+  endDate_contains?: String;
+  endDate_not_contains?: String;
+  endDate_starts_with?: String;
+  endDate_not_starts_with?: String;
+  endDate_ends_with?: String;
+  endDate_not_ends_with?: String;
+  startDate?: String;
+  startDate_not?: String;
+  startDate_in?: String[] | String;
+  startDate_not_in?: String[] | String;
+  startDate_lt?: String;
+  startDate_lte?: String;
+  startDate_gt?: String;
+  startDate_gte?: String;
+  startDate_contains?: String;
+  startDate_not_contains?: String;
+  startDate_starts_with?: String;
+  startDate_not_starts_with?: String;
+  startDate_ends_with?: String;
+  startDate_not_ends_with?: String;
+  type?: EventType;
+  type_not?: EventType;
+  type_in?: EventType[] | EventType;
+  type_not_in?: EventType[] | EventType;
+  youtubePlaylist?: String;
+  youtubePlaylist_not?: String;
+  youtubePlaylist_in?: String[] | String;
+  youtubePlaylist_not_in?: String[] | String;
+  youtubePlaylist_lt?: String;
+  youtubePlaylist_lte?: String;
+  youtubePlaylist_gt?: String;
+  youtubePlaylist_gte?: String;
+  youtubePlaylist_contains?: String;
+  youtubePlaylist_not_contains?: String;
+  youtubePlaylist_starts_with?: String;
+  youtubePlaylist_not_starts_with?: String;
+  youtubePlaylist_ends_with?: String;
+  youtubePlaylist_not_ends_with?: String;
+  AND?: EventWhereInput[] | EventWhereInput;
+  OR?: EventWhereInput[] | EventWhereInput;
+  NOT?: EventWhereInput[] | EventWhereInput;
+}
+
+export interface TalkWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  event?: EventWhereInput;
+  speakers_every?: SpeakerWhereInput;
+  speakers_some?: SpeakerWhereInput;
+  speakers_none?: SpeakerWhereInput;
+  description?: String;
+  description_not?: String;
+  description_in?: String[] | String;
+  description_not_in?: String[] | String;
+  description_lt?: String;
+  description_lte?: String;
+  description_gt?: String;
+  description_gte?: String;
+  description_contains?: String;
+  description_not_contains?: String;
+  description_starts_with?: String;
+  description_not_starts_with?: String;
+  description_ends_with?: String;
+  description_not_ends_with?: String;
+  duration?: Int;
+  duration_not?: Int;
+  duration_in?: Int[] | Int;
+  duration_not_in?: Int[] | Int;
+  duration_lt?: Int;
+  duration_lte?: Int;
+  duration_gt?: Int;
+  duration_gte?: Int;
+  hidden?: Boolean;
+  hidden_not?: Boolean;
+  private?: Boolean;
+  private_not?: Boolean;
+  publishedAt?: DateTimeInput;
+  publishedAt_not?: DateTimeInput;
+  publishedAt_in?: DateTimeInput[] | DateTimeInput;
+  publishedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  publishedAt_lt?: DateTimeInput;
+  publishedAt_lte?: DateTimeInput;
+  publishedAt_gt?: DateTimeInput;
+  publishedAt_gte?: DateTimeInput;
+  source?: VideoSource;
+  source_not?: VideoSource;
+  source_in?: VideoSource[] | VideoSource;
+  source_not_in?: VideoSource[] | VideoSource;
+  title?: String;
+  title_not?: String;
+  title_in?: String[] | String;
+  title_not_in?: String[] | String;
+  title_lt?: String;
+  title_lte?: String;
+  title_gt?: String;
+  title_gte?: String;
+  title_contains?: String;
+  title_not_contains?: String;
+  title_starts_with?: String;
+  title_not_starts_with?: String;
+  title_ends_with?: String;
+  title_not_ends_with?: String;
+  videoLink?: String;
+  videoLink_not?: String;
+  videoLink_in?: String[] | String;
+  videoLink_not_in?: String[] | String;
+  videoLink_lt?: String;
+  videoLink_lte?: String;
+  videoLink_gt?: String;
+  videoLink_gte?: String;
+  videoLink_contains?: String;
+  videoLink_not_contains?: String;
+  videoLink_starts_with?: String;
+  videoLink_not_starts_with?: String;
+  videoLink_ends_with?: String;
+  videoLink_not_ends_with?: String;
+  AND?: TalkWhereInput[] | TalkWhereInput;
+  OR?: TalkWhereInput[] | TalkWhereInput;
+  NOT?: TalkWhereInput[] | TalkWhereInput;
+}
+
+export type OrganizationWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface OrganizationWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  events_every?: EventWhereInput;
+  events_some?: EventWhereInput;
+  events_none?: EventWhereInput;
+  twitterHandle?: String;
+  twitterHandle_not?: String;
+  twitterHandle_in?: String[] | String;
+  twitterHandle_not_in?: String[] | String;
+  twitterHandle_lt?: String;
+  twitterHandle_lte?: String;
+  twitterHandle_gt?: String;
+  twitterHandle_gte?: String;
+  twitterHandle_contains?: String;
+  twitterHandle_not_contains?: String;
+  twitterHandle_starts_with?: String;
+  twitterHandle_not_starts_with?: String;
+  twitterHandle_ends_with?: String;
+  twitterHandle_not_ends_with?: String;
+  website?: String;
+  website_not?: String;
+  website_in?: String[] | String;
+  website_not_in?: String[] | String;
+  website_lt?: String;
+  website_lte?: String;
+  website_gt?: String;
+  website_gte?: String;
+  website_contains?: String;
+  website_not_contains?: String;
+  website_starts_with?: String;
+  website_not_starts_with?: String;
+  website_ends_with?: String;
+  website_not_ends_with?: String;
   youtubeChannel?: String;
   youtubeChannel_not?: String;
   youtubeChannel_in?: String[] | String;
@@ -425,15 +627,9 @@ export interface EventWhereInput {
   youtubeChannel_not_starts_with?: String;
   youtubeChannel_ends_with?: String;
   youtubeChannel_not_ends_with?: String;
-  speakers_every?: SpeakerWhereInput;
-  speakers_some?: SpeakerWhereInput;
-  speakers_none?: SpeakerWhereInput;
-  talks_every?: TalkWhereInput;
-  talks_some?: TalkWhereInput;
-  talks_none?: TalkWhereInput;
-  AND?: EventWhereInput[] | EventWhereInput;
-  OR?: EventWhereInput[] | EventWhereInput;
-  NOT?: EventWhereInput[] | EventWhereInput;
+  AND?: OrganizationWhereInput[] | OrganizationWhereInput;
+  OR?: OrganizationWhereInput[] | OrganizationWhereInput;
+  NOT?: OrganizationWhereInput[] | OrganizationWhereInput;
 }
 
 export type SpeakerWhereUniqueInput = AtLeastOne<{
@@ -445,21 +641,25 @@ export type TalkWhereUniqueInput = AtLeastOne<{
 }>;
 
 export interface EventCreateInput {
-  type?: String;
-  youtubeChannel?: String;
-  speakers?: SpeakerCreateManyInput;
+  speakers?: SpeakerCreateManyWithoutEventsInput;
   talks?: TalkCreateManyWithoutEventInput;
+  city?: String;
+  country?: String;
+  endDate?: String;
+  startDate?: String;
+  type?: EventType;
+  youtubePlaylist?: String;
 }
 
-export interface SpeakerCreateManyInput {
-  create?: SpeakerCreateInput[] | SpeakerCreateInput;
+export interface SpeakerCreateManyWithoutEventsInput {
+  create?: SpeakerCreateWithoutEventsInput[] | SpeakerCreateWithoutEventsInput;
   connect?: SpeakerWhereUniqueInput[] | SpeakerWhereUniqueInput;
 }
 
-export interface SpeakerCreateInput {
+export interface SpeakerCreateWithoutEventsInput {
+  talks?: TalkCreateManyWithoutSpeakersInput;
   name: String;
   twitterHandle?: String;
-  talks?: TalkCreateManyWithoutSpeakersInput;
 }
 
 export interface TalkCreateManyWithoutSpeakersInput {
@@ -468,14 +668,15 @@ export interface TalkCreateManyWithoutSpeakersInput {
 }
 
 export interface TalkCreateWithoutSpeakersInput {
-  title: String;
-  description?: String;
-  videoLink?: String;
-  source?: VideoSource;
-  private?: Boolean;
   event?: EventCreateOneWithoutTalksInput;
+  description?: String;
   duration?: Int;
+  hidden?: Boolean;
+  private?: Boolean;
   publishedAt?: DateTimeInput;
+  source?: VideoSource;
+  title: String;
+  videoLink?: String;
 }
 
 export interface EventCreateOneWithoutTalksInput {
@@ -484,9 +685,13 @@ export interface EventCreateOneWithoutTalksInput {
 }
 
 export interface EventCreateWithoutTalksInput {
-  type?: String;
-  youtubeChannel?: String;
-  speakers?: SpeakerCreateManyInput;
+  speakers?: SpeakerCreateManyWithoutEventsInput;
+  city?: String;
+  country?: String;
+  endDate?: String;
+  startDate?: String;
+  type?: EventType;
+  youtubePlaylist?: String;
 }
 
 export interface TalkCreateManyWithoutEventInput {
@@ -495,14 +700,15 @@ export interface TalkCreateManyWithoutEventInput {
 }
 
 export interface TalkCreateWithoutEventInput {
-  title: String;
-  description?: String;
-  videoLink?: String;
-  source?: VideoSource;
-  private?: Boolean;
   speakers?: SpeakerCreateManyWithoutTalksInput;
+  description?: String;
   duration?: Int;
+  hidden?: Boolean;
+  private?: Boolean;
   publishedAt?: DateTimeInput;
+  source?: VideoSource;
+  title: String;
+  videoLink?: String;
 }
 
 export interface SpeakerCreateManyWithoutTalksInput {
@@ -511,44 +717,64 @@ export interface SpeakerCreateManyWithoutTalksInput {
 }
 
 export interface SpeakerCreateWithoutTalksInput {
+  events?: EventCreateManyWithoutSpeakersInput;
   name: String;
   twitterHandle?: String;
 }
 
-export interface EventUpdateInput {
-  type?: String;
-  youtubeChannel?: String;
-  speakers?: SpeakerUpdateManyInput;
-  talks?: TalkUpdateManyWithoutEventInput;
+export interface EventCreateManyWithoutSpeakersInput {
+  create?: EventCreateWithoutSpeakersInput[] | EventCreateWithoutSpeakersInput;
+  connect?: EventWhereUniqueInput[] | EventWhereUniqueInput;
 }
 
-export interface SpeakerUpdateManyInput {
-  create?: SpeakerCreateInput[] | SpeakerCreateInput;
-  update?:
-    | SpeakerUpdateWithWhereUniqueNestedInput[]
-    | SpeakerUpdateWithWhereUniqueNestedInput;
-  upsert?:
-    | SpeakerUpsertWithWhereUniqueNestedInput[]
-    | SpeakerUpsertWithWhereUniqueNestedInput;
+export interface EventCreateWithoutSpeakersInput {
+  talks?: TalkCreateManyWithoutEventInput;
+  city?: String;
+  country?: String;
+  endDate?: String;
+  startDate?: String;
+  type?: EventType;
+  youtubePlaylist?: String;
+}
+
+export interface EventUpdateInput {
+  speakers?: SpeakerUpdateManyWithoutEventsInput;
+  talks?: TalkUpdateManyWithoutEventInput;
+  city?: String;
+  country?: String;
+  endDate?: String;
+  startDate?: String;
+  type?: EventType;
+  youtubePlaylist?: String;
+}
+
+export interface SpeakerUpdateManyWithoutEventsInput {
+  create?: SpeakerCreateWithoutEventsInput[] | SpeakerCreateWithoutEventsInput;
   delete?: SpeakerWhereUniqueInput[] | SpeakerWhereUniqueInput;
   connect?: SpeakerWhereUniqueInput[] | SpeakerWhereUniqueInput;
   set?: SpeakerWhereUniqueInput[] | SpeakerWhereUniqueInput;
   disconnect?: SpeakerWhereUniqueInput[] | SpeakerWhereUniqueInput;
+  update?:
+    | SpeakerUpdateWithWhereUniqueWithoutEventsInput[]
+    | SpeakerUpdateWithWhereUniqueWithoutEventsInput;
+  upsert?:
+    | SpeakerUpsertWithWhereUniqueWithoutEventsInput[]
+    | SpeakerUpsertWithWhereUniqueWithoutEventsInput;
   deleteMany?: SpeakerScalarWhereInput[] | SpeakerScalarWhereInput;
   updateMany?:
     | SpeakerUpdateManyWithWhereNestedInput[]
     | SpeakerUpdateManyWithWhereNestedInput;
 }
 
-export interface SpeakerUpdateWithWhereUniqueNestedInput {
+export interface SpeakerUpdateWithWhereUniqueWithoutEventsInput {
   where: SpeakerWhereUniqueInput;
-  data: SpeakerUpdateDataInput;
+  data: SpeakerUpdateWithoutEventsDataInput;
 }
 
-export interface SpeakerUpdateDataInput {
+export interface SpeakerUpdateWithoutEventsDataInput {
+  talks?: TalkUpdateManyWithoutSpeakersInput;
   name?: String;
   twitterHandle?: String;
-  talks?: TalkUpdateManyWithoutSpeakersInput;
 }
 
 export interface TalkUpdateManyWithoutSpeakersInput {
@@ -575,14 +801,15 @@ export interface TalkUpdateWithWhereUniqueWithoutSpeakersInput {
 }
 
 export interface TalkUpdateWithoutSpeakersDataInput {
-  title?: String;
-  description?: String;
-  videoLink?: String;
-  source?: VideoSource;
-  private?: Boolean;
   event?: EventUpdateOneWithoutTalksInput;
+  description?: String;
   duration?: Int;
+  hidden?: Boolean;
+  private?: Boolean;
   publishedAt?: DateTimeInput;
+  source?: VideoSource;
+  title?: String;
+  videoLink?: String;
 }
 
 export interface EventUpdateOneWithoutTalksInput {
@@ -595,9 +822,13 @@ export interface EventUpdateOneWithoutTalksInput {
 }
 
 export interface EventUpdateWithoutTalksDataInput {
-  type?: String;
-  youtubeChannel?: String;
-  speakers?: SpeakerUpdateManyInput;
+  speakers?: SpeakerUpdateManyWithoutEventsInput;
+  city?: String;
+  country?: String;
+  endDate?: String;
+  startDate?: String;
+  type?: EventType;
+  youtubePlaylist?: String;
 }
 
 export interface EventUpsertWithoutTalksInput {
@@ -626,20 +857,6 @@ export interface TalkScalarWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
-  title?: String;
-  title_not?: String;
-  title_in?: String[] | String;
-  title_not_in?: String[] | String;
-  title_lt?: String;
-  title_lte?: String;
-  title_gt?: String;
-  title_gte?: String;
-  title_contains?: String;
-  title_not_contains?: String;
-  title_starts_with?: String;
-  title_not_starts_with?: String;
-  title_ends_with?: String;
-  title_not_ends_with?: String;
   description?: String;
   description_not?: String;
   description_in?: String[] | String;
@@ -654,6 +871,44 @@ export interface TalkScalarWhereInput {
   description_not_starts_with?: String;
   description_ends_with?: String;
   description_not_ends_with?: String;
+  duration?: Int;
+  duration_not?: Int;
+  duration_in?: Int[] | Int;
+  duration_not_in?: Int[] | Int;
+  duration_lt?: Int;
+  duration_lte?: Int;
+  duration_gt?: Int;
+  duration_gte?: Int;
+  hidden?: Boolean;
+  hidden_not?: Boolean;
+  private?: Boolean;
+  private_not?: Boolean;
+  publishedAt?: DateTimeInput;
+  publishedAt_not?: DateTimeInput;
+  publishedAt_in?: DateTimeInput[] | DateTimeInput;
+  publishedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  publishedAt_lt?: DateTimeInput;
+  publishedAt_lte?: DateTimeInput;
+  publishedAt_gt?: DateTimeInput;
+  publishedAt_gte?: DateTimeInput;
+  source?: VideoSource;
+  source_not?: VideoSource;
+  source_in?: VideoSource[] | VideoSource;
+  source_not_in?: VideoSource[] | VideoSource;
+  title?: String;
+  title_not?: String;
+  title_in?: String[] | String;
+  title_not_in?: String[] | String;
+  title_lt?: String;
+  title_lte?: String;
+  title_gt?: String;
+  title_gte?: String;
+  title_contains?: String;
+  title_not_contains?: String;
+  title_starts_with?: String;
+  title_not_starts_with?: String;
+  title_ends_with?: String;
+  title_not_ends_with?: String;
   videoLink?: String;
   videoLink_not?: String;
   videoLink_in?: String[] | String;
@@ -668,28 +923,6 @@ export interface TalkScalarWhereInput {
   videoLink_not_starts_with?: String;
   videoLink_ends_with?: String;
   videoLink_not_ends_with?: String;
-  source?: VideoSource;
-  source_not?: VideoSource;
-  source_in?: VideoSource[] | VideoSource;
-  source_not_in?: VideoSource[] | VideoSource;
-  private?: Boolean;
-  private_not?: Boolean;
-  duration?: Int;
-  duration_not?: Int;
-  duration_in?: Int[] | Int;
-  duration_not_in?: Int[] | Int;
-  duration_lt?: Int;
-  duration_lte?: Int;
-  duration_gt?: Int;
-  duration_gte?: Int;
-  publishedAt?: DateTimeInput;
-  publishedAt_not?: DateTimeInput;
-  publishedAt_in?: DateTimeInput[] | DateTimeInput;
-  publishedAt_not_in?: DateTimeInput[] | DateTimeInput;
-  publishedAt_lt?: DateTimeInput;
-  publishedAt_lte?: DateTimeInput;
-  publishedAt_gt?: DateTimeInput;
-  publishedAt_gte?: DateTimeInput;
   AND?: TalkScalarWhereInput[] | TalkScalarWhereInput;
   OR?: TalkScalarWhereInput[] | TalkScalarWhereInput;
   NOT?: TalkScalarWhereInput[] | TalkScalarWhereInput;
@@ -701,19 +934,20 @@ export interface TalkUpdateManyWithWhereNestedInput {
 }
 
 export interface TalkUpdateManyDataInput {
-  title?: String;
   description?: String;
-  videoLink?: String;
-  source?: VideoSource;
-  private?: Boolean;
   duration?: Int;
+  hidden?: Boolean;
+  private?: Boolean;
   publishedAt?: DateTimeInput;
+  source?: VideoSource;
+  title?: String;
+  videoLink?: String;
 }
 
-export interface SpeakerUpsertWithWhereUniqueNestedInput {
+export interface SpeakerUpsertWithWhereUniqueWithoutEventsInput {
   where: SpeakerWhereUniqueInput;
-  update: SpeakerUpdateDataInput;
-  create: SpeakerCreateInput;
+  update: SpeakerUpdateWithoutEventsDataInput;
+  create: SpeakerCreateWithoutEventsInput;
 }
 
 export interface SpeakerScalarWhereInput {
@@ -798,14 +1032,15 @@ export interface TalkUpdateWithWhereUniqueWithoutEventInput {
 }
 
 export interface TalkUpdateWithoutEventDataInput {
-  title?: String;
-  description?: String;
-  videoLink?: String;
-  source?: VideoSource;
-  private?: Boolean;
   speakers?: SpeakerUpdateManyWithoutTalksInput;
+  description?: String;
   duration?: Int;
+  hidden?: Boolean;
+  private?: Boolean;
   publishedAt?: DateTimeInput;
+  source?: VideoSource;
+  title?: String;
+  videoLink?: String;
 }
 
 export interface SpeakerUpdateManyWithoutTalksInput {
@@ -832,8 +1067,156 @@ export interface SpeakerUpdateWithWhereUniqueWithoutTalksInput {
 }
 
 export interface SpeakerUpdateWithoutTalksDataInput {
+  events?: EventUpdateManyWithoutSpeakersInput;
   name?: String;
   twitterHandle?: String;
+}
+
+export interface EventUpdateManyWithoutSpeakersInput {
+  create?: EventCreateWithoutSpeakersInput[] | EventCreateWithoutSpeakersInput;
+  delete?: EventWhereUniqueInput[] | EventWhereUniqueInput;
+  connect?: EventWhereUniqueInput[] | EventWhereUniqueInput;
+  set?: EventWhereUniqueInput[] | EventWhereUniqueInput;
+  disconnect?: EventWhereUniqueInput[] | EventWhereUniqueInput;
+  update?:
+    | EventUpdateWithWhereUniqueWithoutSpeakersInput[]
+    | EventUpdateWithWhereUniqueWithoutSpeakersInput;
+  upsert?:
+    | EventUpsertWithWhereUniqueWithoutSpeakersInput[]
+    | EventUpsertWithWhereUniqueWithoutSpeakersInput;
+  deleteMany?: EventScalarWhereInput[] | EventScalarWhereInput;
+  updateMany?:
+    | EventUpdateManyWithWhereNestedInput[]
+    | EventUpdateManyWithWhereNestedInput;
+}
+
+export interface EventUpdateWithWhereUniqueWithoutSpeakersInput {
+  where: EventWhereUniqueInput;
+  data: EventUpdateWithoutSpeakersDataInput;
+}
+
+export interface EventUpdateWithoutSpeakersDataInput {
+  talks?: TalkUpdateManyWithoutEventInput;
+  city?: String;
+  country?: String;
+  endDate?: String;
+  startDate?: String;
+  type?: EventType;
+  youtubePlaylist?: String;
+}
+
+export interface EventUpsertWithWhereUniqueWithoutSpeakersInput {
+  where: EventWhereUniqueInput;
+  update: EventUpdateWithoutSpeakersDataInput;
+  create: EventCreateWithoutSpeakersInput;
+}
+
+export interface EventScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  city?: String;
+  city_not?: String;
+  city_in?: String[] | String;
+  city_not_in?: String[] | String;
+  city_lt?: String;
+  city_lte?: String;
+  city_gt?: String;
+  city_gte?: String;
+  city_contains?: String;
+  city_not_contains?: String;
+  city_starts_with?: String;
+  city_not_starts_with?: String;
+  city_ends_with?: String;
+  city_not_ends_with?: String;
+  country?: String;
+  country_not?: String;
+  country_in?: String[] | String;
+  country_not_in?: String[] | String;
+  country_lt?: String;
+  country_lte?: String;
+  country_gt?: String;
+  country_gte?: String;
+  country_contains?: String;
+  country_not_contains?: String;
+  country_starts_with?: String;
+  country_not_starts_with?: String;
+  country_ends_with?: String;
+  country_not_ends_with?: String;
+  endDate?: String;
+  endDate_not?: String;
+  endDate_in?: String[] | String;
+  endDate_not_in?: String[] | String;
+  endDate_lt?: String;
+  endDate_lte?: String;
+  endDate_gt?: String;
+  endDate_gte?: String;
+  endDate_contains?: String;
+  endDate_not_contains?: String;
+  endDate_starts_with?: String;
+  endDate_not_starts_with?: String;
+  endDate_ends_with?: String;
+  endDate_not_ends_with?: String;
+  startDate?: String;
+  startDate_not?: String;
+  startDate_in?: String[] | String;
+  startDate_not_in?: String[] | String;
+  startDate_lt?: String;
+  startDate_lte?: String;
+  startDate_gt?: String;
+  startDate_gte?: String;
+  startDate_contains?: String;
+  startDate_not_contains?: String;
+  startDate_starts_with?: String;
+  startDate_not_starts_with?: String;
+  startDate_ends_with?: String;
+  startDate_not_ends_with?: String;
+  type?: EventType;
+  type_not?: EventType;
+  type_in?: EventType[] | EventType;
+  type_not_in?: EventType[] | EventType;
+  youtubePlaylist?: String;
+  youtubePlaylist_not?: String;
+  youtubePlaylist_in?: String[] | String;
+  youtubePlaylist_not_in?: String[] | String;
+  youtubePlaylist_lt?: String;
+  youtubePlaylist_lte?: String;
+  youtubePlaylist_gt?: String;
+  youtubePlaylist_gte?: String;
+  youtubePlaylist_contains?: String;
+  youtubePlaylist_not_contains?: String;
+  youtubePlaylist_starts_with?: String;
+  youtubePlaylist_not_starts_with?: String;
+  youtubePlaylist_ends_with?: String;
+  youtubePlaylist_not_ends_with?: String;
+  AND?: EventScalarWhereInput[] | EventScalarWhereInput;
+  OR?: EventScalarWhereInput[] | EventScalarWhereInput;
+  NOT?: EventScalarWhereInput[] | EventScalarWhereInput;
+}
+
+export interface EventUpdateManyWithWhereNestedInput {
+  where: EventScalarWhereInput;
+  data: EventUpdateManyDataInput;
+}
+
+export interface EventUpdateManyDataInput {
+  city?: String;
+  country?: String;
+  endDate?: String;
+  startDate?: String;
+  type?: EventType;
+  youtubePlaylist?: String;
 }
 
 export interface SpeakerUpsertWithWhereUniqueWithoutTalksInput {
@@ -849,14 +1232,91 @@ export interface TalkUpsertWithWhereUniqueWithoutEventInput {
 }
 
 export interface EventUpdateManyMutationInput {
-  type?: String;
+  city?: String;
+  country?: String;
+  endDate?: String;
+  startDate?: String;
+  type?: EventType;
+  youtubePlaylist?: String;
+}
+
+export interface OrganizationCreateInput {
+  events?: EventCreateManyInput;
+  twitterHandle?: String;
+  website?: String;
   youtubeChannel?: String;
 }
 
+export interface EventCreateManyInput {
+  create?: EventCreateInput[] | EventCreateInput;
+  connect?: EventWhereUniqueInput[] | EventWhereUniqueInput;
+}
+
+export interface OrganizationUpdateInput {
+  events?: EventUpdateManyInput;
+  twitterHandle?: String;
+  website?: String;
+  youtubeChannel?: String;
+}
+
+export interface EventUpdateManyInput {
+  create?: EventCreateInput[] | EventCreateInput;
+  update?:
+    | EventUpdateWithWhereUniqueNestedInput[]
+    | EventUpdateWithWhereUniqueNestedInput;
+  upsert?:
+    | EventUpsertWithWhereUniqueNestedInput[]
+    | EventUpsertWithWhereUniqueNestedInput;
+  delete?: EventWhereUniqueInput[] | EventWhereUniqueInput;
+  connect?: EventWhereUniqueInput[] | EventWhereUniqueInput;
+  set?: EventWhereUniqueInput[] | EventWhereUniqueInput;
+  disconnect?: EventWhereUniqueInput[] | EventWhereUniqueInput;
+  deleteMany?: EventScalarWhereInput[] | EventScalarWhereInput;
+  updateMany?:
+    | EventUpdateManyWithWhereNestedInput[]
+    | EventUpdateManyWithWhereNestedInput;
+}
+
+export interface EventUpdateWithWhereUniqueNestedInput {
+  where: EventWhereUniqueInput;
+  data: EventUpdateDataInput;
+}
+
+export interface EventUpdateDataInput {
+  speakers?: SpeakerUpdateManyWithoutEventsInput;
+  talks?: TalkUpdateManyWithoutEventInput;
+  city?: String;
+  country?: String;
+  endDate?: String;
+  startDate?: String;
+  type?: EventType;
+  youtubePlaylist?: String;
+}
+
+export interface EventUpsertWithWhereUniqueNestedInput {
+  where: EventWhereUniqueInput;
+  update: EventUpdateDataInput;
+  create: EventCreateInput;
+}
+
+export interface OrganizationUpdateManyMutationInput {
+  twitterHandle?: String;
+  website?: String;
+  youtubeChannel?: String;
+}
+
+export interface SpeakerCreateInput {
+  events?: EventCreateManyWithoutSpeakersInput;
+  talks?: TalkCreateManyWithoutSpeakersInput;
+  name: String;
+  twitterHandle?: String;
+}
+
 export interface SpeakerUpdateInput {
+  events?: EventUpdateManyWithoutSpeakersInput;
+  talks?: TalkUpdateManyWithoutSpeakersInput;
   name?: String;
   twitterHandle?: String;
-  talks?: TalkUpdateManyWithoutSpeakersInput;
 }
 
 export interface SpeakerUpdateManyMutationInput {
@@ -865,37 +1325,40 @@ export interface SpeakerUpdateManyMutationInput {
 }
 
 export interface TalkCreateInput {
-  title: String;
-  description?: String;
-  videoLink?: String;
-  source?: VideoSource;
-  private?: Boolean;
   event?: EventCreateOneWithoutTalksInput;
   speakers?: SpeakerCreateManyWithoutTalksInput;
+  description?: String;
   duration?: Int;
+  hidden?: Boolean;
+  private?: Boolean;
   publishedAt?: DateTimeInput;
+  source?: VideoSource;
+  title: String;
+  videoLink?: String;
 }
 
 export interface TalkUpdateInput {
-  title?: String;
-  description?: String;
-  videoLink?: String;
-  source?: VideoSource;
-  private?: Boolean;
   event?: EventUpdateOneWithoutTalksInput;
   speakers?: SpeakerUpdateManyWithoutTalksInput;
+  description?: String;
   duration?: Int;
+  hidden?: Boolean;
+  private?: Boolean;
   publishedAt?: DateTimeInput;
+  source?: VideoSource;
+  title?: String;
+  videoLink?: String;
 }
 
 export interface TalkUpdateManyMutationInput {
-  title?: String;
   description?: String;
-  videoLink?: String;
-  source?: VideoSource;
-  private?: Boolean;
   duration?: Int;
+  hidden?: Boolean;
+  private?: Boolean;
   publishedAt?: DateTimeInput;
+  source?: VideoSource;
+  title?: String;
+  videoLink?: String;
 }
 
 export interface EventSubscriptionWhereInput {
@@ -907,6 +1370,23 @@ export interface EventSubscriptionWhereInput {
   AND?: EventSubscriptionWhereInput[] | EventSubscriptionWhereInput;
   OR?: EventSubscriptionWhereInput[] | EventSubscriptionWhereInput;
   NOT?: EventSubscriptionWhereInput[] | EventSubscriptionWhereInput;
+}
+
+export interface OrganizationSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: OrganizationWhereInput;
+  AND?:
+    | OrganizationSubscriptionWhereInput[]
+    | OrganizationSubscriptionWhereInput;
+  OR?:
+    | OrganizationSubscriptionWhereInput[]
+    | OrganizationSubscriptionWhereInput;
+  NOT?:
+    | OrganizationSubscriptionWhereInput[]
+    | OrganizationSubscriptionWhereInput;
 }
 
 export interface SpeakerSubscriptionWhereInput {
@@ -937,14 +1417,16 @@ export interface NodeNode {
 
 export interface Event {
   id: ID_Output;
-  type?: String;
-  youtubeChannel?: String;
+  city?: String;
+  country?: String;
+  endDate?: String;
+  startDate?: String;
+  type?: EventType;
+  youtubePlaylist?: String;
 }
 
 export interface EventPromise extends Promise<Event>, Fragmentable {
   id: () => Promise<ID_Output>;
-  type: () => Promise<String>;
-  youtubeChannel: () => Promise<String>;
   speakers: <T = FragmentableArray<Speaker>>(
     args?: {
       where?: SpeakerWhereInput;
@@ -967,14 +1449,18 @@ export interface EventPromise extends Promise<Event>, Fragmentable {
       last?: Int;
     }
   ) => T;
+  city: () => Promise<String>;
+  country: () => Promise<String>;
+  endDate: () => Promise<String>;
+  startDate: () => Promise<String>;
+  type: () => Promise<EventType>;
+  youtubePlaylist: () => Promise<String>;
 }
 
 export interface EventSubscription
   extends Promise<AsyncIterator<Event>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  type: () => Promise<AsyncIterator<String>>;
-  youtubeChannel: () => Promise<AsyncIterator<String>>;
   speakers: <T = Promise<AsyncIterator<SpeakerSubscription>>>(
     args?: {
       where?: SpeakerWhereInput;
@@ -997,6 +1483,12 @@ export interface EventSubscription
       last?: Int;
     }
   ) => T;
+  city: () => Promise<AsyncIterator<String>>;
+  country: () => Promise<AsyncIterator<String>>;
+  endDate: () => Promise<AsyncIterator<String>>;
+  startDate: () => Promise<AsyncIterator<String>>;
+  type: () => Promise<AsyncIterator<EventType>>;
+  youtubePlaylist: () => Promise<AsyncIterator<String>>;
 }
 
 export interface Speaker {
@@ -1007,8 +1499,17 @@ export interface Speaker {
 
 export interface SpeakerPromise extends Promise<Speaker>, Fragmentable {
   id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  twitterHandle: () => Promise<String>;
+  events: <T = FragmentableArray<Event>>(
+    args?: {
+      where?: EventWhereInput;
+      orderBy?: EventOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
   talks: <T = FragmentableArray<Talk>>(
     args?: {
       where?: TalkWhereInput;
@@ -1020,14 +1521,25 @@ export interface SpeakerPromise extends Promise<Speaker>, Fragmentable {
       last?: Int;
     }
   ) => T;
+  name: () => Promise<String>;
+  twitterHandle: () => Promise<String>;
 }
 
 export interface SpeakerSubscription
   extends Promise<AsyncIterator<Speaker>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  twitterHandle: () => Promise<AsyncIterator<String>>;
+  events: <T = Promise<AsyncIterator<EventSubscription>>>(
+    args?: {
+      where?: EventWhereInput;
+      orderBy?: EventOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
   talks: <T = Promise<AsyncIterator<TalkSubscription>>>(
     args?: {
       where?: TalkWhereInput;
@@ -1039,26 +1551,24 @@ export interface SpeakerSubscription
       last?: Int;
     }
   ) => T;
+  name: () => Promise<AsyncIterator<String>>;
+  twitterHandle: () => Promise<AsyncIterator<String>>;
 }
 
 export interface Talk {
   id: ID_Output;
-  title: String;
   description?: String;
-  videoLink?: String;
-  source?: VideoSource;
-  private?: Boolean;
   duration?: Int;
+  hidden?: Boolean;
+  private?: Boolean;
   publishedAt?: DateTimeOutput;
+  source?: VideoSource;
+  title: String;
+  videoLink?: String;
 }
 
 export interface TalkPromise extends Promise<Talk>, Fragmentable {
   id: () => Promise<ID_Output>;
-  title: () => Promise<String>;
-  description: () => Promise<String>;
-  videoLink: () => Promise<String>;
-  source: () => Promise<VideoSource>;
-  private: () => Promise<Boolean>;
   event: <T = EventPromise>() => T;
   speakers: <T = FragmentableArray<Speaker>>(
     args?: {
@@ -1071,19 +1581,20 @@ export interface TalkPromise extends Promise<Talk>, Fragmentable {
       last?: Int;
     }
   ) => T;
+  description: () => Promise<String>;
   duration: () => Promise<Int>;
+  hidden: () => Promise<Boolean>;
+  private: () => Promise<Boolean>;
   publishedAt: () => Promise<DateTimeOutput>;
+  source: () => Promise<VideoSource>;
+  title: () => Promise<String>;
+  videoLink: () => Promise<String>;
 }
 
 export interface TalkSubscription
   extends Promise<AsyncIterator<Talk>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  title: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  videoLink: () => Promise<AsyncIterator<String>>;
-  source: () => Promise<AsyncIterator<VideoSource>>;
-  private: () => Promise<AsyncIterator<Boolean>>;
   event: <T = EventSubscription>() => T;
   speakers: <T = Promise<AsyncIterator<SpeakerSubscription>>>(
     args?: {
@@ -1096,8 +1607,14 @@ export interface TalkSubscription
       last?: Int;
     }
   ) => T;
+  description: () => Promise<AsyncIterator<String>>;
   duration: () => Promise<AsyncIterator<Int>>;
+  hidden: () => Promise<AsyncIterator<Boolean>>;
+  private: () => Promise<AsyncIterator<Boolean>>;
   publishedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  source: () => Promise<AsyncIterator<VideoSource>>;
+  title: () => Promise<AsyncIterator<String>>;
+  videoLink: () => Promise<AsyncIterator<String>>;
 }
 
 export interface EventConnection {
@@ -1173,6 +1690,109 @@ export interface AggregateEventPromise
 
 export interface AggregateEventSubscription
   extends Promise<AsyncIterator<AggregateEvent>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface Organization {
+  id: ID_Output;
+  twitterHandle?: String;
+  website?: String;
+  youtubeChannel?: String;
+}
+
+export interface OrganizationPromise
+  extends Promise<Organization>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  events: <T = FragmentableArray<Event>>(
+    args?: {
+      where?: EventWhereInput;
+      orderBy?: EventOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  twitterHandle: () => Promise<String>;
+  website: () => Promise<String>;
+  youtubeChannel: () => Promise<String>;
+}
+
+export interface OrganizationSubscription
+  extends Promise<AsyncIterator<Organization>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  events: <T = Promise<AsyncIterator<EventSubscription>>>(
+    args?: {
+      where?: EventWhereInput;
+      orderBy?: EventOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  twitterHandle: () => Promise<AsyncIterator<String>>;
+  website: () => Promise<AsyncIterator<String>>;
+  youtubeChannel: () => Promise<AsyncIterator<String>>;
+}
+
+export interface OrganizationConnection {
+  pageInfo: PageInfo;
+  edges: OrganizationEdge[];
+}
+
+export interface OrganizationConnectionPromise
+  extends Promise<OrganizationConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<OrganizationEdge>>() => T;
+  aggregate: <T = AggregateOrganizationPromise>() => T;
+}
+
+export interface OrganizationConnectionSubscription
+  extends Promise<AsyncIterator<OrganizationConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<OrganizationEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateOrganizationSubscription>() => T;
+}
+
+export interface OrganizationEdge {
+  node: Organization;
+  cursor: String;
+}
+
+export interface OrganizationEdgePromise
+  extends Promise<OrganizationEdge>,
+    Fragmentable {
+  node: <T = OrganizationPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface OrganizationEdgeSubscription
+  extends Promise<AsyncIterator<OrganizationEdge>>,
+    Fragmentable {
+  node: <T = OrganizationSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateOrganization {
+  count: Int;
+}
+
+export interface AggregateOrganizationPromise
+  extends Promise<AggregateOrganization>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateOrganizationSubscription
+  extends Promise<AsyncIterator<AggregateOrganization>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -1328,23 +1948,85 @@ export interface EventSubscriptionPayloadSubscription
 
 export interface EventPreviousValues {
   id: ID_Output;
-  type?: String;
-  youtubeChannel?: String;
+  city?: String;
+  country?: String;
+  endDate?: String;
+  startDate?: String;
+  type?: EventType;
+  youtubePlaylist?: String;
 }
 
 export interface EventPreviousValuesPromise
   extends Promise<EventPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  type: () => Promise<String>;
-  youtubeChannel: () => Promise<String>;
+  city: () => Promise<String>;
+  country: () => Promise<String>;
+  endDate: () => Promise<String>;
+  startDate: () => Promise<String>;
+  type: () => Promise<EventType>;
+  youtubePlaylist: () => Promise<String>;
 }
 
 export interface EventPreviousValuesSubscription
   extends Promise<AsyncIterator<EventPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  type: () => Promise<AsyncIterator<String>>;
+  city: () => Promise<AsyncIterator<String>>;
+  country: () => Promise<AsyncIterator<String>>;
+  endDate: () => Promise<AsyncIterator<String>>;
+  startDate: () => Promise<AsyncIterator<String>>;
+  type: () => Promise<AsyncIterator<EventType>>;
+  youtubePlaylist: () => Promise<AsyncIterator<String>>;
+}
+
+export interface OrganizationSubscriptionPayload {
+  mutation: MutationType;
+  node: Organization;
+  updatedFields: String[];
+  previousValues: OrganizationPreviousValues;
+}
+
+export interface OrganizationSubscriptionPayloadPromise
+  extends Promise<OrganizationSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = OrganizationPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = OrganizationPreviousValuesPromise>() => T;
+}
+
+export interface OrganizationSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<OrganizationSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = OrganizationSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = OrganizationPreviousValuesSubscription>() => T;
+}
+
+export interface OrganizationPreviousValues {
+  id: ID_Output;
+  twitterHandle?: String;
+  website?: String;
+  youtubeChannel?: String;
+}
+
+export interface OrganizationPreviousValuesPromise
+  extends Promise<OrganizationPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  twitterHandle: () => Promise<String>;
+  website: () => Promise<String>;
+  youtubeChannel: () => Promise<String>;
+}
+
+export interface OrganizationPreviousValuesSubscription
+  extends Promise<AsyncIterator<OrganizationPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  twitterHandle: () => Promise<AsyncIterator<String>>;
+  website: () => Promise<AsyncIterator<String>>;
   youtubeChannel: () => Promise<AsyncIterator<String>>;
 }
 
@@ -1422,39 +2104,42 @@ export interface TalkSubscriptionPayloadSubscription
 
 export interface TalkPreviousValues {
   id: ID_Output;
-  title: String;
   description?: String;
-  videoLink?: String;
-  source?: VideoSource;
-  private?: Boolean;
   duration?: Int;
+  hidden?: Boolean;
+  private?: Boolean;
   publishedAt?: DateTimeOutput;
+  source?: VideoSource;
+  title: String;
+  videoLink?: String;
 }
 
 export interface TalkPreviousValuesPromise
   extends Promise<TalkPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  title: () => Promise<String>;
   description: () => Promise<String>;
-  videoLink: () => Promise<String>;
-  source: () => Promise<VideoSource>;
-  private: () => Promise<Boolean>;
   duration: () => Promise<Int>;
+  hidden: () => Promise<Boolean>;
+  private: () => Promise<Boolean>;
   publishedAt: () => Promise<DateTimeOutput>;
+  source: () => Promise<VideoSource>;
+  title: () => Promise<String>;
+  videoLink: () => Promise<String>;
 }
 
 export interface TalkPreviousValuesSubscription
   extends Promise<AsyncIterator<TalkPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  title: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
-  videoLink: () => Promise<AsyncIterator<String>>;
-  source: () => Promise<AsyncIterator<VideoSource>>;
-  private: () => Promise<AsyncIterator<Boolean>>;
   duration: () => Promise<AsyncIterator<Int>>;
+  hidden: () => Promise<AsyncIterator<Boolean>>;
+  private: () => Promise<AsyncIterator<Boolean>>;
   publishedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  source: () => Promise<AsyncIterator<VideoSource>>;
+  title: () => Promise<AsyncIterator<String>>;
+  videoLink: () => Promise<AsyncIterator<String>>;
 }
 
 /*
@@ -1469,14 +2154,14 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string;
 
 /*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
-
-/*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
 */
 export type Int = number;
+
+/*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
 
 /*
 DateTime scalar input type, allowing Date
@@ -1508,7 +2193,15 @@ export const models: Model[] = [
     embedded: false
   },
   {
+    name: "Organization",
+    embedded: false
+  },
+  {
     name: "VideoSource",
+    embedded: false
+  },
+  {
+    name: "EventType",
     embedded: false
   }
 ];

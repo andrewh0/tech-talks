@@ -6,6 +6,10 @@ export const typeDefs = /* GraphQL */ `type AggregateEvent {
   count: Int!
 }
 
+type AggregateOrganization {
+  count: Int!
+}
+
 type AggregateSpeaker {
   count: Int!
 }
@@ -22,10 +26,14 @@ scalar DateTime
 
 type Event {
   id: ID!
-  type: String
-  youtubeChannel: String
   speakers(where: SpeakerWhereInput, orderBy: SpeakerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Speaker!]
   talks(where: TalkWhereInput, orderBy: TalkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Talk!]
+  city: String
+  country: String
+  endDate: String
+  startDate: String
+  type: EventType
+  youtubePlaylist: String
 }
 
 type EventConnection {
@@ -35,10 +43,24 @@ type EventConnection {
 }
 
 input EventCreateInput {
-  type: String
-  youtubeChannel: String
-  speakers: SpeakerCreateManyInput
+  speakers: SpeakerCreateManyWithoutEventsInput
   talks: TalkCreateManyWithoutEventInput
+  city: String
+  country: String
+  endDate: String
+  startDate: String
+  type: EventType
+  youtubePlaylist: String
+}
+
+input EventCreateManyInput {
+  create: [EventCreateInput!]
+  connect: [EventWhereUniqueInput!]
+}
+
+input EventCreateManyWithoutSpeakersInput {
+  create: [EventCreateWithoutSpeakersInput!]
+  connect: [EventWhereUniqueInput!]
 }
 
 input EventCreateOneWithoutTalksInput {
@@ -46,10 +68,24 @@ input EventCreateOneWithoutTalksInput {
   connect: EventWhereUniqueInput
 }
 
+input EventCreateWithoutSpeakersInput {
+  talks: TalkCreateManyWithoutEventInput
+  city: String
+  country: String
+  endDate: String
+  startDate: String
+  type: EventType
+  youtubePlaylist: String
+}
+
 input EventCreateWithoutTalksInput {
-  type: String
-  youtubeChannel: String
-  speakers: SpeakerCreateManyInput
+  speakers: SpeakerCreateManyWithoutEventsInput
+  city: String
+  country: String
+  endDate: String
+  startDate: String
+  type: EventType
+  youtubePlaylist: String
 }
 
 type EventEdge {
@@ -60,10 +96,18 @@ type EventEdge {
 enum EventOrderByInput {
   id_ASC
   id_DESC
+  city_ASC
+  city_DESC
+  country_ASC
+  country_DESC
+  endDate_ASC
+  endDate_DESC
+  startDate_ASC
+  startDate_DESC
   type_ASC
   type_DESC
-  youtubeChannel_ASC
-  youtubeChannel_DESC
+  youtubePlaylist_ASC
+  youtubePlaylist_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -72,8 +116,106 @@ enum EventOrderByInput {
 
 type EventPreviousValues {
   id: ID!
-  type: String
-  youtubeChannel: String
+  city: String
+  country: String
+  endDate: String
+  startDate: String
+  type: EventType
+  youtubePlaylist: String
+}
+
+input EventScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  city: String
+  city_not: String
+  city_in: [String!]
+  city_not_in: [String!]
+  city_lt: String
+  city_lte: String
+  city_gt: String
+  city_gte: String
+  city_contains: String
+  city_not_contains: String
+  city_starts_with: String
+  city_not_starts_with: String
+  city_ends_with: String
+  city_not_ends_with: String
+  country: String
+  country_not: String
+  country_in: [String!]
+  country_not_in: [String!]
+  country_lt: String
+  country_lte: String
+  country_gt: String
+  country_gte: String
+  country_contains: String
+  country_not_contains: String
+  country_starts_with: String
+  country_not_starts_with: String
+  country_ends_with: String
+  country_not_ends_with: String
+  endDate: String
+  endDate_not: String
+  endDate_in: [String!]
+  endDate_not_in: [String!]
+  endDate_lt: String
+  endDate_lte: String
+  endDate_gt: String
+  endDate_gte: String
+  endDate_contains: String
+  endDate_not_contains: String
+  endDate_starts_with: String
+  endDate_not_starts_with: String
+  endDate_ends_with: String
+  endDate_not_ends_with: String
+  startDate: String
+  startDate_not: String
+  startDate_in: [String!]
+  startDate_not_in: [String!]
+  startDate_lt: String
+  startDate_lte: String
+  startDate_gt: String
+  startDate_gte: String
+  startDate_contains: String
+  startDate_not_contains: String
+  startDate_starts_with: String
+  startDate_not_starts_with: String
+  startDate_ends_with: String
+  startDate_not_ends_with: String
+  type: EventType
+  type_not: EventType
+  type_in: [EventType!]
+  type_not_in: [EventType!]
+  youtubePlaylist: String
+  youtubePlaylist_not: String
+  youtubePlaylist_in: [String!]
+  youtubePlaylist_not_in: [String!]
+  youtubePlaylist_lt: String
+  youtubePlaylist_lte: String
+  youtubePlaylist_gt: String
+  youtubePlaylist_gte: String
+  youtubePlaylist_contains: String
+  youtubePlaylist_not_contains: String
+  youtubePlaylist_starts_with: String
+  youtubePlaylist_not_starts_with: String
+  youtubePlaylist_ends_with: String
+  youtubePlaylist_not_ends_with: String
+  AND: [EventScalarWhereInput!]
+  OR: [EventScalarWhereInput!]
+  NOT: [EventScalarWhereInput!]
 }
 
 type EventSubscriptionPayload {
@@ -94,16 +236,78 @@ input EventSubscriptionWhereInput {
   NOT: [EventSubscriptionWhereInput!]
 }
 
-input EventUpdateInput {
-  type: String
-  youtubeChannel: String
-  speakers: SpeakerUpdateManyInput
+enum EventType {
+  MEETUP
+  CONFERENCE
+}
+
+input EventUpdateDataInput {
+  speakers: SpeakerUpdateManyWithoutEventsInput
   talks: TalkUpdateManyWithoutEventInput
+  city: String
+  country: String
+  endDate: String
+  startDate: String
+  type: EventType
+  youtubePlaylist: String
+}
+
+input EventUpdateInput {
+  speakers: SpeakerUpdateManyWithoutEventsInput
+  talks: TalkUpdateManyWithoutEventInput
+  city: String
+  country: String
+  endDate: String
+  startDate: String
+  type: EventType
+  youtubePlaylist: String
+}
+
+input EventUpdateManyDataInput {
+  city: String
+  country: String
+  endDate: String
+  startDate: String
+  type: EventType
+  youtubePlaylist: String
+}
+
+input EventUpdateManyInput {
+  create: [EventCreateInput!]
+  update: [EventUpdateWithWhereUniqueNestedInput!]
+  upsert: [EventUpsertWithWhereUniqueNestedInput!]
+  delete: [EventWhereUniqueInput!]
+  connect: [EventWhereUniqueInput!]
+  set: [EventWhereUniqueInput!]
+  disconnect: [EventWhereUniqueInput!]
+  deleteMany: [EventScalarWhereInput!]
+  updateMany: [EventUpdateManyWithWhereNestedInput!]
 }
 
 input EventUpdateManyMutationInput {
-  type: String
-  youtubeChannel: String
+  city: String
+  country: String
+  endDate: String
+  startDate: String
+  type: EventType
+  youtubePlaylist: String
+}
+
+input EventUpdateManyWithoutSpeakersInput {
+  create: [EventCreateWithoutSpeakersInput!]
+  delete: [EventWhereUniqueInput!]
+  connect: [EventWhereUniqueInput!]
+  set: [EventWhereUniqueInput!]
+  disconnect: [EventWhereUniqueInput!]
+  update: [EventUpdateWithWhereUniqueWithoutSpeakersInput!]
+  upsert: [EventUpsertWithWhereUniqueWithoutSpeakersInput!]
+  deleteMany: [EventScalarWhereInput!]
+  updateMany: [EventUpdateManyWithWhereNestedInput!]
+}
+
+input EventUpdateManyWithWhereNestedInput {
+  where: EventScalarWhereInput!
+  data: EventUpdateManyDataInput!
 }
 
 input EventUpdateOneWithoutTalksInput {
@@ -115,15 +319,51 @@ input EventUpdateOneWithoutTalksInput {
   connect: EventWhereUniqueInput
 }
 
+input EventUpdateWithoutSpeakersDataInput {
+  talks: TalkUpdateManyWithoutEventInput
+  city: String
+  country: String
+  endDate: String
+  startDate: String
+  type: EventType
+  youtubePlaylist: String
+}
+
 input EventUpdateWithoutTalksDataInput {
-  type: String
-  youtubeChannel: String
-  speakers: SpeakerUpdateManyInput
+  speakers: SpeakerUpdateManyWithoutEventsInput
+  city: String
+  country: String
+  endDate: String
+  startDate: String
+  type: EventType
+  youtubePlaylist: String
+}
+
+input EventUpdateWithWhereUniqueNestedInput {
+  where: EventWhereUniqueInput!
+  data: EventUpdateDataInput!
+}
+
+input EventUpdateWithWhereUniqueWithoutSpeakersInput {
+  where: EventWhereUniqueInput!
+  data: EventUpdateWithoutSpeakersDataInput!
 }
 
 input EventUpsertWithoutTalksInput {
   update: EventUpdateWithoutTalksDataInput!
   create: EventCreateWithoutTalksInput!
+}
+
+input EventUpsertWithWhereUniqueNestedInput {
+  where: EventWhereUniqueInput!
+  update: EventUpdateDataInput!
+  create: EventCreateInput!
+}
+
+input EventUpsertWithWhereUniqueWithoutSpeakersInput {
+  where: EventWhereUniqueInput!
+  update: EventUpdateWithoutSpeakersDataInput!
+  create: EventCreateWithoutSpeakersInput!
 }
 
 input EventWhereInput {
@@ -141,40 +381,86 @@ input EventWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  type: String
-  type_not: String
-  type_in: [String!]
-  type_not_in: [String!]
-  type_lt: String
-  type_lte: String
-  type_gt: String
-  type_gte: String
-  type_contains: String
-  type_not_contains: String
-  type_starts_with: String
-  type_not_starts_with: String
-  type_ends_with: String
-  type_not_ends_with: String
-  youtubeChannel: String
-  youtubeChannel_not: String
-  youtubeChannel_in: [String!]
-  youtubeChannel_not_in: [String!]
-  youtubeChannel_lt: String
-  youtubeChannel_lte: String
-  youtubeChannel_gt: String
-  youtubeChannel_gte: String
-  youtubeChannel_contains: String
-  youtubeChannel_not_contains: String
-  youtubeChannel_starts_with: String
-  youtubeChannel_not_starts_with: String
-  youtubeChannel_ends_with: String
-  youtubeChannel_not_ends_with: String
   speakers_every: SpeakerWhereInput
   speakers_some: SpeakerWhereInput
   speakers_none: SpeakerWhereInput
   talks_every: TalkWhereInput
   talks_some: TalkWhereInput
   talks_none: TalkWhereInput
+  city: String
+  city_not: String
+  city_in: [String!]
+  city_not_in: [String!]
+  city_lt: String
+  city_lte: String
+  city_gt: String
+  city_gte: String
+  city_contains: String
+  city_not_contains: String
+  city_starts_with: String
+  city_not_starts_with: String
+  city_ends_with: String
+  city_not_ends_with: String
+  country: String
+  country_not: String
+  country_in: [String!]
+  country_not_in: [String!]
+  country_lt: String
+  country_lte: String
+  country_gt: String
+  country_gte: String
+  country_contains: String
+  country_not_contains: String
+  country_starts_with: String
+  country_not_starts_with: String
+  country_ends_with: String
+  country_not_ends_with: String
+  endDate: String
+  endDate_not: String
+  endDate_in: [String!]
+  endDate_not_in: [String!]
+  endDate_lt: String
+  endDate_lte: String
+  endDate_gt: String
+  endDate_gte: String
+  endDate_contains: String
+  endDate_not_contains: String
+  endDate_starts_with: String
+  endDate_not_starts_with: String
+  endDate_ends_with: String
+  endDate_not_ends_with: String
+  startDate: String
+  startDate_not: String
+  startDate_in: [String!]
+  startDate_not_in: [String!]
+  startDate_lt: String
+  startDate_lte: String
+  startDate_gt: String
+  startDate_gte: String
+  startDate_contains: String
+  startDate_not_contains: String
+  startDate_starts_with: String
+  startDate_not_starts_with: String
+  startDate_ends_with: String
+  startDate_not_ends_with: String
+  type: EventType
+  type_not: EventType
+  type_in: [EventType!]
+  type_not_in: [EventType!]
+  youtubePlaylist: String
+  youtubePlaylist_not: String
+  youtubePlaylist_in: [String!]
+  youtubePlaylist_not_in: [String!]
+  youtubePlaylist_lt: String
+  youtubePlaylist_lte: String
+  youtubePlaylist_gt: String
+  youtubePlaylist_gte: String
+  youtubePlaylist_contains: String
+  youtubePlaylist_not_contains: String
+  youtubePlaylist_starts_with: String
+  youtubePlaylist_not_starts_with: String
+  youtubePlaylist_ends_with: String
+  youtubePlaylist_not_ends_with: String
   AND: [EventWhereInput!]
   OR: [EventWhereInput!]
   NOT: [EventWhereInput!]
@@ -193,6 +479,12 @@ type Mutation {
   upsertEvent(where: EventWhereUniqueInput!, create: EventCreateInput!, update: EventUpdateInput!): Event!
   deleteEvent(where: EventWhereUniqueInput!): Event
   deleteManyEvents(where: EventWhereInput): BatchPayload!
+  createOrganization(data: OrganizationCreateInput!): Organization!
+  updateOrganization(data: OrganizationUpdateInput!, where: OrganizationWhereUniqueInput!): Organization
+  updateManyOrganizations(data: OrganizationUpdateManyMutationInput!, where: OrganizationWhereInput): BatchPayload!
+  upsertOrganization(where: OrganizationWhereUniqueInput!, create: OrganizationCreateInput!, update: OrganizationUpdateInput!): Organization!
+  deleteOrganization(where: OrganizationWhereUniqueInput!): Organization
+  deleteManyOrganizations(where: OrganizationWhereInput): BatchPayload!
   createSpeaker(data: SpeakerCreateInput!): Speaker!
   updateSpeaker(data: SpeakerUpdateInput!, where: SpeakerWhereUniqueInput!): Speaker
   updateManySpeakers(data: SpeakerUpdateManyMutationInput!, where: SpeakerWhereInput): BatchPayload!
@@ -217,6 +509,154 @@ interface Node {
   id: ID!
 }
 
+type Organization {
+  id: ID!
+  events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
+  twitterHandle: String
+  website: String
+  youtubeChannel: String
+}
+
+type OrganizationConnection {
+  pageInfo: PageInfo!
+  edges: [OrganizationEdge]!
+  aggregate: AggregateOrganization!
+}
+
+input OrganizationCreateInput {
+  events: EventCreateManyInput
+  twitterHandle: String
+  website: String
+  youtubeChannel: String
+}
+
+type OrganizationEdge {
+  node: Organization!
+  cursor: String!
+}
+
+enum OrganizationOrderByInput {
+  id_ASC
+  id_DESC
+  twitterHandle_ASC
+  twitterHandle_DESC
+  website_ASC
+  website_DESC
+  youtubeChannel_ASC
+  youtubeChannel_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type OrganizationPreviousValues {
+  id: ID!
+  twitterHandle: String
+  website: String
+  youtubeChannel: String
+}
+
+type OrganizationSubscriptionPayload {
+  mutation: MutationType!
+  node: Organization
+  updatedFields: [String!]
+  previousValues: OrganizationPreviousValues
+}
+
+input OrganizationSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: OrganizationWhereInput
+  AND: [OrganizationSubscriptionWhereInput!]
+  OR: [OrganizationSubscriptionWhereInput!]
+  NOT: [OrganizationSubscriptionWhereInput!]
+}
+
+input OrganizationUpdateInput {
+  events: EventUpdateManyInput
+  twitterHandle: String
+  website: String
+  youtubeChannel: String
+}
+
+input OrganizationUpdateManyMutationInput {
+  twitterHandle: String
+  website: String
+  youtubeChannel: String
+}
+
+input OrganizationWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  events_every: EventWhereInput
+  events_some: EventWhereInput
+  events_none: EventWhereInput
+  twitterHandle: String
+  twitterHandle_not: String
+  twitterHandle_in: [String!]
+  twitterHandle_not_in: [String!]
+  twitterHandle_lt: String
+  twitterHandle_lte: String
+  twitterHandle_gt: String
+  twitterHandle_gte: String
+  twitterHandle_contains: String
+  twitterHandle_not_contains: String
+  twitterHandle_starts_with: String
+  twitterHandle_not_starts_with: String
+  twitterHandle_ends_with: String
+  twitterHandle_not_ends_with: String
+  website: String
+  website_not: String
+  website_in: [String!]
+  website_not_in: [String!]
+  website_lt: String
+  website_lte: String
+  website_gt: String
+  website_gte: String
+  website_contains: String
+  website_not_contains: String
+  website_starts_with: String
+  website_not_starts_with: String
+  website_ends_with: String
+  website_not_ends_with: String
+  youtubeChannel: String
+  youtubeChannel_not: String
+  youtubeChannel_in: [String!]
+  youtubeChannel_not_in: [String!]
+  youtubeChannel_lt: String
+  youtubeChannel_lte: String
+  youtubeChannel_gt: String
+  youtubeChannel_gte: String
+  youtubeChannel_contains: String
+  youtubeChannel_not_contains: String
+  youtubeChannel_starts_with: String
+  youtubeChannel_not_starts_with: String
+  youtubeChannel_ends_with: String
+  youtubeChannel_not_ends_with: String
+  AND: [OrganizationWhereInput!]
+  OR: [OrganizationWhereInput!]
+  NOT: [OrganizationWhereInput!]
+}
+
+input OrganizationWhereUniqueInput {
+  id: ID
+}
+
 type PageInfo {
   hasNextPage: Boolean!
   hasPreviousPage: Boolean!
@@ -228,6 +668,9 @@ type Query {
   event(where: EventWhereUniqueInput!): Event
   events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event]!
   eventsConnection(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EventConnection!
+  organization(where: OrganizationWhereUniqueInput!): Organization
+  organizations(where: OrganizationWhereInput, orderBy: OrganizationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Organization]!
+  organizationsConnection(where: OrganizationWhereInput, orderBy: OrganizationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): OrganizationConnection!
   speaker(where: SpeakerWhereUniqueInput!): Speaker
   speakers(where: SpeakerWhereInput, orderBy: SpeakerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Speaker]!
   speakersConnection(where: SpeakerWhereInput, orderBy: SpeakerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SpeakerConnection!
@@ -239,9 +682,10 @@ type Query {
 
 type Speaker {
   id: ID!
+  events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
+  talks(where: TalkWhereInput, orderBy: TalkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Talk!]
   name: String!
   twitterHandle: String
-  talks(where: TalkWhereInput, orderBy: TalkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Talk!]
 }
 
 type SpeakerConnection {
@@ -251,13 +695,14 @@ type SpeakerConnection {
 }
 
 input SpeakerCreateInput {
+  events: EventCreateManyWithoutSpeakersInput
+  talks: TalkCreateManyWithoutSpeakersInput
   name: String!
   twitterHandle: String
-  talks: TalkCreateManyWithoutSpeakersInput
 }
 
-input SpeakerCreateManyInput {
-  create: [SpeakerCreateInput!]
+input SpeakerCreateManyWithoutEventsInput {
+  create: [SpeakerCreateWithoutEventsInput!]
   connect: [SpeakerWhereUniqueInput!]
 }
 
@@ -266,7 +711,14 @@ input SpeakerCreateManyWithoutTalksInput {
   connect: [SpeakerWhereUniqueInput!]
 }
 
+input SpeakerCreateWithoutEventsInput {
+  talks: TalkCreateManyWithoutSpeakersInput
+  name: String!
+  twitterHandle: String
+}
+
 input SpeakerCreateWithoutTalksInput {
+  events: EventCreateManyWithoutSpeakersInput
   name: String!
   twitterHandle: String
 }
@@ -361,16 +813,11 @@ input SpeakerSubscriptionWhereInput {
   NOT: [SpeakerSubscriptionWhereInput!]
 }
 
-input SpeakerUpdateDataInput {
-  name: String
-  twitterHandle: String
-  talks: TalkUpdateManyWithoutSpeakersInput
-}
-
 input SpeakerUpdateInput {
+  events: EventUpdateManyWithoutSpeakersInput
+  talks: TalkUpdateManyWithoutSpeakersInput
   name: String
   twitterHandle: String
-  talks: TalkUpdateManyWithoutSpeakersInput
 }
 
 input SpeakerUpdateManyDataInput {
@@ -378,21 +825,21 @@ input SpeakerUpdateManyDataInput {
   twitterHandle: String
 }
 
-input SpeakerUpdateManyInput {
-  create: [SpeakerCreateInput!]
-  update: [SpeakerUpdateWithWhereUniqueNestedInput!]
-  upsert: [SpeakerUpsertWithWhereUniqueNestedInput!]
+input SpeakerUpdateManyMutationInput {
+  name: String
+  twitterHandle: String
+}
+
+input SpeakerUpdateManyWithoutEventsInput {
+  create: [SpeakerCreateWithoutEventsInput!]
   delete: [SpeakerWhereUniqueInput!]
   connect: [SpeakerWhereUniqueInput!]
   set: [SpeakerWhereUniqueInput!]
   disconnect: [SpeakerWhereUniqueInput!]
+  update: [SpeakerUpdateWithWhereUniqueWithoutEventsInput!]
+  upsert: [SpeakerUpsertWithWhereUniqueWithoutEventsInput!]
   deleteMany: [SpeakerScalarWhereInput!]
   updateMany: [SpeakerUpdateManyWithWhereNestedInput!]
-}
-
-input SpeakerUpdateManyMutationInput {
-  name: String
-  twitterHandle: String
 }
 
 input SpeakerUpdateManyWithoutTalksInput {
@@ -412,14 +859,21 @@ input SpeakerUpdateManyWithWhereNestedInput {
   data: SpeakerUpdateManyDataInput!
 }
 
-input SpeakerUpdateWithoutTalksDataInput {
+input SpeakerUpdateWithoutEventsDataInput {
+  talks: TalkUpdateManyWithoutSpeakersInput
   name: String
   twitterHandle: String
 }
 
-input SpeakerUpdateWithWhereUniqueNestedInput {
+input SpeakerUpdateWithoutTalksDataInput {
+  events: EventUpdateManyWithoutSpeakersInput
+  name: String
+  twitterHandle: String
+}
+
+input SpeakerUpdateWithWhereUniqueWithoutEventsInput {
   where: SpeakerWhereUniqueInput!
-  data: SpeakerUpdateDataInput!
+  data: SpeakerUpdateWithoutEventsDataInput!
 }
 
 input SpeakerUpdateWithWhereUniqueWithoutTalksInput {
@@ -427,10 +881,10 @@ input SpeakerUpdateWithWhereUniqueWithoutTalksInput {
   data: SpeakerUpdateWithoutTalksDataInput!
 }
 
-input SpeakerUpsertWithWhereUniqueNestedInput {
+input SpeakerUpsertWithWhereUniqueWithoutEventsInput {
   where: SpeakerWhereUniqueInput!
-  update: SpeakerUpdateDataInput!
-  create: SpeakerCreateInput!
+  update: SpeakerUpdateWithoutEventsDataInput!
+  create: SpeakerCreateWithoutEventsInput!
 }
 
 input SpeakerUpsertWithWhereUniqueWithoutTalksInput {
@@ -454,6 +908,12 @@ input SpeakerWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  events_every: EventWhereInput
+  events_some: EventWhereInput
+  events_none: EventWhereInput
+  talks_every: TalkWhereInput
+  talks_some: TalkWhereInput
+  talks_none: TalkWhereInput
   name: String
   name_not: String
   name_in: [String!]
@@ -482,9 +942,6 @@ input SpeakerWhereInput {
   twitterHandle_not_starts_with: String
   twitterHandle_ends_with: String
   twitterHandle_not_ends_with: String
-  talks_every: TalkWhereInput
-  talks_some: TalkWhereInput
-  talks_none: TalkWhereInput
   AND: [SpeakerWhereInput!]
   OR: [SpeakerWhereInput!]
   NOT: [SpeakerWhereInput!]
@@ -496,21 +953,23 @@ input SpeakerWhereUniqueInput {
 
 type Subscription {
   event(where: EventSubscriptionWhereInput): EventSubscriptionPayload
+  organization(where: OrganizationSubscriptionWhereInput): OrganizationSubscriptionPayload
   speaker(where: SpeakerSubscriptionWhereInput): SpeakerSubscriptionPayload
   talk(where: TalkSubscriptionWhereInput): TalkSubscriptionPayload
 }
 
 type Talk {
   id: ID!
-  title: String!
-  description: String
-  videoLink: String
-  source: VideoSource
-  private: Boolean
   event: Event
   speakers(where: SpeakerWhereInput, orderBy: SpeakerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Speaker!]
+  description: String
   duration: Int
+  hidden: Boolean
+  private: Boolean
   publishedAt: DateTime
+  source: VideoSource
+  title: String!
+  videoLink: String
 }
 
 type TalkConnection {
@@ -520,15 +979,16 @@ type TalkConnection {
 }
 
 input TalkCreateInput {
-  title: String!
-  description: String
-  videoLink: String
-  source: VideoSource
-  private: Boolean
   event: EventCreateOneWithoutTalksInput
   speakers: SpeakerCreateManyWithoutTalksInput
+  description: String
   duration: Int
+  hidden: Boolean
+  private: Boolean
   publishedAt: DateTime
+  source: VideoSource
+  title: String!
+  videoLink: String
 }
 
 input TalkCreateManyWithoutEventInput {
@@ -542,25 +1002,27 @@ input TalkCreateManyWithoutSpeakersInput {
 }
 
 input TalkCreateWithoutEventInput {
-  title: String!
-  description: String
-  videoLink: String
-  source: VideoSource
-  private: Boolean
   speakers: SpeakerCreateManyWithoutTalksInput
+  description: String
   duration: Int
+  hidden: Boolean
+  private: Boolean
   publishedAt: DateTime
+  source: VideoSource
+  title: String!
+  videoLink: String
 }
 
 input TalkCreateWithoutSpeakersInput {
-  title: String!
-  description: String
-  videoLink: String
-  source: VideoSource
-  private: Boolean
   event: EventCreateOneWithoutTalksInput
+  description: String
   duration: Int
+  hidden: Boolean
+  private: Boolean
   publishedAt: DateTime
+  source: VideoSource
+  title: String!
+  videoLink: String
 }
 
 type TalkEdge {
@@ -571,20 +1033,22 @@ type TalkEdge {
 enum TalkOrderByInput {
   id_ASC
   id_DESC
-  title_ASC
-  title_DESC
   description_ASC
   description_DESC
-  videoLink_ASC
-  videoLink_DESC
-  source_ASC
-  source_DESC
-  private_ASC
-  private_DESC
   duration_ASC
   duration_DESC
+  hidden_ASC
+  hidden_DESC
+  private_ASC
+  private_DESC
   publishedAt_ASC
   publishedAt_DESC
+  source_ASC
+  source_DESC
+  title_ASC
+  title_DESC
+  videoLink_ASC
+  videoLink_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -593,13 +1057,14 @@ enum TalkOrderByInput {
 
 type TalkPreviousValues {
   id: ID!
-  title: String!
   description: String
-  videoLink: String
-  source: VideoSource
-  private: Boolean
   duration: Int
+  hidden: Boolean
+  private: Boolean
   publishedAt: DateTime
+  source: VideoSource
+  title: String!
+  videoLink: String
 }
 
 input TalkScalarWhereInput {
@@ -617,20 +1082,6 @@ input TalkScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  title: String
-  title_not: String
-  title_in: [String!]
-  title_not_in: [String!]
-  title_lt: String
-  title_lte: String
-  title_gt: String
-  title_gte: String
-  title_contains: String
-  title_not_contains: String
-  title_starts_with: String
-  title_not_starts_with: String
-  title_ends_with: String
-  title_not_ends_with: String
   description: String
   description_not: String
   description_in: [String!]
@@ -645,6 +1096,44 @@ input TalkScalarWhereInput {
   description_not_starts_with: String
   description_ends_with: String
   description_not_ends_with: String
+  duration: Int
+  duration_not: Int
+  duration_in: [Int!]
+  duration_not_in: [Int!]
+  duration_lt: Int
+  duration_lte: Int
+  duration_gt: Int
+  duration_gte: Int
+  hidden: Boolean
+  hidden_not: Boolean
+  private: Boolean
+  private_not: Boolean
+  publishedAt: DateTime
+  publishedAt_not: DateTime
+  publishedAt_in: [DateTime!]
+  publishedAt_not_in: [DateTime!]
+  publishedAt_lt: DateTime
+  publishedAt_lte: DateTime
+  publishedAt_gt: DateTime
+  publishedAt_gte: DateTime
+  source: VideoSource
+  source_not: VideoSource
+  source_in: [VideoSource!]
+  source_not_in: [VideoSource!]
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
   videoLink: String
   videoLink_not: String
   videoLink_in: [String!]
@@ -659,28 +1148,6 @@ input TalkScalarWhereInput {
   videoLink_not_starts_with: String
   videoLink_ends_with: String
   videoLink_not_ends_with: String
-  source: VideoSource
-  source_not: VideoSource
-  source_in: [VideoSource!]
-  source_not_in: [VideoSource!]
-  private: Boolean
-  private_not: Boolean
-  duration: Int
-  duration_not: Int
-  duration_in: [Int!]
-  duration_not_in: [Int!]
-  duration_lt: Int
-  duration_lte: Int
-  duration_gt: Int
-  duration_gte: Int
-  publishedAt: DateTime
-  publishedAt_not: DateTime
-  publishedAt_in: [DateTime!]
-  publishedAt_not_in: [DateTime!]
-  publishedAt_lt: DateTime
-  publishedAt_lte: DateTime
-  publishedAt_gt: DateTime
-  publishedAt_gte: DateTime
   AND: [TalkScalarWhereInput!]
   OR: [TalkScalarWhereInput!]
   NOT: [TalkScalarWhereInput!]
@@ -705,35 +1172,38 @@ input TalkSubscriptionWhereInput {
 }
 
 input TalkUpdateInput {
-  title: String
-  description: String
-  videoLink: String
-  source: VideoSource
-  private: Boolean
   event: EventUpdateOneWithoutTalksInput
   speakers: SpeakerUpdateManyWithoutTalksInput
+  description: String
   duration: Int
+  hidden: Boolean
+  private: Boolean
   publishedAt: DateTime
+  source: VideoSource
+  title: String
+  videoLink: String
 }
 
 input TalkUpdateManyDataInput {
-  title: String
   description: String
-  videoLink: String
-  source: VideoSource
-  private: Boolean
   duration: Int
+  hidden: Boolean
+  private: Boolean
   publishedAt: DateTime
+  source: VideoSource
+  title: String
+  videoLink: String
 }
 
 input TalkUpdateManyMutationInput {
-  title: String
   description: String
-  videoLink: String
-  source: VideoSource
-  private: Boolean
   duration: Int
+  hidden: Boolean
+  private: Boolean
   publishedAt: DateTime
+  source: VideoSource
+  title: String
+  videoLink: String
 }
 
 input TalkUpdateManyWithoutEventInput {
@@ -766,25 +1236,27 @@ input TalkUpdateManyWithWhereNestedInput {
 }
 
 input TalkUpdateWithoutEventDataInput {
-  title: String
-  description: String
-  videoLink: String
-  source: VideoSource
-  private: Boolean
   speakers: SpeakerUpdateManyWithoutTalksInput
+  description: String
   duration: Int
+  hidden: Boolean
+  private: Boolean
   publishedAt: DateTime
+  source: VideoSource
+  title: String
+  videoLink: String
 }
 
 input TalkUpdateWithoutSpeakersDataInput {
-  title: String
-  description: String
-  videoLink: String
-  source: VideoSource
-  private: Boolean
   event: EventUpdateOneWithoutTalksInput
+  description: String
   duration: Int
+  hidden: Boolean
+  private: Boolean
   publishedAt: DateTime
+  source: VideoSource
+  title: String
+  videoLink: String
 }
 
 input TalkUpdateWithWhereUniqueWithoutEventInput {
@@ -824,20 +1296,10 @@ input TalkWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  title: String
-  title_not: String
-  title_in: [String!]
-  title_not_in: [String!]
-  title_lt: String
-  title_lte: String
-  title_gt: String
-  title_gte: String
-  title_contains: String
-  title_not_contains: String
-  title_starts_with: String
-  title_not_starts_with: String
-  title_ends_with: String
-  title_not_ends_with: String
+  event: EventWhereInput
+  speakers_every: SpeakerWhereInput
+  speakers_some: SpeakerWhereInput
+  speakers_none: SpeakerWhereInput
   description: String
   description_not: String
   description_in: [String!]
@@ -852,6 +1314,44 @@ input TalkWhereInput {
   description_not_starts_with: String
   description_ends_with: String
   description_not_ends_with: String
+  duration: Int
+  duration_not: Int
+  duration_in: [Int!]
+  duration_not_in: [Int!]
+  duration_lt: Int
+  duration_lte: Int
+  duration_gt: Int
+  duration_gte: Int
+  hidden: Boolean
+  hidden_not: Boolean
+  private: Boolean
+  private_not: Boolean
+  publishedAt: DateTime
+  publishedAt_not: DateTime
+  publishedAt_in: [DateTime!]
+  publishedAt_not_in: [DateTime!]
+  publishedAt_lt: DateTime
+  publishedAt_lte: DateTime
+  publishedAt_gt: DateTime
+  publishedAt_gte: DateTime
+  source: VideoSource
+  source_not: VideoSource
+  source_in: [VideoSource!]
+  source_not_in: [VideoSource!]
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
   videoLink: String
   videoLink_not: String
   videoLink_in: [String!]
@@ -866,32 +1366,6 @@ input TalkWhereInput {
   videoLink_not_starts_with: String
   videoLink_ends_with: String
   videoLink_not_ends_with: String
-  source: VideoSource
-  source_not: VideoSource
-  source_in: [VideoSource!]
-  source_not_in: [VideoSource!]
-  private: Boolean
-  private_not: Boolean
-  event: EventWhereInput
-  speakers_every: SpeakerWhereInput
-  speakers_some: SpeakerWhereInput
-  speakers_none: SpeakerWhereInput
-  duration: Int
-  duration_not: Int
-  duration_in: [Int!]
-  duration_not_in: [Int!]
-  duration_lt: Int
-  duration_lte: Int
-  duration_gt: Int
-  duration_gte: Int
-  publishedAt: DateTime
-  publishedAt_not: DateTime
-  publishedAt_in: [DateTime!]
-  publishedAt_not_in: [DateTime!]
-  publishedAt_lt: DateTime
-  publishedAt_lte: DateTime
-  publishedAt_gt: DateTime
-  publishedAt_gte: DateTime
   AND: [TalkWhereInput!]
   OR: [TalkWhereInput!]
   NOT: [TalkWhereInput!]
