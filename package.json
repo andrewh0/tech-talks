@@ -1,20 +1,31 @@
 {
-  "name": "tech-talks",
+  "name": "server",
   "version": "1.0.0",
-  "description": "![tech-talks](https://user-images.githubusercontent.com/2905455/40894060-b0cea240-675b-11e8-8b7c-61eb6cab3be0.gif)",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "start": "cd server && yarn start"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/andrewh0/tech-talks.git"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node --require dotenv/config index.ts",
+    "prettier": "prettier --config package.json --write \"./index.ts\" --loglevel warn"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/andrewh0/tech-talks/issues"
+  "description": "",
+  "devDependencies": {
+    "prettier": "^1.16.4",
+    "prisma": "^1.27.1"
   },
-  "homepage": "https://github.com/andrewh0/tech-talks#readme"
+  "dependencies": {
+    "@types/express": "^4.16.1",
+    "@types/graphql": "^14.0.7",
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "ts-node": "^8.0.2",
+    "typescript": "^3.3.3333"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "bracketSpacing": true
+  }
 }
