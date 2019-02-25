@@ -3,30 +3,49 @@ enum VideoSource {
   VIMEO
 }
 
+enum EventType {
+  MEETUP,
+  CONFERENCE
+}
+
 type Talk {
   id: ID! @unique
-  title: String!
-  description: String
-  videoLink: String
-  source: VideoSource
-  private: Boolean
   event: Event
   speakers: [Speaker!]!
+  description: String
   duration: Int
+  hidden: Boolean
+  private: Boolean
   publishedAt: DateTime
+  source: VideoSource
+  title: String!
+  videoLink: String
 }
 
 type Speaker {
   id: ID! @unique
+  events: [Event!]!
+  talks: [Talk!]!
   name: String!
   twitterHandle: String
-  talks: [Talk!]!
 }
 
 type Event {
   id: ID! @unique
-  type: String
-  youtubeChannel: String
   speakers: [Speaker!]!
   talks: [Talk!]!
+  city: String
+  country: String
+  endDate: String
+  startDate: String
+  type: EventType
+  youtubePlaylist: String
+}
+
+type Organization {
+  id: ID! @unique
+  events: [Event!]!
+  twitterHandle: String
+  website: String
+  youtubeChannel: String
 }
