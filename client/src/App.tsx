@@ -3,6 +3,11 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  componentDidMount() {
+    fetch('/feed').then(r => r.json()).then(json => {
+      console.log(json);
+    });
+  }
   render() {
     return (
       <div className="App">
