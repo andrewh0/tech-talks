@@ -30,9 +30,11 @@ app.get('/events', async (req, res) => {
   res.json(events);
 });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
+if (process.env.NODE_ENV === 'production') {
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build/index.html'));
+  });
+}
 
 app.listen(app.get('port'), () => {
   if (process.env.NODE_ENV !== 'production') {
