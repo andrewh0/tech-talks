@@ -6,7 +6,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node --require dotenv/config index.ts",
     "prettier": "prettier --config package.json --write \"./index.ts\" --loglevel warn",
-    "heroku-postbuild": "cd client && yarn && yarn run build"
+    "heroku-postbuild": "cd client && yarn && yarn run build",
+    "prisma:generate": "prisma generate",
+    "prisma:deploy": "prisma deploy --env-file .env"
   },
   "keywords": [],
   "author": "",
