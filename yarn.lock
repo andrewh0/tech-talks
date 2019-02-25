@@ -2851,7 +2851,7 @@ prisma-cli-engine@1.27.1:
     treeify "^1.0.1"
     update-notifier "^2.3.0"
 
-prisma-client-lib@1.27.1:
+prisma-client-lib@1.27.1, prisma-client-lib@^1.27.1:
   version "1.27.1"
   resolved "https://registry.yarnpkg.com/prisma-client-lib/-/prisma-client-lib-1.27.1.tgz#442429b4f54fbbd752a20f149214f3eb72bc1df3"
   integrity sha512-+YSDyjsvUQ+Gnr4Hco59QOLMJqMgavubFUzAH27VHQHkzEKh4EVpfRhELqYK4CSTOWCCb6p7Vs9Rk7LhmGod4Q==
