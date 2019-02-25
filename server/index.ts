@@ -1,4 +1,4 @@
-import * as express from "express";
+import express from "express";
 import * as bodyParser from "body-parser";
 import { prisma } from "./prisma/generated/prisma-client";
 
@@ -7,7 +7,7 @@ const app = express();
 app.use(bodyParser.json());
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
+  app.use(express.static("../client/build"));
 }
 
 app.disable("x-powered-by");
