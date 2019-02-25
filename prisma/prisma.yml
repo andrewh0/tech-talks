@@ -7,3 +7,6 @@ generate:
   - generator: typescript-client
     output: ./generated/prisma-client/
 
+hooks:
+  post-deploy:
+    - yarn prisma:generate
