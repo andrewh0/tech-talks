@@ -1010,7 +1010,8 @@ type Talk {
   publishedAt: DateTime
   source: VideoSource
   title: String!
-  videoLink: String
+  thumbnailUrl: String
+  videoUrl: String
   viewCount: Int
 }
 
@@ -1030,7 +1031,8 @@ input TalkCreateInput {
   publishedAt: DateTime
   source: VideoSource
   title: String!
-  videoLink: String
+  thumbnailUrl: String
+  videoUrl: String
   viewCount: Int
 }
 
@@ -1053,7 +1055,8 @@ input TalkCreateWithoutEventInput {
   publishedAt: DateTime
   source: VideoSource
   title: String!
-  videoLink: String
+  thumbnailUrl: String
+  videoUrl: String
   viewCount: Int
 }
 
@@ -1066,7 +1069,8 @@ input TalkCreateWithoutSpeakersInput {
   publishedAt: DateTime
   source: VideoSource
   title: String!
-  videoLink: String
+  thumbnailUrl: String
+  videoUrl: String
   viewCount: Int
 }
 
@@ -1092,8 +1096,10 @@ enum TalkOrderByInput {
   source_DESC
   title_ASC
   title_DESC
-  videoLink_ASC
-  videoLink_DESC
+  thumbnailUrl_ASC
+  thumbnailUrl_DESC
+  videoUrl_ASC
+  videoUrl_DESC
   viewCount_ASC
   viewCount_DESC
   createdAt_ASC
@@ -1111,7 +1117,8 @@ type TalkPreviousValues {
   publishedAt: DateTime
   source: VideoSource
   title: String!
-  videoLink: String
+  thumbnailUrl: String
+  videoUrl: String
   viewCount: Int
 }
 
@@ -1182,20 +1189,34 @@ input TalkScalarWhereInput {
   title_not_starts_with: String
   title_ends_with: String
   title_not_ends_with: String
-  videoLink: String
-  videoLink_not: String
-  videoLink_in: [String!]
-  videoLink_not_in: [String!]
-  videoLink_lt: String
-  videoLink_lte: String
-  videoLink_gt: String
-  videoLink_gte: String
-  videoLink_contains: String
-  videoLink_not_contains: String
-  videoLink_starts_with: String
-  videoLink_not_starts_with: String
-  videoLink_ends_with: String
-  videoLink_not_ends_with: String
+  thumbnailUrl: String
+  thumbnailUrl_not: String
+  thumbnailUrl_in: [String!]
+  thumbnailUrl_not_in: [String!]
+  thumbnailUrl_lt: String
+  thumbnailUrl_lte: String
+  thumbnailUrl_gt: String
+  thumbnailUrl_gte: String
+  thumbnailUrl_contains: String
+  thumbnailUrl_not_contains: String
+  thumbnailUrl_starts_with: String
+  thumbnailUrl_not_starts_with: String
+  thumbnailUrl_ends_with: String
+  thumbnailUrl_not_ends_with: String
+  videoUrl: String
+  videoUrl_not: String
+  videoUrl_in: [String!]
+  videoUrl_not_in: [String!]
+  videoUrl_lt: String
+  videoUrl_lte: String
+  videoUrl_gt: String
+  videoUrl_gte: String
+  videoUrl_contains: String
+  videoUrl_not_contains: String
+  videoUrl_starts_with: String
+  videoUrl_not_starts_with: String
+  videoUrl_ends_with: String
+  videoUrl_not_ends_with: String
   viewCount: Int
   viewCount_not: Int
   viewCount_in: [Int!]
@@ -1237,7 +1258,8 @@ input TalkUpdateInput {
   publishedAt: DateTime
   source: VideoSource
   title: String
-  videoLink: String
+  thumbnailUrl: String
+  videoUrl: String
   viewCount: Int
 }
 
@@ -1249,7 +1271,8 @@ input TalkUpdateManyDataInput {
   publishedAt: DateTime
   source: VideoSource
   title: String
-  videoLink: String
+  thumbnailUrl: String
+  videoUrl: String
   viewCount: Int
 }
 
@@ -1261,7 +1284,8 @@ input TalkUpdateManyMutationInput {
   publishedAt: DateTime
   source: VideoSource
   title: String
-  videoLink: String
+  thumbnailUrl: String
+  videoUrl: String
   viewCount: Int
 }
 
@@ -1303,7 +1327,8 @@ input TalkUpdateWithoutEventDataInput {
   publishedAt: DateTime
   source: VideoSource
   title: String
-  videoLink: String
+  thumbnailUrl: String
+  videoUrl: String
   viewCount: Int
 }
 
@@ -1316,7 +1341,8 @@ input TalkUpdateWithoutSpeakersDataInput {
   publishedAt: DateTime
   source: VideoSource
   title: String
-  videoLink: String
+  thumbnailUrl: String
+  videoUrl: String
   viewCount: Int
 }
 
@@ -1413,20 +1439,34 @@ input TalkWhereInput {
   title_not_starts_with: String
   title_ends_with: String
   title_not_ends_with: String
-  videoLink: String
-  videoLink_not: String
-  videoLink_in: [String!]
-  videoLink_not_in: [String!]
-  videoLink_lt: String
-  videoLink_lte: String
-  videoLink_gt: String
-  videoLink_gte: String
-  videoLink_contains: String
-  videoLink_not_contains: String
-  videoLink_starts_with: String
-  videoLink_not_starts_with: String
-  videoLink_ends_with: String
-  videoLink_not_ends_with: String
+  thumbnailUrl: String
+  thumbnailUrl_not: String
+  thumbnailUrl_in: [String!]
+  thumbnailUrl_not_in: [String!]
+  thumbnailUrl_lt: String
+  thumbnailUrl_lte: String
+  thumbnailUrl_gt: String
+  thumbnailUrl_gte: String
+  thumbnailUrl_contains: String
+  thumbnailUrl_not_contains: String
+  thumbnailUrl_starts_with: String
+  thumbnailUrl_not_starts_with: String
+  thumbnailUrl_ends_with: String
+  thumbnailUrl_not_ends_with: String
+  videoUrl: String
+  videoUrl_not: String
+  videoUrl_in: [String!]
+  videoUrl_not_in: [String!]
+  videoUrl_lt: String
+  videoUrl_lte: String
+  videoUrl_gt: String
+  videoUrl_gte: String
+  videoUrl_contains: String
+  videoUrl_not_contains: String
+  videoUrl_starts_with: String
+  videoUrl_not_starts_with: String
+  videoUrl_ends_with: String
+  videoUrl_not_ends_with: String
   viewCount: Int
   viewCount_not: Int
   viewCount_in: [Int!]

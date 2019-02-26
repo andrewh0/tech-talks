@@ -294,8 +294,10 @@ export type TalkOrderByInput =
   | "source_DESC"
   | "title_ASC"
   | "title_DESC"
-  | "videoLink_ASC"
-  | "videoLink_DESC"
+  | "thumbnailUrl_ASC"
+  | "thumbnailUrl_DESC"
+  | "videoUrl_ASC"
+  | "videoUrl_DESC"
   | "viewCount_ASC"
   | "viewCount_DESC"
   | "createdAt_ASC"
@@ -562,20 +564,34 @@ export interface TalkWhereInput {
   title_not_starts_with?: String;
   title_ends_with?: String;
   title_not_ends_with?: String;
-  videoLink?: String;
-  videoLink_not?: String;
-  videoLink_in?: String[] | String;
-  videoLink_not_in?: String[] | String;
-  videoLink_lt?: String;
-  videoLink_lte?: String;
-  videoLink_gt?: String;
-  videoLink_gte?: String;
-  videoLink_contains?: String;
-  videoLink_not_contains?: String;
-  videoLink_starts_with?: String;
-  videoLink_not_starts_with?: String;
-  videoLink_ends_with?: String;
-  videoLink_not_ends_with?: String;
+  thumbnailUrl?: String;
+  thumbnailUrl_not?: String;
+  thumbnailUrl_in?: String[] | String;
+  thumbnailUrl_not_in?: String[] | String;
+  thumbnailUrl_lt?: String;
+  thumbnailUrl_lte?: String;
+  thumbnailUrl_gt?: String;
+  thumbnailUrl_gte?: String;
+  thumbnailUrl_contains?: String;
+  thumbnailUrl_not_contains?: String;
+  thumbnailUrl_starts_with?: String;
+  thumbnailUrl_not_starts_with?: String;
+  thumbnailUrl_ends_with?: String;
+  thumbnailUrl_not_ends_with?: String;
+  videoUrl?: String;
+  videoUrl_not?: String;
+  videoUrl_in?: String[] | String;
+  videoUrl_not_in?: String[] | String;
+  videoUrl_lt?: String;
+  videoUrl_lte?: String;
+  videoUrl_gt?: String;
+  videoUrl_gte?: String;
+  videoUrl_contains?: String;
+  videoUrl_not_contains?: String;
+  videoUrl_starts_with?: String;
+  videoUrl_not_starts_with?: String;
+  videoUrl_ends_with?: String;
+  videoUrl_not_ends_with?: String;
   viewCount?: Int;
   viewCount_not?: Int;
   viewCount_in?: Int[] | Int;
@@ -703,7 +719,8 @@ export interface TalkCreateWithoutSpeakersInput {
   publishedAt?: DateTimeInput;
   source?: VideoSource;
   title: String;
-  videoLink?: String;
+  thumbnailUrl?: String;
+  videoUrl?: String;
   viewCount?: Int;
 }
 
@@ -737,7 +754,8 @@ export interface TalkCreateWithoutEventInput {
   publishedAt?: DateTimeInput;
   source?: VideoSource;
   title: String;
-  videoLink?: String;
+  thumbnailUrl?: String;
+  videoUrl?: String;
   viewCount?: Int;
 }
 
@@ -841,7 +859,8 @@ export interface TalkUpdateWithoutSpeakersDataInput {
   publishedAt?: DateTimeInput;
   source?: VideoSource;
   title?: String;
-  videoLink?: String;
+  thumbnailUrl?: String;
+  videoUrl?: String;
   viewCount?: Int;
 }
 
@@ -943,20 +962,34 @@ export interface TalkScalarWhereInput {
   title_not_starts_with?: String;
   title_ends_with?: String;
   title_not_ends_with?: String;
-  videoLink?: String;
-  videoLink_not?: String;
-  videoLink_in?: String[] | String;
-  videoLink_not_in?: String[] | String;
-  videoLink_lt?: String;
-  videoLink_lte?: String;
-  videoLink_gt?: String;
-  videoLink_gte?: String;
-  videoLink_contains?: String;
-  videoLink_not_contains?: String;
-  videoLink_starts_with?: String;
-  videoLink_not_starts_with?: String;
-  videoLink_ends_with?: String;
-  videoLink_not_ends_with?: String;
+  thumbnailUrl?: String;
+  thumbnailUrl_not?: String;
+  thumbnailUrl_in?: String[] | String;
+  thumbnailUrl_not_in?: String[] | String;
+  thumbnailUrl_lt?: String;
+  thumbnailUrl_lte?: String;
+  thumbnailUrl_gt?: String;
+  thumbnailUrl_gte?: String;
+  thumbnailUrl_contains?: String;
+  thumbnailUrl_not_contains?: String;
+  thumbnailUrl_starts_with?: String;
+  thumbnailUrl_not_starts_with?: String;
+  thumbnailUrl_ends_with?: String;
+  thumbnailUrl_not_ends_with?: String;
+  videoUrl?: String;
+  videoUrl_not?: String;
+  videoUrl_in?: String[] | String;
+  videoUrl_not_in?: String[] | String;
+  videoUrl_lt?: String;
+  videoUrl_lte?: String;
+  videoUrl_gt?: String;
+  videoUrl_gte?: String;
+  videoUrl_contains?: String;
+  videoUrl_not_contains?: String;
+  videoUrl_starts_with?: String;
+  videoUrl_not_starts_with?: String;
+  videoUrl_ends_with?: String;
+  videoUrl_not_ends_with?: String;
   viewCount?: Int;
   viewCount_not?: Int;
   viewCount_in?: Int[] | Int;
@@ -983,7 +1016,8 @@ export interface TalkUpdateManyDataInput {
   publishedAt?: DateTimeInput;
   source?: VideoSource;
   title?: String;
-  videoLink?: String;
+  thumbnailUrl?: String;
+  videoUrl?: String;
   viewCount?: Int;
 }
 
@@ -1083,7 +1117,8 @@ export interface TalkUpdateWithoutEventDataInput {
   publishedAt?: DateTimeInput;
   source?: VideoSource;
   title?: String;
-  videoLink?: String;
+  thumbnailUrl?: String;
+  videoUrl?: String;
   viewCount?: Int;
 }
 
@@ -1396,7 +1431,8 @@ export interface TalkCreateInput {
   publishedAt?: DateTimeInput;
   source?: VideoSource;
   title: String;
-  videoLink?: String;
+  thumbnailUrl?: String;
+  videoUrl?: String;
   viewCount?: Int;
 }
 
@@ -1410,7 +1446,8 @@ export interface TalkUpdateInput {
   publishedAt?: DateTimeInput;
   source?: VideoSource;
   title?: String;
-  videoLink?: String;
+  thumbnailUrl?: String;
+  videoUrl?: String;
   viewCount?: Int;
 }
 
@@ -1422,7 +1459,8 @@ export interface TalkUpdateManyMutationInput {
   publishedAt?: DateTimeInput;
   source?: VideoSource;
   title?: String;
-  videoLink?: String;
+  thumbnailUrl?: String;
+  videoUrl?: String;
   viewCount?: Int;
 }
 
@@ -1632,7 +1670,8 @@ export interface Talk {
   publishedAt?: DateTimeOutput;
   source?: VideoSource;
   title: String;
-  videoLink?: String;
+  thumbnailUrl?: String;
+  videoUrl?: String;
   viewCount?: Int;
 }
 
@@ -1657,7 +1696,8 @@ export interface TalkPromise extends Promise<Talk>, Fragmentable {
   publishedAt: () => Promise<DateTimeOutput>;
   source: () => Promise<VideoSource>;
   title: () => Promise<String>;
-  videoLink: () => Promise<String>;
+  thumbnailUrl: () => Promise<String>;
+  videoUrl: () => Promise<String>;
   viewCount: () => Promise<Int>;
 }
 
@@ -1684,7 +1724,8 @@ export interface TalkSubscription
   publishedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   source: () => Promise<AsyncIterator<VideoSource>>;
   title: () => Promise<AsyncIterator<String>>;
-  videoLink: () => Promise<AsyncIterator<String>>;
+  thumbnailUrl: () => Promise<AsyncIterator<String>>;
+  videoUrl: () => Promise<AsyncIterator<String>>;
   viewCount: () => Promise<AsyncIterator<Int>>;
 }
 
@@ -2185,7 +2226,8 @@ export interface TalkPreviousValues {
   publishedAt?: DateTimeOutput;
   source?: VideoSource;
   title: String;
-  videoLink?: String;
+  thumbnailUrl?: String;
+  videoUrl?: String;
   viewCount?: Int;
 }
 
@@ -2200,7 +2242,8 @@ export interface TalkPreviousValuesPromise
   publishedAt: () => Promise<DateTimeOutput>;
   source: () => Promise<VideoSource>;
   title: () => Promise<String>;
-  videoLink: () => Promise<String>;
+  thumbnailUrl: () => Promise<String>;
+  videoUrl: () => Promise<String>;
   viewCount: () => Promise<Int>;
 }
 
@@ -2215,7 +2258,8 @@ export interface TalkPreviousValuesSubscription
   publishedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   source: () => Promise<AsyncIterator<VideoSource>>;
   title: () => Promise<AsyncIterator<String>>;
-  videoLink: () => Promise<AsyncIterator<String>>;
+  thumbnailUrl: () => Promise<AsyncIterator<String>>;
+  videoUrl: () => Promise<AsyncIterator<String>>;
   viewCount: () => Promise<AsyncIterator<Int>>;
 }
 
