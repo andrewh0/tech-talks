@@ -20,6 +20,7 @@ type Talk {
   source: VideoSource
   title: String!
   videoLink: String
+  viewCount: Int
 }
 
 type Speaker {
@@ -37,6 +38,7 @@ type Event {
   city: String
   country: String
   endDate: String
+  name: String
   startDate: String
   type: EventType
   youtubePlaylist: String
