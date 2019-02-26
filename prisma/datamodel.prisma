@@ -19,7 +19,8 @@ type Talk {
   publishedAt: DateTime
   source: VideoSource
   title: String!
-  videoLink: String
+  thumbnailUrl: String
+  videoUrl: String
   viewCount: Int
 }
 
