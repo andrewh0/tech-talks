@@ -31,6 +31,7 @@ type Event {
   city: String
   country: String
   endDate: String
+  name: String
   startDate: String
   type: EventType
   youtubePlaylist: String
@@ -48,6 +49,7 @@ input EventCreateInput {
   city: String
   country: String
   endDate: String
+  name: String
   startDate: String
   type: EventType
   youtubePlaylist: String
@@ -73,6 +75,7 @@ input EventCreateWithoutSpeakersInput {
   city: String
   country: String
   endDate: String
+  name: String
   startDate: String
   type: EventType
   youtubePlaylist: String
@@ -83,6 +86,7 @@ input EventCreateWithoutTalksInput {
   city: String
   country: String
   endDate: String
+  name: String
   startDate: String
   type: EventType
   youtubePlaylist: String
@@ -102,6 +106,8 @@ enum EventOrderByInput {
   country_DESC
   endDate_ASC
   endDate_DESC
+  name_ASC
+  name_DESC
   startDate_ASC
   startDate_DESC
   type_ASC
@@ -119,6 +125,7 @@ type EventPreviousValues {
   city: String
   country: String
   endDate: String
+  name: String
   startDate: String
   type: EventType
   youtubePlaylist: String
@@ -181,6 +188,20 @@ input EventScalarWhereInput {
   endDate_not_starts_with: String
   endDate_ends_with: String
   endDate_not_ends_with: String
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
   startDate: String
   startDate_not: String
   startDate_in: [String!]
@@ -247,6 +268,7 @@ input EventUpdateDataInput {
   city: String
   country: String
   endDate: String
+  name: String
   startDate: String
   type: EventType
   youtubePlaylist: String
@@ -258,6 +280,7 @@ input EventUpdateInput {
   city: String
   country: String
   endDate: String
+  name: String
   startDate: String
   type: EventType
   youtubePlaylist: String
@@ -267,6 +290,7 @@ input EventUpdateManyDataInput {
   city: String
   country: String
   endDate: String
+  name: String
   startDate: String
   type: EventType
   youtubePlaylist: String
@@ -288,6 +312,7 @@ input EventUpdateManyMutationInput {
   city: String
   country: String
   endDate: String
+  name: String
   startDate: String
   type: EventType
   youtubePlaylist: String
@@ -324,6 +349,7 @@ input EventUpdateWithoutSpeakersDataInput {
   city: String
   country: String
   endDate: String
+  name: String
   startDate: String
   type: EventType
   youtubePlaylist: String
@@ -334,6 +360,7 @@ input EventUpdateWithoutTalksDataInput {
   city: String
   country: String
   endDate: String
+  name: String
   startDate: String
   type: EventType
   youtubePlaylist: String
@@ -429,6 +456,20 @@ input EventWhereInput {
   endDate_not_starts_with: String
   endDate_ends_with: String
   endDate_not_ends_with: String
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
   startDate: String
   startDate_not: String
   startDate_in: [String!]
@@ -970,6 +1011,7 @@ type Talk {
   source: VideoSource
   title: String!
   videoLink: String
+  viewCount: Int
 }
 
 type TalkConnection {
@@ -989,6 +1031,7 @@ input TalkCreateInput {
   source: VideoSource
   title: String!
   videoLink: String
+  viewCount: Int
 }
 
 input TalkCreateManyWithoutEventInput {
@@ -1011,6 +1054,7 @@ input TalkCreateWithoutEventInput {
   source: VideoSource
   title: String!
   videoLink: String
+  viewCount: Int
 }
 
 input TalkCreateWithoutSpeakersInput {
@@ -1023,6 +1067,7 @@ input TalkCreateWithoutSpeakersInput {
   source: VideoSource
   title: String!
   videoLink: String
+  viewCount: Int
 }
 
 type TalkEdge {
@@ -1049,6 +1094,8 @@ enum TalkOrderByInput {
   title_DESC
   videoLink_ASC
   videoLink_DESC
+  viewCount_ASC
+  viewCount_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -1065,6 +1112,7 @@ type TalkPreviousValues {
   source: VideoSource
   title: String!
   videoLink: String
+  viewCount: Int
 }
 
 input TalkScalarWhereInput {
@@ -1148,6 +1196,14 @@ input TalkScalarWhereInput {
   videoLink_not_starts_with: String
   videoLink_ends_with: String
   videoLink_not_ends_with: String
+  viewCount: Int
+  viewCount_not: Int
+  viewCount_in: [Int!]
+  viewCount_not_in: [Int!]
+  viewCount_lt: Int
+  viewCount_lte: Int
+  viewCount_gt: Int
+  viewCount_gte: Int
   AND: [TalkScalarWhereInput!]
   OR: [TalkScalarWhereInput!]
   NOT: [TalkScalarWhereInput!]
@@ -1182,6 +1238,7 @@ input TalkUpdateInput {
   source: VideoSource
   title: String
   videoLink: String
+  viewCount: Int
 }
 
 input TalkUpdateManyDataInput {
@@ -1193,6 +1250,7 @@ input TalkUpdateManyDataInput {
   source: VideoSource
   title: String
   videoLink: String
+  viewCount: Int
 }
 
 input TalkUpdateManyMutationInput {
@@ -1204,6 +1262,7 @@ input TalkUpdateManyMutationInput {
   source: VideoSource
   title: String
   videoLink: String
+  viewCount: Int
 }
 
 input TalkUpdateManyWithoutEventInput {
@@ -1245,6 +1304,7 @@ input TalkUpdateWithoutEventDataInput {
   source: VideoSource
   title: String
   videoLink: String
+  viewCount: Int
 }
 
 input TalkUpdateWithoutSpeakersDataInput {
@@ -1257,6 +1317,7 @@ input TalkUpdateWithoutSpeakersDataInput {
   source: VideoSource
   title: String
   videoLink: String
+  viewCount: Int
 }
 
 input TalkUpdateWithWhereUniqueWithoutEventInput {
@@ -1366,6 +1427,14 @@ input TalkWhereInput {
   videoLink_not_starts_with: String
   videoLink_ends_with: String
   videoLink_not_ends_with: String
+  viewCount: Int
+  viewCount_not: Int
+  viewCount_in: [Int!]
+  viewCount_not_in: [Int!]
+  viewCount_lt: Int
+  viewCount_lte: Int
+  viewCount_gt: Int
+  viewCount_gte: Int
   AND: [TalkWhereInput!]
   OR: [TalkWhereInput!]
   NOT: [TalkWhereInput!]

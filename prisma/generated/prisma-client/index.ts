@@ -264,6 +264,8 @@ export type EventOrderByInput =
   | "country_DESC"
   | "endDate_ASC"
   | "endDate_DESC"
+  | "name_ASC"
+  | "name_DESC"
   | "startDate_ASC"
   | "startDate_DESC"
   | "type_ASC"
@@ -294,6 +296,8 @@ export type TalkOrderByInput =
   | "title_DESC"
   | "videoLink_ASC"
   | "videoLink_DESC"
+  | "viewCount_ASC"
+  | "viewCount_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -436,6 +440,20 @@ export interface EventWhereInput {
   endDate_not_starts_with?: String;
   endDate_ends_with?: String;
   endDate_not_ends_with?: String;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
   startDate?: String;
   startDate_not?: String;
   startDate_in?: String[] | String;
@@ -558,6 +576,14 @@ export interface TalkWhereInput {
   videoLink_not_starts_with?: String;
   videoLink_ends_with?: String;
   videoLink_not_ends_with?: String;
+  viewCount?: Int;
+  viewCount_not?: Int;
+  viewCount_in?: Int[] | Int;
+  viewCount_not_in?: Int[] | Int;
+  viewCount_lt?: Int;
+  viewCount_lte?: Int;
+  viewCount_gt?: Int;
+  viewCount_gte?: Int;
   AND?: TalkWhereInput[] | TalkWhereInput;
   OR?: TalkWhereInput[] | TalkWhereInput;
   NOT?: TalkWhereInput[] | TalkWhereInput;
@@ -646,6 +672,7 @@ export interface EventCreateInput {
   city?: String;
   country?: String;
   endDate?: String;
+  name?: String;
   startDate?: String;
   type?: EventType;
   youtubePlaylist?: String;
@@ -677,6 +704,7 @@ export interface TalkCreateWithoutSpeakersInput {
   source?: VideoSource;
   title: String;
   videoLink?: String;
+  viewCount?: Int;
 }
 
 export interface EventCreateOneWithoutTalksInput {
@@ -689,6 +717,7 @@ export interface EventCreateWithoutTalksInput {
   city?: String;
   country?: String;
   endDate?: String;
+  name?: String;
   startDate?: String;
   type?: EventType;
   youtubePlaylist?: String;
@@ -709,6 +738,7 @@ export interface TalkCreateWithoutEventInput {
   source?: VideoSource;
   title: String;
   videoLink?: String;
+  viewCount?: Int;
 }
 
 export interface SpeakerCreateManyWithoutTalksInput {
@@ -732,6 +762,7 @@ export interface EventCreateWithoutSpeakersInput {
   city?: String;
   country?: String;
   endDate?: String;
+  name?: String;
   startDate?: String;
   type?: EventType;
   youtubePlaylist?: String;
@@ -743,6 +774,7 @@ export interface EventUpdateInput {
   city?: String;
   country?: String;
   endDate?: String;
+  name?: String;
   startDate?: String;
   type?: EventType;
   youtubePlaylist?: String;
@@ -810,6 +842,7 @@ export interface TalkUpdateWithoutSpeakersDataInput {
   source?: VideoSource;
   title?: String;
   videoLink?: String;
+  viewCount?: Int;
 }
 
 export interface EventUpdateOneWithoutTalksInput {
@@ -826,6 +859,7 @@ export interface EventUpdateWithoutTalksDataInput {
   city?: String;
   country?: String;
   endDate?: String;
+  name?: String;
   startDate?: String;
   type?: EventType;
   youtubePlaylist?: String;
@@ -923,6 +957,14 @@ export interface TalkScalarWhereInput {
   videoLink_not_starts_with?: String;
   videoLink_ends_with?: String;
   videoLink_not_ends_with?: String;
+  viewCount?: Int;
+  viewCount_not?: Int;
+  viewCount_in?: Int[] | Int;
+  viewCount_not_in?: Int[] | Int;
+  viewCount_lt?: Int;
+  viewCount_lte?: Int;
+  viewCount_gt?: Int;
+  viewCount_gte?: Int;
   AND?: TalkScalarWhereInput[] | TalkScalarWhereInput;
   OR?: TalkScalarWhereInput[] | TalkScalarWhereInput;
   NOT?: TalkScalarWhereInput[] | TalkScalarWhereInput;
@@ -942,6 +984,7 @@ export interface TalkUpdateManyDataInput {
   source?: VideoSource;
   title?: String;
   videoLink?: String;
+  viewCount?: Int;
 }
 
 export interface SpeakerUpsertWithWhereUniqueWithoutEventsInput {
@@ -1041,6 +1084,7 @@ export interface TalkUpdateWithoutEventDataInput {
   source?: VideoSource;
   title?: String;
   videoLink?: String;
+  viewCount?: Int;
 }
 
 export interface SpeakerUpdateManyWithoutTalksInput {
@@ -1100,6 +1144,7 @@ export interface EventUpdateWithoutSpeakersDataInput {
   city?: String;
   country?: String;
   endDate?: String;
+  name?: String;
   startDate?: String;
   type?: EventType;
   youtubePlaylist?: String;
@@ -1168,6 +1213,20 @@ export interface EventScalarWhereInput {
   endDate_not_starts_with?: String;
   endDate_ends_with?: String;
   endDate_not_ends_with?: String;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
   startDate?: String;
   startDate_not?: String;
   startDate_in?: String[] | String;
@@ -1214,6 +1273,7 @@ export interface EventUpdateManyDataInput {
   city?: String;
   country?: String;
   endDate?: String;
+  name?: String;
   startDate?: String;
   type?: EventType;
   youtubePlaylist?: String;
@@ -1235,6 +1295,7 @@ export interface EventUpdateManyMutationInput {
   city?: String;
   country?: String;
   endDate?: String;
+  name?: String;
   startDate?: String;
   type?: EventType;
   youtubePlaylist?: String;
@@ -1288,6 +1349,7 @@ export interface EventUpdateDataInput {
   city?: String;
   country?: String;
   endDate?: String;
+  name?: String;
   startDate?: String;
   type?: EventType;
   youtubePlaylist?: String;
@@ -1335,6 +1397,7 @@ export interface TalkCreateInput {
   source?: VideoSource;
   title: String;
   videoLink?: String;
+  viewCount?: Int;
 }
 
 export interface TalkUpdateInput {
@@ -1348,6 +1411,7 @@ export interface TalkUpdateInput {
   source?: VideoSource;
   title?: String;
   videoLink?: String;
+  viewCount?: Int;
 }
 
 export interface TalkUpdateManyMutationInput {
@@ -1359,6 +1423,7 @@ export interface TalkUpdateManyMutationInput {
   source?: VideoSource;
   title?: String;
   videoLink?: String;
+  viewCount?: Int;
 }
 
 export interface EventSubscriptionWhereInput {
@@ -1420,6 +1485,7 @@ export interface Event {
   city?: String;
   country?: String;
   endDate?: String;
+  name?: String;
   startDate?: String;
   type?: EventType;
   youtubePlaylist?: String;
@@ -1452,6 +1518,7 @@ export interface EventPromise extends Promise<Event>, Fragmentable {
   city: () => Promise<String>;
   country: () => Promise<String>;
   endDate: () => Promise<String>;
+  name: () => Promise<String>;
   startDate: () => Promise<String>;
   type: () => Promise<EventType>;
   youtubePlaylist: () => Promise<String>;
@@ -1486,6 +1553,7 @@ export interface EventSubscription
   city: () => Promise<AsyncIterator<String>>;
   country: () => Promise<AsyncIterator<String>>;
   endDate: () => Promise<AsyncIterator<String>>;
+  name: () => Promise<AsyncIterator<String>>;
   startDate: () => Promise<AsyncIterator<String>>;
   type: () => Promise<AsyncIterator<EventType>>;
   youtubePlaylist: () => Promise<AsyncIterator<String>>;
@@ -1565,6 +1633,7 @@ export interface Talk {
   source?: VideoSource;
   title: String;
   videoLink?: String;
+  viewCount?: Int;
 }
 
 export interface TalkPromise extends Promise<Talk>, Fragmentable {
@@ -1589,6 +1658,7 @@ export interface TalkPromise extends Promise<Talk>, Fragmentable {
   source: () => Promise<VideoSource>;
   title: () => Promise<String>;
   videoLink: () => Promise<String>;
+  viewCount: () => Promise<Int>;
 }
 
 export interface TalkSubscription
@@ -1615,6 +1685,7 @@ export interface TalkSubscription
   source: () => Promise<AsyncIterator<VideoSource>>;
   title: () => Promise<AsyncIterator<String>>;
   videoLink: () => Promise<AsyncIterator<String>>;
+  viewCount: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface EventConnection {
@@ -1951,6 +2022,7 @@ export interface EventPreviousValues {
   city?: String;
   country?: String;
   endDate?: String;
+  name?: String;
   startDate?: String;
   type?: EventType;
   youtubePlaylist?: String;
@@ -1963,6 +2035,7 @@ export interface EventPreviousValuesPromise
   city: () => Promise<String>;
   country: () => Promise<String>;
   endDate: () => Promise<String>;
+  name: () => Promise<String>;
   startDate: () => Promise<String>;
   type: () => Promise<EventType>;
   youtubePlaylist: () => Promise<String>;
@@ -1975,6 +2048,7 @@ export interface EventPreviousValuesSubscription
   city: () => Promise<AsyncIterator<String>>;
   country: () => Promise<AsyncIterator<String>>;
   endDate: () => Promise<AsyncIterator<String>>;
+  name: () => Promise<AsyncIterator<String>>;
   startDate: () => Promise<AsyncIterator<String>>;
   type: () => Promise<AsyncIterator<EventType>>;
   youtubePlaylist: () => Promise<AsyncIterator<String>>;
@@ -2112,6 +2186,7 @@ export interface TalkPreviousValues {
   source?: VideoSource;
   title: String;
   videoLink?: String;
+  viewCount?: Int;
 }
 
 export interface TalkPreviousValuesPromise
@@ -2126,6 +2201,7 @@ export interface TalkPreviousValuesPromise
   source: () => Promise<VideoSource>;
   title: () => Promise<String>;
   videoLink: () => Promise<String>;
+  viewCount: () => Promise<Int>;
 }
 
 export interface TalkPreviousValuesSubscription
@@ -2140,6 +2216,7 @@ export interface TalkPreviousValuesSubscription
   source: () => Promise<AsyncIterator<VideoSource>>;
   title: () => Promise<AsyncIterator<String>>;
   videoLink: () => Promise<AsyncIterator<String>>;
+  viewCount: () => Promise<AsyncIterator<Int>>;
 }
 
 /*
