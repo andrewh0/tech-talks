@@ -26,8 +26,8 @@ type EventOutput = {
 
 type OrganizationOutput = {
   name: string;
-  twitterHandle: string | null;
-  website: string | null;
+  twitterHandle: Array<string> | string | null;
+  website: Array<string> | string | null;
 };
 
 function concatData(sources: Array<any>): Array<EventInput> {
@@ -57,7 +57,13 @@ function createEvents(list: Array<EventInput>): Array<EventOutput> {
 function createOrgs(list: Array<EventInput>): Array<OrganizationOutput> {
   let results: Array<OrganizationOutput> = [];
 
-  let orgs: any = {};
+  let orgs: {
+    [key: string]: {
+      website: Array<string>;
+      twitterHandle: Array<string>;
+      name: string;
+    };
+  } = {};
   for (let event of list) {
     let foundOrg = orgs[event.name];
     if (foundOrg) {
