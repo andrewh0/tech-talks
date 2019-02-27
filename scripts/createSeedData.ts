@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as csv from 'csvtojson';
 import { google } from 'googleapis';
 import * as parse from 'url-parse';
-import { groupBy, compact, get, omit } from 'lodash';
+import { groupBy, compact, get, omit, merge, chunk, flatten } from 'lodash';
 import * as moment from 'moment';
 
 /*
@@ -61,34 +61,48 @@ async function jsonFromCsv(filePath: string): Promise<Array<any>> {
   return json;
 }
 
-async function getPlaylistVideos(playlistId: string): Promise<Array<string>> {
-  // TODO: account for long playlists
+async function getPlaylistVideos(
+  playlistId: string,
+  nextPageToken: string | undefined = undefined,
+  foundVideoIds: Array<string> = []
+): Promise<Array<string>> {
   try {
-    const res = await youtube.playlistItems.list({
-      part: 'contentDetails',
-      maxResults: 50,
-      playlistId: playlistId
-    });
+    const res = await youtube.playlistItems.list(
+      merge(
+        {
+          part: 'contentDetails',
+          maxResults: 50,
+          playlistId: playlistId
+        },
+        nextPageToken ? { pageToken: nextPageToken } : {}
+      )
+    );
 
     const data = res.data;
     const videoIds =
-      data.items &&
-      data.items.map(item => {
-        if (item && item.contentDetails) {
-          return item.contentDetails.videoId;
-        }
-        console.log('No video id for item', item.id);
-      });
+      (data.items &&
+        data.items.map(item => {
+          if (item && item.contentDetails) {
+            return item.contentDetails.videoId;
+          }
+          console.log('No video id for item', item.id);
+        })) ||
+      [];
 
     if (
       data.pageInfo &&
       data.pageInfo.totalResults &&
-      data.pageInfo.totalResults > 50
+      data.pageInfo.totalResults > 50 &&
+      videoIds.length + foundVideoIds.length < data.pageInfo.totalResults
     ) {
-      console.warn(`Playlist id ${playlistId} has more than 50 items`);
+      return await getPlaylistVideos(
+        playlistId,
+        get(data, ['nextPageToken']),
+        compact(videoIds)
+      );
+    } else {
+      return foundVideoIds.concat(compact(videoIds));
     }
-
-    return compact(videoIds);
   } catch (e) {
     console.error(e);
     return [];
@@ -96,33 +110,39 @@ async function getPlaylistVideos(playlistId: string): Promise<Array<string>> {
 }
 
 async function getVideoDetails(videoIds: Array<string>) {
-  const res = await youtube.videos.list({
-    part: 'snippet,contentDetails,statistics,status',
-    maxResults: 50,
-    id: videoIds.slice(0, 50).join(',')
-  });
-
-  const data = res.data;
-
-  const items = get(data, 'items') || [];
-
-  return items.map(item => {
-    const duration = get(item, ['contentDetails', 'duration']);
-    const privacyStatus = get(item, ['status', 'privacyStatus']);
-    const viewCount = get(item, ['statistics', 'viewCount']);
-    return {
-      description: get(item, ['snippet', 'description']),
-      duration: duration ? moment.duration(duration).asSeconds() : undefined,
-      private: privacyStatus !== 'public',
-      hidden: false,
-      publishedAt: get(item, ['snippet', 'publishedAt']),
-      thumbnailUrl: get(item, ['snippet', 'thumbnails', 'medium', 'url']),
-      title: get(item, ['snippet', 'title']) || '',
-      viewCount: viewCount ? parseInt(viewCount) : undefined,
-      source: Source.YOUTUBE,
-      videoId: get(item, ['id'])
-    };
-  });
+  const MAX_RESULTS = 50;
+  const chunkedVideoIds = chunk(videoIds, MAX_RESULTS);
+  const results = await Promise.all(
+    chunkedVideoIds.map(async videoIdChunk => {
+      const res = await youtube.videos.list({
+        part: 'snippet,contentDetails,statistics,status',
+        maxResults: MAX_RESULTS,
+        id: videoIdChunk.join(',')
+      });
+      const data = res.data;
+      const items = get(data, 'items') || [];
+      return items.map(item => {
+        const duration = get(item, ['contentDetails', 'duration']);
+        const privacyStatus = get(item, ['status', 'privacyStatus']);
+        const viewCount = get(item, ['statistics', 'viewCount']);
+        return {
+          description: get(item, ['snippet', 'description']),
+          duration: duration
+            ? moment.duration(duration).asSeconds()
+            : undefined,
+          private: privacyStatus !== 'public',
+          hidden: false,
+          publishedAt: get(item, ['snippet', 'publishedAt']),
+          thumbnailUrl: get(item, ['snippet', 'thumbnails', 'medium', 'url']),
+          title: get(item, ['snippet', 'title']) || '',
+          viewCount: viewCount ? parseInt(viewCount) : undefined,
+          source: Source.YOUTUBE,
+          videoId: get(item, ['id'])
+        };
+      });
+    })
+  );
+  return flatten(results);
 }
 
 async function getTalksFromEvents(
@@ -195,7 +215,7 @@ async function createSeedData(
 }
 
 createSeedData(
-  '../data/events-to-add-test.csv',
-  '../data/orgs-to-add-test.csv',
-  '../data/all-data-test.json'
+  '../data/events-to-add.csv',
+  '../data/orgs-to-add.csv',
+  '../data/all-data.json'
 );
