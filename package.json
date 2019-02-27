@@ -9,7 +9,8 @@
     "heroku-postbuild": "cd client && yarn && yarn run build",
     "prisma:generate": "prisma generate",
     "prisma:deploy": "prisma deploy --env-file .env",
-    "prisma:seed": "prisma seed --env-file .env --reset"
+    "prisma:seed": "prisma seed --env-file .env --reset",
+    "prisma:reset": "prisma reset --env-file .env"
   },
   "keywords": [],
   "author": "",
