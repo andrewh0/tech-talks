@@ -20,7 +20,7 @@ type Talk {
   source: VideoSource
   title: String!
   thumbnailUrl: String
-  videoUrl: String
+  videoId: String
   viewCount: Int
 }
 
@@ -49,6 +49,7 @@ type Event {
 type Organization {
   id: ID! @unique
   events: [Event!]!
+  name: String
   twitterHandle: String
   website: String
   youtubeChannel: String
