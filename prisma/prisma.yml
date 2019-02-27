@@ -10,3 +10,6 @@ generate:
 hooks:
   post-deploy:
     - yarn prisma:generate
+
+seed:
+  run: yarn ts-node ./prisma/seed.ts
