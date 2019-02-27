@@ -296,8 +296,8 @@ export type TalkOrderByInput =
   | "title_DESC"
   | "thumbnailUrl_ASC"
   | "thumbnailUrl_DESC"
-  | "videoUrl_ASC"
-  | "videoUrl_DESC"
+  | "videoId_ASC"
+  | "videoId_DESC"
   | "viewCount_ASC"
   | "viewCount_DESC"
   | "createdAt_ASC"
@@ -308,6 +308,8 @@ export type TalkOrderByInput =
 export type OrganizationOrderByInput =
   | "id_ASC"
   | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
   | "twitterHandle_ASC"
   | "twitterHandle_DESC"
   | "website_ASC"
@@ -458,6 +460,20 @@ export interface OrganizationWhereInput {
   events_every?: EventWhereInput;
   events_some?: EventWhereInput;
   events_none?: EventWhereInput;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
   twitterHandle?: String;
   twitterHandle_not?: String;
   twitterHandle_in?: String[] | String;
@@ -644,20 +660,20 @@ export interface TalkWhereInput {
   thumbnailUrl_not_starts_with?: String;
   thumbnailUrl_ends_with?: String;
   thumbnailUrl_not_ends_with?: String;
-  videoUrl?: String;
-  videoUrl_not?: String;
-  videoUrl_in?: String[] | String;
-  videoUrl_not_in?: String[] | String;
-  videoUrl_lt?: String;
-  videoUrl_lte?: String;
-  videoUrl_gt?: String;
-  videoUrl_gte?: String;
-  videoUrl_contains?: String;
-  videoUrl_not_contains?: String;
-  videoUrl_starts_with?: String;
-  videoUrl_not_starts_with?: String;
-  videoUrl_ends_with?: String;
-  videoUrl_not_ends_with?: String;
+  videoId?: String;
+  videoId_not?: String;
+  videoId_in?: String[] | String;
+  videoId_not_in?: String[] | String;
+  videoId_lt?: String;
+  videoId_lte?: String;
+  videoId_gt?: String;
+  videoId_gte?: String;
+  videoId_contains?: String;
+  videoId_not_contains?: String;
+  videoId_starts_with?: String;
+  videoId_not_starts_with?: String;
+  videoId_ends_with?: String;
+  videoId_not_ends_with?: String;
   viewCount?: Int;
   viewCount_not?: Int;
   viewCount_in?: Int[] | Int;
@@ -702,6 +718,7 @@ export interface OrganizationCreateOneWithoutEventsInput {
 }
 
 export interface OrganizationCreateWithoutEventsInput {
+  name?: String;
   twitterHandle?: String;
   website?: String;
   youtubeChannel?: String;
@@ -733,7 +750,7 @@ export interface TalkCreateWithoutSpeakersInput {
   source?: VideoSource;
   title: String;
   thumbnailUrl?: String;
-  videoUrl?: String;
+  videoId?: String;
   viewCount?: Int;
 }
 
@@ -769,7 +786,7 @@ export interface TalkCreateWithoutEventInput {
   source?: VideoSource;
   title: String;
   thumbnailUrl?: String;
-  videoUrl?: String;
+  videoId?: String;
   viewCount?: Int;
 }
 
@@ -824,6 +841,7 @@ export interface OrganizationUpdateOneWithoutEventsInput {
 }
 
 export interface OrganizationUpdateWithoutEventsDataInput {
+  name?: String;
   twitterHandle?: String;
   website?: String;
   youtubeChannel?: String;
@@ -896,7 +914,7 @@ export interface TalkUpdateWithoutSpeakersDataInput {
   source?: VideoSource;
   title?: String;
   thumbnailUrl?: String;
-  videoUrl?: String;
+  videoId?: String;
   viewCount?: Int;
 }
 
@@ -1013,20 +1031,20 @@ export interface TalkScalarWhereInput {
   thumbnailUrl_not_starts_with?: String;
   thumbnailUrl_ends_with?: String;
   thumbnailUrl_not_ends_with?: String;
-  videoUrl?: String;
-  videoUrl_not?: String;
-  videoUrl_in?: String[] | String;
-  videoUrl_not_in?: String[] | String;
-  videoUrl_lt?: String;
-  videoUrl_lte?: String;
-  videoUrl_gt?: String;
-  videoUrl_gte?: String;
-  videoUrl_contains?: String;
-  videoUrl_not_contains?: String;
-  videoUrl_starts_with?: String;
-  videoUrl_not_starts_with?: String;
-  videoUrl_ends_with?: String;
-  videoUrl_not_ends_with?: String;
+  videoId?: String;
+  videoId_not?: String;
+  videoId_in?: String[] | String;
+  videoId_not_in?: String[] | String;
+  videoId_lt?: String;
+  videoId_lte?: String;
+  videoId_gt?: String;
+  videoId_gte?: String;
+  videoId_contains?: String;
+  videoId_not_contains?: String;
+  videoId_starts_with?: String;
+  videoId_not_starts_with?: String;
+  videoId_ends_with?: String;
+  videoId_not_ends_with?: String;
   viewCount?: Int;
   viewCount_not?: Int;
   viewCount_in?: Int[] | Int;
@@ -1054,7 +1072,7 @@ export interface TalkUpdateManyDataInput {
   source?: VideoSource;
   title?: String;
   thumbnailUrl?: String;
-  videoUrl?: String;
+  videoId?: String;
   viewCount?: Int;
 }
 
@@ -1155,7 +1173,7 @@ export interface TalkUpdateWithoutEventDataInput {
   source?: VideoSource;
   title?: String;
   thumbnailUrl?: String;
-  videoUrl?: String;
+  videoId?: String;
   viewCount?: Int;
 }
 
@@ -1376,6 +1394,7 @@ export interface EventUpdateManyMutationInput {
 
 export interface OrganizationCreateInput {
   events?: EventCreateManyWithoutOrganizationInput;
+  name?: String;
   twitterHandle?: String;
   website?: String;
   youtubeChannel?: String;
@@ -1402,6 +1421,7 @@ export interface EventCreateWithoutOrganizationInput {
 
 export interface OrganizationUpdateInput {
   events?: EventUpdateManyWithoutOrganizationInput;
+  name?: String;
   twitterHandle?: String;
   website?: String;
   youtubeChannel?: String;
@@ -1451,6 +1471,7 @@ export interface EventUpsertWithWhereUniqueWithoutOrganizationInput {
 }
 
 export interface OrganizationUpdateManyMutationInput {
+  name?: String;
   twitterHandle?: String;
   website?: String;
   youtubeChannel?: String;
@@ -1486,7 +1507,7 @@ export interface TalkCreateInput {
   source?: VideoSource;
   title: String;
   thumbnailUrl?: String;
-  videoUrl?: String;
+  videoId?: String;
   viewCount?: Int;
 }
 
@@ -1501,7 +1522,7 @@ export interface TalkUpdateInput {
   source?: VideoSource;
   title?: String;
   thumbnailUrl?: String;
-  videoUrl?: String;
+  videoId?: String;
   viewCount?: Int;
 }
 
@@ -1514,7 +1535,7 @@ export interface TalkUpdateManyMutationInput {
   source?: VideoSource;
   title?: String;
   thumbnailUrl?: String;
-  videoUrl?: String;
+  videoId?: String;
   viewCount?: Int;
 }
 
@@ -1655,6 +1676,7 @@ export interface EventSubscription
 
 export interface Organization {
   id: ID_Output;
+  name?: String;
   twitterHandle?: String;
   website?: String;
   youtubeChannel?: String;
@@ -1675,6 +1697,7 @@ export interface OrganizationPromise
       last?: Int;
     }
   ) => T;
+  name: () => Promise<String>;
   twitterHandle: () => Promise<String>;
   website: () => Promise<String>;
   youtubeChannel: () => Promise<String>;
@@ -1695,6 +1718,7 @@ export interface OrganizationSubscription
       last?: Int;
     }
   ) => T;
+  name: () => Promise<AsyncIterator<String>>;
   twitterHandle: () => Promise<AsyncIterator<String>>;
   website: () => Promise<AsyncIterator<String>>;
   youtubeChannel: () => Promise<AsyncIterator<String>>;
@@ -1774,7 +1798,7 @@ export interface Talk {
   source?: VideoSource;
   title: String;
   thumbnailUrl?: String;
-  videoUrl?: String;
+  videoId?: String;
   viewCount?: Int;
 }
 
@@ -1800,7 +1824,7 @@ export interface TalkPromise extends Promise<Talk>, Fragmentable {
   source: () => Promise<VideoSource>;
   title: () => Promise<String>;
   thumbnailUrl: () => Promise<String>;
-  videoUrl: () => Promise<String>;
+  videoId: () => Promise<String>;
   viewCount: () => Promise<Int>;
 }
 
@@ -1828,7 +1852,7 @@ export interface TalkSubscription
   source: () => Promise<AsyncIterator<VideoSource>>;
   title: () => Promise<AsyncIterator<String>>;
   thumbnailUrl: () => Promise<AsyncIterator<String>>;
-  videoUrl: () => Promise<AsyncIterator<String>>;
+  videoId: () => Promise<AsyncIterator<String>>;
   viewCount: () => Promise<AsyncIterator<Int>>;
 }
 
@@ -2178,6 +2202,7 @@ export interface OrganizationSubscriptionPayloadSubscription
 
 export interface OrganizationPreviousValues {
   id: ID_Output;
+  name?: String;
   twitterHandle?: String;
   website?: String;
   youtubeChannel?: String;
@@ -2187,6 +2212,7 @@ export interface OrganizationPreviousValuesPromise
   extends Promise<OrganizationPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
   twitterHandle: () => Promise<String>;
   website: () => Promise<String>;
   youtubeChannel: () => Promise<String>;
@@ -2196,6 +2222,7 @@ export interface OrganizationPreviousValuesSubscription
   extends Promise<AsyncIterator<OrganizationPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
   twitterHandle: () => Promise<AsyncIterator<String>>;
   website: () => Promise<AsyncIterator<String>>;
   youtubeChannel: () => Promise<AsyncIterator<String>>;
@@ -2283,7 +2310,7 @@ export interface TalkPreviousValues {
   source?: VideoSource;
   title: String;
   thumbnailUrl?: String;
-  videoUrl?: String;
+  videoId?: String;
   viewCount?: Int;
 }
 
@@ -2299,7 +2326,7 @@ export interface TalkPreviousValuesPromise
   source: () => Promise<VideoSource>;
   title: () => Promise<String>;
   thumbnailUrl: () => Promise<String>;
-  videoUrl: () => Promise<String>;
+  videoId: () => Promise<String>;
   viewCount: () => Promise<Int>;
 }
 
@@ -2315,7 +2342,7 @@ export interface TalkPreviousValuesSubscription
   source: () => Promise<AsyncIterator<VideoSource>>;
   title: () => Promise<AsyncIterator<String>>;
   thumbnailUrl: () => Promise<AsyncIterator<String>>;
-  videoUrl: () => Promise<AsyncIterator<String>>;
+  videoId: () => Promise<AsyncIterator<String>>;
   viewCount: () => Promise<AsyncIterator<Int>>;
 }
 

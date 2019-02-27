@@ -573,6 +573,7 @@ interface Node {
 type Organization {
   id: ID!
   events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
+  name: String
   twitterHandle: String
   website: String
   youtubeChannel: String
@@ -586,6 +587,7 @@ type OrganizationConnection {
 
 input OrganizationCreateInput {
   events: EventCreateManyWithoutOrganizationInput
+  name: String
   twitterHandle: String
   website: String
   youtubeChannel: String
@@ -597,6 +599,7 @@ input OrganizationCreateOneWithoutEventsInput {
 }
 
 input OrganizationCreateWithoutEventsInput {
+  name: String
   twitterHandle: String
   website: String
   youtubeChannel: String
@@ -610,6 +613,8 @@ type OrganizationEdge {
 enum OrganizationOrderByInput {
   id_ASC
   id_DESC
+  name_ASC
+  name_DESC
   twitterHandle_ASC
   twitterHandle_DESC
   website_ASC
@@ -624,6 +629,7 @@ enum OrganizationOrderByInput {
 
 type OrganizationPreviousValues {
   id: ID!
+  name: String
   twitterHandle: String
   website: String
   youtubeChannel: String
@@ -649,12 +655,14 @@ input OrganizationSubscriptionWhereInput {
 
 input OrganizationUpdateInput {
   events: EventUpdateManyWithoutOrganizationInput
+  name: String
   twitterHandle: String
   website: String
   youtubeChannel: String
 }
 
 input OrganizationUpdateManyMutationInput {
+  name: String
   twitterHandle: String
   website: String
   youtubeChannel: String
@@ -670,6 +678,7 @@ input OrganizationUpdateOneWithoutEventsInput {
 }
 
 input OrganizationUpdateWithoutEventsDataInput {
+  name: String
   twitterHandle: String
   website: String
   youtubeChannel: String
@@ -698,6 +707,20 @@ input OrganizationWhereInput {
   events_every: EventWhereInput
   events_some: EventWhereInput
   events_none: EventWhereInput
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
   twitterHandle: String
   twitterHandle_not: String
   twitterHandle_in: [String!]
@@ -1062,7 +1085,7 @@ type Talk {
   source: VideoSource
   title: String!
   thumbnailUrl: String
-  videoUrl: String
+  videoId: String
   viewCount: Int
 }
 
@@ -1083,7 +1106,7 @@ input TalkCreateInput {
   source: VideoSource
   title: String!
   thumbnailUrl: String
-  videoUrl: String
+  videoId: String
   viewCount: Int
 }
 
@@ -1107,7 +1130,7 @@ input TalkCreateWithoutEventInput {
   source: VideoSource
   title: String!
   thumbnailUrl: String
-  videoUrl: String
+  videoId: String
   viewCount: Int
 }
 
@@ -1121,7 +1144,7 @@ input TalkCreateWithoutSpeakersInput {
   source: VideoSource
   title: String!
   thumbnailUrl: String
-  videoUrl: String
+  videoId: String
   viewCount: Int
 }
 
@@ -1149,8 +1172,8 @@ enum TalkOrderByInput {
   title_DESC
   thumbnailUrl_ASC
   thumbnailUrl_DESC
-  videoUrl_ASC
-  videoUrl_DESC
+  videoId_ASC
+  videoId_DESC
   viewCount_ASC
   viewCount_DESC
   createdAt_ASC
@@ -1169,7 +1192,7 @@ type TalkPreviousValues {
   source: VideoSource
   title: String!
   thumbnailUrl: String
-  videoUrl: String
+  videoId: String
   viewCount: Int
 }
 
@@ -1254,20 +1277,20 @@ input TalkScalarWhereInput {
   thumbnailUrl_not_starts_with: String
   thumbnailUrl_ends_with: String
   thumbnailUrl_not_ends_with: String
-  videoUrl: String
-  videoUrl_not: String
-  videoUrl_in: [String!]
-  videoUrl_not_in: [String!]
-  videoUrl_lt: String
-  videoUrl_lte: String
-  videoUrl_gt: String
-  videoUrl_gte: String
-  videoUrl_contains: String
-  videoUrl_not_contains: String
-  videoUrl_starts_with: String
-  videoUrl_not_starts_with: String
-  videoUrl_ends_with: String
-  videoUrl_not_ends_with: String
+  videoId: String
+  videoId_not: String
+  videoId_in: [String!]
+  videoId_not_in: [String!]
+  videoId_lt: String
+  videoId_lte: String
+  videoId_gt: String
+  videoId_gte: String
+  videoId_contains: String
+  videoId_not_contains: String
+  videoId_starts_with: String
+  videoId_not_starts_with: String
+  videoId_ends_with: String
+  videoId_not_ends_with: String
   viewCount: Int
   viewCount_not: Int
   viewCount_in: [Int!]
@@ -1310,7 +1333,7 @@ input TalkUpdateInput {
   source: VideoSource
   title: String
   thumbnailUrl: String
-  videoUrl: String
+  videoId: String
   viewCount: Int
 }
 
@@ -1323,7 +1346,7 @@ input TalkUpdateManyDataInput {
   source: VideoSource
   title: String
   thumbnailUrl: String
-  videoUrl: String
+  videoId: String
   viewCount: Int
 }
 
@@ -1336,7 +1359,7 @@ input TalkUpdateManyMutationInput {
   source: VideoSource
   title: String
   thumbnailUrl: String
-  videoUrl: String
+  videoId: String
   viewCount: Int
 }
 
@@ -1379,7 +1402,7 @@ input TalkUpdateWithoutEventDataInput {
   source: VideoSource
   title: String
   thumbnailUrl: String
-  videoUrl: String
+  videoId: String
   viewCount: Int
 }
 
@@ -1393,7 +1416,7 @@ input TalkUpdateWithoutSpeakersDataInput {
   source: VideoSource
   title: String
   thumbnailUrl: String
-  videoUrl: String
+  videoId: String
   viewCount: Int
 }
 
@@ -1504,20 +1527,20 @@ input TalkWhereInput {
   thumbnailUrl_not_starts_with: String
   thumbnailUrl_ends_with: String
   thumbnailUrl_not_ends_with: String
-  videoUrl: String
-  videoUrl_not: String
-  videoUrl_in: [String!]
-  videoUrl_not_in: [String!]
-  videoUrl_lt: String
-  videoUrl_lte: String
-  videoUrl_gt: String
-  videoUrl_gte: String
-  videoUrl_contains: String
-  videoUrl_not_contains: String
-  videoUrl_starts_with: String
-  videoUrl_not_starts_with: String
-  videoUrl_ends_with: String
-  videoUrl_not_ends_with: String
+  videoId: String
+  videoId_not: String
+  videoId_in: [String!]
+  videoId_not_in: [String!]
+  videoId_lt: String
+  videoId_lte: String
+  videoId_gt: String
+  videoId_gte: String
+  videoId_contains: String
+  videoId_not_contains: String
+  videoId_starts_with: String
+  videoId_not_starts_with: String
+  videoId_ends_with: String
+  videoId_not_ends_with: String
   viewCount: Int
   viewCount_not: Int
   viewCount_in: [Int!]
