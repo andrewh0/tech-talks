@@ -1,5 +1,5 @@
 import { prisma } from './generated/prisma-client';
-import * as data from '../data/all-data-test.json';
+import * as data from '../data/all-data.json';
 
 if (process.env.NODE_ENV === 'production') {
   throw `Don't do this in production!`;
