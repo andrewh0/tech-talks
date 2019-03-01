@@ -12,5 +12,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true
-  }
+  },
+  "include": [
+    "prisma/**/*.ts",
+    "scripts/**/*.ts",
+    "index.ts"
+  ]
 }
