@@ -11,6 +11,7 @@
     "prettier": "^1.16.4",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
+    "react-instantsearch-dom": "^5.4.0",
     "react-scripts": "2.1.5",
     "typescript": "^3.3.3333"
   },
