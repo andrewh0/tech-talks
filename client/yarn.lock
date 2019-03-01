@@ -5881,6 +5881,11 @@ load-json-file@^2.0.0:
     pify "^2.0.0"
     strip-bom "^3.0.0"
 
+load-script2@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/load-script2/-/load-script2-1.0.1.tgz#fd7d75987d0a7dbeab5b11f93581b9154a04eac1"
+  integrity sha512-36d/FxKtirfX9ALoQ+GXX4Hub+q3LdwFtgFXsj5Jc4TEfNPckDHN7YKCm0zTTnmcGHzjWlbHvIUb7+CtI7LFhA==
+
 load-script@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/load-script/-/load-script-1.0.0.tgz#0491939e0bee5643ee494a7e3da3d2bac70c6ca4"
@@ -10207,3 +10212,10 @@ yargs@^11.0.0:
     which-module "^2.0.0"
     y18n "^3.2.1"
     yargs-parser "^9.0.2"
+
+yt-player@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/yt-player/-/yt-player-3.1.0.tgz#44031ff15eae36637534c6ada2e535274cbce02d"
+  integrity sha512-QwMXRCUcmI87ihMsq3rhnsPJIzHbo5UQ9nUQ549ghSF+hIwMtau2SuxFQ1lQqXYdcpeztsocIsMzowYiO179dg==
+  dependencies:
+    load-script2 "^1.0.0"
