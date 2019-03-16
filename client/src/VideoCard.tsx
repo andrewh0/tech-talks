@@ -1,5 +1,20 @@
 import React from 'react';
+import styled from '@emotion/styled';
 import { Highlight } from 'react-instantsearch-dom';
+import { Box, Text } from './design';
+import theme from './theme';
+
+const StyledImage = styled('img')`
+  width: 100%;
+  object-fit: contain;
+`;
+
+const Card = styled(Box)`
+  cursor: pointer;
+  &:hover {
+    background-color: ${theme.colors.gray};
+  }
+`;
 
 export type VideoHit = {
   viewCount: number;
@@ -22,15 +37,22 @@ function VideoCard(props: {
     props.onVideoCardClick(props.hit.objectID, props.hit.videoId);
   };
   return (
-    <div onClick={handleVideoCardClick}>
-      <img src={props.hit.thumbnailUrl} alt={props.hit.title} />
-      <div className="hit-name">
-        <Highlight attribute="title" hit={props.hit} />
-      </div>
-      <div className="hit-description">
-        <Highlight attribute="description" hit={props.hit} />
-      </div>
-    </div>
+    <Card
+      onClick={handleVideoCardClick}
+      bg="darkGray"
+      p={[0, 1, 2]}
+      width={[1, 1 / 2, 1 / 4]}
+      title={props.hit.title}
+    >
+      <Box>
+        <StyledImage src={props.hit.thumbnailUrl} alt={props.hit.title} />
+      </Box>
+      <Box p={2}>
+        <Text color="almostWhite" fontWeight={600}>
+          <Highlight attribute="title" hit={props.hit} />
+        </Text>
+      </Box>
+    </Card>
   );
 }
 

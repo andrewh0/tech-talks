@@ -1,13 +1,13 @@
 import React from 'react';
 import Search from './Search';
 import { OnVideoCardClickType } from './App';
+import { Box } from './design';
 
 function Home(props: { onVideoCardClick: OnVideoCardClickType; path: string }) {
   return (
-    <div>
-      HOME
+    <Box>
       <Search onVideoCardClick={props.onVideoCardClick} />
-    </div>
+    </Box>
   );
 }
 

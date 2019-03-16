@@ -3,6 +3,9 @@ import { ThemeProvider } from 'emotion-theming';
 import { Router } from '@reach/router';
 
 import theme from './theme';
+import { Box } from './design';
+
+import { InstantSearchProvider } from './Search';
 import Nav from './Nav';
 import Home from './Home';
 import About from './About';
@@ -17,14 +20,16 @@ function App() {
   };
   return (
     <ThemeProvider theme={theme}>
-      <Nav />
-      <div className="content">
-        <Router>
-          <Home path="/" onVideoCardClick={handleVideoCardClick} />
-          <About path="about" />
-        </Router>
-        <YouTubePlayer videoId={videoId} />
-      </div>
+      <InstantSearchProvider>
+        <Nav />
+        <Box bg="darkGray">
+          <Router>
+            <Home path="/" onVideoCardClick={handleVideoCardClick} />
+            <About path="about" />
+          </Router>
+          <YouTubePlayer videoId={videoId} />
+        </Box>
+      </InstantSearchProvider>
     </ThemeProvider>
   );
 }

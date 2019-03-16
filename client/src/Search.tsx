@@ -1,7 +1,9 @@
 import React from 'react';
-import { InstantSearch, connectHits } from 'react-instantsearch-dom';
+import { InstantSearch, connectInfiniteHits } from 'react-instantsearch-dom';
 import VideoCard, { VideoHit } from './VideoCard';
 import { OnVideoCardClickType } from './App';
+
+import { Box, Button } from './design';
 
 function InstantSearchProvider({ children }: { children: any }) {
   return (
@@ -18,22 +20,31 @@ function InstantSearchProvider({ children }: { children: any }) {
 function Hits(props: {
   hits: Array<VideoHit>;
   onVideoCardClick: OnVideoCardClickType;
+  hasMore: boolean;
+  refine: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }) {
-  return props.hits.map((hit: VideoHit, i: number) => (
-    <VideoCard key={i} hit={hit} onVideoCardClick={props.onVideoCardClick} />
-  ));
+  return (
+    <Box display="flex" flexWrap="wrap">
+      {props.hits.map((hit: VideoHit, i: number) => (
+        <VideoCard
+          key={i}
+          hit={hit}
+          onVideoCardClick={props.onVideoCardClick}
+        />
+      ))}
+      <Box display="flex" justifyContent="center" width={1} my={2}>
+        <Button disabled={!props.hasMore} onClick={props.refine}>
+          Load more
+        </Button>
+      </Box>
+    </Box>
+  );
 }
 
-const CustomHits = connectHits(Hits);
+const CustomHits = connectInfiniteHits(Hits);
 
 function Search(props: { onVideoCardClick: OnVideoCardClickType }) {
-  return (
-    <div className="search">
-      <InstantSearchProvider>
-        <CustomHits onVideoCardClick={props.onVideoCardClick} />
-      </InstantSearchProvider>
-    </div>
-  );
+  return <CustomHits onVideoCardClick={props.onVideoCardClick} />;
 }
 
 export { InstantSearchProvider };

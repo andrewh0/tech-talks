@@ -1,0 +1,58 @@
+import styled from '@emotion/styled';
+import { Link } from '@reach/router';
+
+import {
+  space,
+  width,
+  fontSize,
+  color,
+  fontWeight,
+  lineHeight,
+  display,
+  flexWrap,
+  justifyContent
+} from 'styled-system';
+
+import theme from './theme';
+
+const Box = styled('div')`
+  ${space}
+  ${width}
+  ${fontSize}
+  ${color}
+  ${display}
+  ${flexWrap}
+  ${justifyContent}
+`;
+
+const Text = styled('div')`
+  ${space}
+  ${fontSize}
+  ${fontWeight}
+  ${lineHeight}
+  ${color}
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  ${color}
+  &:visited {
+    color: ${color};
+  }
+`;
+
+const Button = styled('button')`
+  border-radius: 4px;
+  border: none;
+  background-color: ${theme.colors.brand};
+  color: ${theme.colors.almostWhite};
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 8px;
+  cursor: pointer;
+  &:hover {
+    background-color: ${theme.colors.brandLighter};
+  }
+`;
+
+export { Box, Button, Text, StyledLink };

@@ -1,5 +1,26 @@
 @import url('https://rsms.me/inter/inter.css');
 
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  min-height: 100%;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -8,6 +29,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  color: blueviolet;
 }
 
 @supports (font-variation-settings: normal) {
@@ -22,3 +45,138 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Algolia React InstantSearch styles */
+
+.ais-SearchBox-form {
+  display: block;
+  position: relative;
+}
+
+.ais-SearchBox-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding: 8px 32px;
+  width: 100%;
+  position: relative;
+  background-color: #323232;
+  border: 1px solid #323232;
+  border-radius: 4px;
+  color: white;
+  font-size: 14px;
+}
+.ais-SearchBox-input::-webkit-input-placeholder {
+  color: #646570;
+}
+.ais-SearchBox-input::-moz-placeholder {
+  color: #646570;
+}
+.ais-SearchBox-input:-ms-input-placeholder {
+  color: #646570;
+}
+.ais-SearchBox-input:-moz-placeholder {
+  color: #646570;
+}
+
+.ais-SearchBox-submit,
+.ais-SearchBox-reset,
+.ais-SearchBox-loadingIndicator {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  position: absolute;
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+  top: 50%;
+  right: 8px;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.ais-SearchBox-submit {
+  left: 4px;
+}
+
+.ais-SearchBox-reset {
+  right: 4px;
+}
+
+.ais-SearchBox-submitIcon,
+.ais-SearchBox-resetIcon,
+.ais-SearchBox-loadingIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.ais-SearchBox-submitIcon path,
+.ais-SearchBox-resetIcon path {
+  fill: #646570;
+}
+
+.ais-SearchBox-submitIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.ais-SearchBox-resetIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.ais-SearchBox-loadingIcon {
+  width: 16px;
+  height: 16px;
+}
+
+/* .ais-InfiniteHits {
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ais-InfiniteHits-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ais-InfiniteHits-item {
+  width: 100%;
+  transform: translate3d(0, 0, 0);
+  transition: 0.2s;
+}
+
+.ais-InfiniteHits > .ais-InfiniteHits-loadMore {
+  padding: 8px;
+  border-radius: 4px;
+  width: 200px;
+  background-color: #56a4ff;
+}
+
+.ais-InfiniteHits > .ais-InfiniteHits-loadMore--disabled {
+  background-color: #323232;
+  color: #646570;
+} */
+/*
+@media (min-width: 576px) {
+  .ais-InfiniteHits-item {
+    width: 50%;
+  }
+}
+
+@media (min-width: 768px) {
+  .ais-InfiniteHits-item {
+    width: 33.3333333%;
+  }
+}
+
+@media (min-width: 992px) {
+  .ais-InfiniteHits-item {
+    width: 25%;
+  }
+} */

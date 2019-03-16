@@ -10,7 +10,19 @@ const theme = {
     64,
     128,
     256
-  ]
+  ],
+  colors: {
+    brand: '#56A4FF',
+    brandLighter: '#75B6FF',
+
+    // Grayscale
+    white: '#FFFFFF',
+    almostWhite: '#DEDEDE',
+    gray: '#646570',
+    darkGray: '#131313',
+    almostBlack: '#00031A',
+    black: '#000000'
+  }
 };
 
 export default theme;
