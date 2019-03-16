@@ -1,9 +1,17 @@
 import React from 'react';
 import * as YTPlayer from 'yt-player';
+import {Box} from './design';
+import styled from '@emotion/styled';
 
 type YouTubePlayerProps = {
   videoId: string | null;
 };
+
+const YouTubeWrapper = styled(Box)`
+  height: 100vh;
+  display: block;
+  width: 100%;
+`;
 
 class YouTubePlayer extends React.Component<YouTubePlayerProps> {
   player: any;
@@ -38,7 +46,7 @@ class YouTubePlayer extends React.Component<YouTubePlayerProps> {
     }
   }
   render() {
-    return <div ref={this.playerEl} />;
+    return <YouTubeWrapper ref={this.playerEl} />;
   }
 }
 

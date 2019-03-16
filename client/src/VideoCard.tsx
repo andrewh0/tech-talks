@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { Highlight } from 'react-instantsearch-dom';
 import { Box, Text } from './design';
 import theme from './theme';
+import { OnVideoCardClickType } from './App';
 
 const StyledImage = styled('img')`
   width: 100%;
@@ -30,11 +31,16 @@ export type VideoHit = {
 
 function VideoCard(props: {
   hit: VideoHit;
-  onVideoCardClick: (objectID: string, videoId: string) => void;
+  onVideoCardClick: OnVideoCardClickType;
+  navigate: Function;
 }) {
   const handleVideoCardClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    props.onVideoCardClick(props.hit.objectID, props.hit.videoId);
+    props.onVideoCardClick(
+      props.hit.objectID,
+      props.hit.videoId,
+      props.navigate
+    );
   };
   return (
     <Card

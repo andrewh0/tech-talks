@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ThemeProvider } from 'emotion-theming';
-import { Router } from '@reach/router';
+import { Router, Location } from '@reach/router';
+import styled from '@emotion/styled';
 
 import theme from './theme';
 import { Box } from './design';
@@ -9,26 +10,62 @@ import { InstantSearchProvider } from './Search';
 import Nav from './Nav';
 import Home from './Home';
 import About from './About';
-import YouTubePlayer from './YouTubePlayer';
+import VideoPage from './VideoPage';
 
-export type OnVideoCardClickType = (objectId: string, videoId: string) => void;
+import Player from './Player';
+
+export type OnVideoCardClickType = (
+  objectId: string,
+  videoId: string,
+  navigate: Function
+) => void;
+
+const ContentContainer = styled(Box)`
+  position: relative;
+  overflow: ${props => (props.playerSize === 'full' ? 'hidden' : 'auto')};
+  max-height: 100vh;
+  min-height: 100vh;
+`;
 
 function App() {
   const [videoId, setVideoId] = useState();
-  const handleVideoCardClick = (objectId: string, videoId: string) => {
+  const [playerSize, setPlayerSize] = useState('minimized');
+  const handleVideoCardClick = (
+    objectId: string,
+    videoId: string,
+    navigate: Function
+  ) => {
     setVideoId(videoId);
+    setPlayerSize('full');
+    navigate(`/videos/${objectId}`);
   };
   return (
     <ThemeProvider theme={theme}>
       <InstantSearchProvider>
         <Nav />
-        <Box bg="darkGray">
+        <ContentContainer bg="darkGray" playerSize={playerSize}>
           <Router>
-            <Home path="/" onVideoCardClick={handleVideoCardClick} />
+            <Home
+              path="/"
+              onVideoCardClick={handleVideoCardClick}
+              setPlayerSize={setPlayerSize}
+              videoId={videoId}
+              playerSize={playerSize}
+            />
             <About path="about" />
+            <VideoPage path="videos/:videoId" />
           </Router>
-          <YouTubePlayer videoId={videoId} />
-        </Box>
+          <Location>
+            {({ location }) => (
+              <Player
+                playerSize={playerSize}
+                videoId={videoId}
+                setPlayerSize={setPlayerSize}
+                location={location}
+              />
+            )}
+          </Location>
+        </ContentContainer>
       </InstantSearchProvider>
     </ThemeProvider>
   );

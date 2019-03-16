@@ -1,13 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Location } from '@reach/router';
 import Search from './Search';
 import { OnVideoCardClickType } from './App';
 import { Box } from './design';
 
-function Home(props: { onVideoCardClick: OnVideoCardClickType; path: string }) {
+function Home(props: {
+  onVideoCardClick: OnVideoCardClickType;
+  path: string;
+  setPlayerSize: Function;
+  videoId?: string;
+  playerSize: string;
+}) {
+
   return (
-    <Box>
-      <Search onVideoCardClick={props.onVideoCardClick} />
-    </Box>
+    <Location>
+      {({ navigate }) => (
+        <Box>
+          <Search
+            onVideoCardClick={props.onVideoCardClick}
+            navigate={navigate}
+          />
+        </Box>
+      )}
+    </Location>
   );
 }
 

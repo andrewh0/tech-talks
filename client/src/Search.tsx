@@ -22,6 +22,7 @@ function Hits(props: {
   onVideoCardClick: OnVideoCardClickType;
   hasMore: boolean;
   refine: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  navigate: Function;
 }) {
   return (
     <Box display="flex" flexWrap="wrap">
@@ -30,6 +31,7 @@ function Hits(props: {
           key={i}
           hit={hit}
           onVideoCardClick={props.onVideoCardClick}
+          navigate={props.navigate}
         />
       ))}
       <Box display="flex" justifyContent="center" width={1} my={2}>
@@ -43,8 +45,8 @@ function Hits(props: {
 
 const CustomHits = connectInfiniteHits(Hits);
 
-function Search(props: { onVideoCardClick: OnVideoCardClickType }) {
-  return <CustomHits onVideoCardClick={props.onVideoCardClick} />;
+function Search(props: { onVideoCardClick: OnVideoCardClickType, navigate: Function }) {
+  return <CustomHits onVideoCardClick={props.onVideoCardClick} navigate={props.navigate} />;
 }
 
 export { InstantSearchProvider };
