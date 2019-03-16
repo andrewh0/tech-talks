@@ -2,10 +2,7 @@ import React from 'react';
 import Search from './Search';
 import { OnVideoCardClickType } from './App';
 
-function Home(props: {
-  onVideoCardClick: OnVideoCardClickType,
-  path: string
-}) {
+function Home(props: { onVideoCardClick: OnVideoCardClickType; path: string }) {
   return (
     <div>
       HOME
