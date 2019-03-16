@@ -1,28 +1,45 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React from 'react';
 import * as YTPlayer from 'yt-player';
 
-function YouTubePlayer(props: { videoId: string }) {
-  const playerEl = useRef(null);
-  let player: any = null;
-  useEffect(() => {
-    player = new YTPlayer(playerEl.current, {
+type YouTubePlayerProps = {
+  videoId: string | null;
+};
+
+class YouTubePlayer extends React.Component<YouTubePlayerProps> {
+  player: any;
+  playerEl: any;
+  constructor(props: YouTubePlayerProps) {
+    super(props);
+    this.player = null;
+    this.playerEl = React.createRef();
+  }
+  componentDidMount() {
+    this.player = new YTPlayer(this.playerEl.current, {
       related: false,
       annotations: false,
       modestBranding: false,
       controls: true
     });
-    return () => {
-      if (player) player.destroy();
-    };
-  }, [playerEl.current]);
-  useEffect(() => {
-    if (player) {
-      player.load(props.videoId);
-      // The autoplay option doesn't work unless the video is muted.
-      player.play();
+  }
+  componentWillUnmount() {
+    if (this.player !== null) {
+      this.player.destroy();
     }
-  }, [props.videoId]);
-  return <div ref={playerEl} />;
+  }
+  componentDidUpdate(prevProps: YouTubePlayerProps, _prevState: {}) {
+    if (
+      this.player &&
+      this.props.videoId &&
+      prevProps.videoId !== this.props.videoId
+    ) {
+      this.player.load(this.props.videoId);
+      // The autoplay option doesn't work unless the video is muted.
+      this.player.play();
+    }
+  }
+  render() {
+    return <div ref={this.playerEl} />;
+  }
 }
 
 export default YouTubePlayer;
