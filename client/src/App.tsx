@@ -39,6 +39,15 @@ function App() {
     setPlayerSize('full');
     navigate(`/videos/${objectId}`);
   };
+  const handleVideoPageLoad = async (objectId?: string): Promise<void> => {
+    if (objectId) {
+      let json = await fetch(`/api/talks/${objectId}`).then(r => r.json());
+      if (json && json.videoId) {
+        setVideoId(json.videoId);
+        setPlayerSize('full');
+      }
+    }
+  };
   return (
     <ThemeProvider theme={theme}>
       <InstantSearchProvider>
@@ -53,7 +62,10 @@ function App() {
               playerSize={playerSize}
             />
             <About path="about" />
-            <VideoPage path="videos/:videoId" />
+            <VideoPage
+              path="videos/:objectId"
+              onPageLoad={handleVideoPageLoad}
+            />
           </Router>
           <Location>
             {({ location }) => (
