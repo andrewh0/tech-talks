@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ThemeProvider } from 'emotion-theming';
-import { Router, Location } from '@reach/router';
+import { Router, Match } from '@reach/router';
 import styled from '@emotion/styled';
 
 import theme from './theme';
@@ -67,16 +67,16 @@ function App() {
               onPageLoad={handleVideoPageLoad}
             />
           </Router>
-          <Location>
-            {({ location }) => (
+          <Match path="/videos/:objectId">
+            {({ match }) => (
               <Player
                 playerSize={playerSize}
                 videoId={videoId}
                 setPlayerSize={setPlayerSize}
-                location={location}
+                match={match}
               />
             )}
-          </Location>
+          </Match>
         </ContentContainer>
       </InstantSearchProvider>
     </ThemeProvider>

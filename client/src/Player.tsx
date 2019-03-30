@@ -6,12 +6,13 @@ import { Box } from './design';
 
 const VideoPlayerContainer = styled(Box)`
   position: absolute;
-  bottom: 0;
   visibility: hidden;
 
   ${props =>
     props.playerSize === 'minimized' && props.videoId
       ? `
+        bottom: 0;
+        right: 0;
         width: 100%;
         visibility: visible;
         transform: scale(0.25);
@@ -35,23 +36,23 @@ function Player(props: {
   playerSize: string;
   videoId: string;
   setPlayerSize: Function;
-  location: any;
+  match: { uri: string, path: string } | null;
 }) {
   useEffect(() => {
     if (
       props.videoId &&
       props.playerSize === 'full' &&
-      props.location.pathname === '/' // should be !matchesVideoPage
+      !props.match
     ) {
       props.setPlayerSize('minimized');
     } else if (
       props.videoId &&
       props.playerSize !== 'full' &&
-      props.location.pathname !== '/' // should be matchesVideoPage
+      props.match
     ) {
       props.setPlayerSize('full');
     }
-  }, [props.playerSize, props.videoId, props.location.pathname]);
+  }, [props.videoId, props.match]);
   return (
     <VideoPlayerContainer playerSize={props.playerSize} videoId={props.videoId}>
       <YouTubePlayer videoId={props.videoId} />
