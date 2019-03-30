@@ -15,20 +15,25 @@ app.disable('x-powered-by');
 
 app.set('port', process.env.PORT || 3001);
 
-app.get('/talks', async (req, res) => {
-  const talks = await prisma.talks();
+app.get('/api/talks/:objectId', async (req, res) => {
+  const talks = await prisma.talk({ id: req.params.objectId });
   res.json(talks);
 });
 
-app.get('/speakers', async (req, res) => {
-  const speakers = await prisma.speakers();
-  res.json(speakers);
-});
+// app.get('/api/talks', async (req, res) => {
+//   const talks = await prisma.talks();
+//   res.json(talks);
+// });
 
-app.get('/events', async (req, res) => {
-  const events = await prisma.events();
-  res.json(events);
-});
+// app.get('/api/speakers', async (req, res) => {
+//   const speakers = await prisma.speakers();
+//   res.json(speakers);
+// });
+
+// app.get('/api/events', async (req, res) => {
+//   const events = await prisma.events();
+//   res.json(events);
+// });
 
 if (process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) => {
