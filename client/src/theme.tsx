@@ -25,4 +25,7 @@ const theme = {
   }
 };
 
+const NAV_HEIGHT = 67;
+
+export { NAV_HEIGHT };
 export default theme;

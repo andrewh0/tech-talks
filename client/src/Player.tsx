@@ -13,10 +13,7 @@ const VideoPlayerContainer = styled(Box)`
       ? `
         bottom: 0;
         right: 0;
-        width: 100%;
         visibility: visible;
-        transform: scale(0.25);
-        transform-origin: bottom right;
         position: fixed;
       `
       : ''}
@@ -26,8 +23,6 @@ const VideoPlayerContainer = styled(Box)`
       ? `
         width: 100%;
         visibility: visible;
-        transform: scale(1);
-        transform-origin: bottom right;
       `
       : ''}
 `;
@@ -55,7 +50,7 @@ function Player(props: {
   }, [props.videoId, props.match]);
   return (
     <VideoPlayerContainer playerSize={props.playerSize} videoId={props.videoId}>
-      <YouTubePlayer videoId={props.videoId} />
+      <YouTubePlayer videoId={props.videoId} playerSize={props.playerSize} />
     </VideoPlayerContainer>
   );
 }

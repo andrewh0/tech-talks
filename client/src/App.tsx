@@ -3,7 +3,7 @@ import { ThemeProvider } from 'emotion-theming';
 import { Router, Match } from '@reach/router';
 import styled from '@emotion/styled';
 
-import theme from './theme';
+import theme, { NAV_HEIGHT } from './theme';
 import { Box } from './design';
 
 import { InstantSearchProvider } from './Search';
@@ -23,8 +23,8 @@ export type OnVideoCardClickType = (
 const ContentContainer = styled(Box)`
   position: relative;
   overflow: ${props => (props.playerSize === 'full' ? 'hidden' : 'auto')};
-  max-height: 100vh;
-  min-height: 100vh;
+  max-height: calc(100vh - ${NAV_HEIGHT}px);
+  min-height: calc(100vh - ${NAV_HEIGHT}px);
 `;
 
 function App() {

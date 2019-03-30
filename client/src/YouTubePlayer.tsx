@@ -1,53 +1,29 @@
 import React from 'react';
-import * as YTPlayer from 'yt-player';
-import { Box } from './design';
-import styled from '@emotion/styled';
+import YouTube from 'react-youtube';
 
 type YouTubePlayerProps = {
   videoId: string | null;
+  playerSize: string;
 };
 
-const YouTubeWrapper = styled(Box)`
-  height: 100vh;
-  display: block;
-  width: 100%;
-`;
-
-class YouTubePlayer extends React.Component<YouTubePlayerProps> {
-  player: any;
-  playerEl: any;
-  constructor(props: YouTubePlayerProps) {
-    super(props);
-    this.player = null;
-    this.playerEl = React.createRef();
-  }
-  componentDidMount() {
-    this.player = new YTPlayer(this.playerEl.current, {
-      related: false,
-      annotations: false,
-      modestBranding: false,
-      controls: true
-    });
-  }
-  componentWillUnmount() {
-    if (this.player !== null) {
-      this.player.destroy();
-    }
-  }
-  componentDidUpdate(prevProps: YouTubePlayerProps, _prevState: {}) {
-    if (
-      this.player &&
-      this.props.videoId &&
-      prevProps.videoId !== this.props.videoId
-    ) {
-      this.player.load(this.props.videoId);
-      // The autoplay option doesn't work unless the video is muted.
-      this.player.play();
-    }
-  }
-  render() {
-    return <YouTubeWrapper ref={this.playerEl} />;
-  }
+function YouTubePlayer(props: YouTubePlayerProps) {
+  return props.videoId ? (
+    <YouTube
+      className={`youtube-player ${
+        props.playerSize === 'full' ? 'youtube-player_full' : ''
+      }`}
+      videoId={props.videoId}
+      opts={{
+        // https://developers.google.com/youtube/player_parameters
+        playerVars: {
+          autoplay: 1,
+          iv_load_policy: 3, // annotations off
+          modestbranding: 1,
+          playsinline: 1 // affects iOS
+        }
+      }}
+    />
+  ) : null;
 }
 
 export default YouTubePlayer;

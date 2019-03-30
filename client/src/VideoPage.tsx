@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Link } from '@reach/router';
 import { Box } from './design';
 
 function VideoPage(props: {
@@ -12,11 +11,7 @@ function VideoPage(props: {
       props.onPageLoad(props.objectId);
     }
   }, [props.objectId]);
-  return (
-    <Box>
-      <Link to="/">Go back home</Link>
-    </Box>
-  );
+  return <Box />;
 }
 
 export default VideoPage;

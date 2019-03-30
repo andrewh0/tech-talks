@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Location } from '@reach/router';
 import Search from './Search';
 import { OnVideoCardClickType } from './App';
