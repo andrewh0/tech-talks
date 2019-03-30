@@ -1,6 +1,6 @@
 import React from 'react';
 import * as YTPlayer from 'yt-player';
-import {Box} from './design';
+import { Box } from './design';
 import styled from '@emotion/styled';
 
 type YouTubePlayerProps = {
