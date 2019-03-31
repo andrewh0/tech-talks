@@ -2,7 +2,6 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { Highlight } from 'react-instantsearch-dom';
 import { Box, Text } from './design';
-import theme from './theme';
 import { OnVideoCardClickType } from './App';
 
 const StyledImage = styled('img')`
@@ -13,8 +12,9 @@ const StyledImage = styled('img')`
 const Card = styled(Box)`
   cursor: pointer;
   &:hover {
-    background-color: ${theme.colors.gray};
+    transform: translateY(-4px);
   }
+  transition: transform 0.2s ease-out;
 `;
 
 export type VideoHit = {
@@ -54,7 +54,7 @@ function VideoCard(props: {
         <StyledImage src={props.hit.thumbnailUrl} alt={props.hit.title} />
       </Box>
       <Box p={2}>
-        <Text color="almostWhite" fontWeight={600}>
+        <Text color="almostWhite" fontWeight={600} fontSize={[2, 1]}>
           <Highlight attribute="title" hit={props.hit} />
         </Text>
       </Box>
