@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 
 import YouTubePlayer from './YouTubePlayer';
+import Icon, { expand, close } from './Icon';
 import { Box, Button } from './design';
 import theme from './theme';
 import { display, justifyContent } from 'styled-system';
@@ -54,22 +55,29 @@ function PlayerControls({
       mb={1}
     >
       <Button
+        title="Expand"
         p={2}
-        onClick={(e: any) => {
+        onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
           e.preventDefault();
           onVideoExpand();
         }}
       >
-        Expand
+        <Icon path={expand.path} viewBox={expand.viewBox} width="16px" />
       </Button>
       <Button
+        title="Close"
         p={2}
-        onClick={(e: any) => {
+        onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
           e.preventDefault();
           onVideoClose();
         }}
       >
-        Close
+        <Icon
+          path={close.path}
+          viewBox={close.viewBox}
+          width="16px"
+          height="14px"
+        />
       </Button>
     </PlayerControlsContainer>
   );

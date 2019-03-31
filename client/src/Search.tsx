@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { InstantSearch, connectInfiniteHits } from 'react-instantsearch-dom';
 import VideoCard, { VideoHit } from './VideoCard';
 import { OnVideoCardClickType } from './App';
+import Icon, { arrowDown } from './Icon';
 
 import { Box, Button } from './design';
 
@@ -44,7 +45,11 @@ function Hits(props: {
           onClick={props.refine}
           title="Load more talks"
         >
-          More
+          More{' '}
+          <Icon
+            path={arrowDown.path}
+            viewBox={arrowDown.viewBox}
+          />
         </Button>
       </Box>
     </Box>
