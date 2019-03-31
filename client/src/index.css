@@ -1,6 +1,6 @@
 @import url('https://rsms.me/inter/inter.css');
 :root {
-  --nav-height: 67px;
+  --nav-height: 51px;
 }
 
 html {
@@ -32,8 +32,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  color: blueviolet;
 }
 
 @supports (font-variation-settings: normal) {

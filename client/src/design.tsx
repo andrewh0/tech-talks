@@ -10,7 +10,9 @@ import {
   lineHeight,
   display,
   flexWrap,
-  justifyContent
+  justifyContent,
+  alignItems,
+  textAlign
 } from 'styled-system';
 
 import theme from './theme';
@@ -23,6 +25,7 @@ const Box = styled('div')`
   ${display}
   ${flexWrap}
   ${justifyContent}
+  ${alignItems}
 `;
 
 const Text = styled('div')`
@@ -31,6 +34,7 @@ const Text = styled('div')`
   ${fontWeight}
   ${lineHeight}
   ${color}
+  ${textAlign}
 `;
 
 const StyledLink = styled(Link)`
