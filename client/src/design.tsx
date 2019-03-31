@@ -42,13 +42,14 @@ const StyledLink = styled(Link)`
 `;
 
 const Button = styled('button')`
+  ${space}
+  ${fontSize}
   border-radius: 4px;
   border: none;
   background-color: ${theme.colors.brand};
   color: ${theme.colors.almostWhite};
   text-transform: uppercase;
   font-weight: bold;
-  padding: 8px;
   cursor: pointer;
   &:hover {
     background-color: ${theme.colors.brandLighter};

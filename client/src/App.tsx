@@ -17,7 +17,7 @@ import Player from './Player';
 export type OnVideoCardClickType = (
   objectId: string,
   videoId: string,
-  navigate: Function
+  navigate: (path: string) => void
 ) => void;
 
 const ContentContainer = styled(Box)`
@@ -29,13 +29,18 @@ const ContentContainer = styled(Box)`
 
 function App() {
   const [videoId, setVideoId] = useState();
+  const [videoObjectId, setVideoObjectId] = useState();
   const [playerSize, setPlayerSize] = useState('minimized');
+  const setVideo = (videoObjectId: string | null, videoId: string | null) => {
+    setVideoId(videoId);
+    setVideoObjectId(videoObjectId);
+  };
   const handleVideoCardClick = (
     objectId: string,
     videoId: string,
-    navigate: Function
+    navigate: (path: string) => void
   ) => {
-    setVideoId(videoId);
+    setVideo(objectId, videoId);
     setPlayerSize('full');
     navigate(`/videos/${objectId}`);
   };
@@ -43,10 +48,17 @@ function App() {
     if (objectId) {
       let json = await fetch(`/api/talks/${objectId}`).then(r => r.json());
       if (json && json.videoId) {
-        setVideoId(json.videoId);
+        setVideo(objectId, json.videoId);
         setPlayerSize('full');
       }
     }
+  };
+  const handleVideoClose = () => {
+    setVideo(null, null);
+  };
+  const handleVideoExpand = (navigate: (path: string) => void) => {
+    setPlayerSize('full');
+    navigate(`/videos/${videoObjectId}`);
   };
   return (
     <ThemeProvider theme={theme}>
@@ -68,12 +80,15 @@ function App() {
             />
           </Router>
           <Match path="/videos/:objectId">
-            {({ match }) => (
+            {({ navigate, match }) => (
               <Player
+                onVideoClose={handleVideoClose}
+                onVideoExpand={handleVideoExpand}
                 playerSize={playerSize}
                 videoId={videoId}
                 setPlayerSize={setPlayerSize}
                 match={match}
+                navigate={navigate}
               />
             )}
           </Match>

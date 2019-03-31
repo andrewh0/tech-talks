@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { InstantSearch, connectInfiniteHits } from 'react-instantsearch-dom';
 import VideoCard, { VideoHit } from './VideoCard';
 import { OnVideoCardClickType } from './App';
@@ -22,7 +22,7 @@ function Hits(props: {
   onVideoCardClick: OnVideoCardClickType;
   hasMore: boolean;
   refine: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  navigate: Function;
+  navigate: (path: string) => void;
 }) {
   return (
     <Box display="flex" flexWrap="wrap">
@@ -34,9 +34,17 @@ function Hits(props: {
           navigate={props.navigate}
         />
       ))}
-      <Box display="flex" justifyContent="center" width={1} my={2}>
-        <Button disabled={!props.hasMore} onClick={props.refine}>
-          Load more
+      <Box display="flex" justifyContent="flex-start" width={1} my={2}>
+        <Button
+          p={3}
+          mx={2}
+          my={0}
+          fontSize={1}
+          disabled={!props.hasMore}
+          onClick={props.refine}
+          title="Load more talks"
+        >
+          More
         </Button>
       </Box>
     </Box>
@@ -45,8 +53,16 @@ function Hits(props: {
 
 const CustomHits = connectInfiniteHits(Hits);
 
-function Search(props: { onVideoCardClick: OnVideoCardClickType, navigate: Function }) {
-  return <CustomHits onVideoCardClick={props.onVideoCardClick} navigate={props.navigate} />;
+function Search(props: {
+  onVideoCardClick: OnVideoCardClickType;
+  navigate: (path: string) => void;
+}) {
+  return (
+    <CustomHits
+      onVideoCardClick={props.onVideoCardClick}
+      navigate={props.navigate}
+    />
+  );
 }
 
 export { InstantSearchProvider };

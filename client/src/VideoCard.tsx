@@ -32,7 +32,7 @@ export type VideoHit = {
 function VideoCard(props: {
   hit: VideoHit;
   onVideoCardClick: OnVideoCardClickType;
-  navigate: Function;
+  navigate: (path: string) => void;
 }) {
   const handleVideoCardClick = (e: React.MouseEvent) => {
     e.preventDefault();
