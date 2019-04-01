@@ -45,11 +45,7 @@ function Hits(props: {
           onClick={props.refine}
           title="Load more talks"
         >
-          More{' '}
-          <Icon
-            path={arrowDown.path}
-            viewBox={arrowDown.viewBox}
-          />
+          More <Icon path={arrowDown.path} viewBox={arrowDown.viewBox} />
         </Button>
       </Box>
     </Box>
