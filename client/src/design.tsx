@@ -11,6 +11,7 @@ import {
   display,
   flexWrap,
   justifyContent,
+  flexDirection,
   alignItems,
   textAlign
 } from 'styled-system';
@@ -24,6 +25,7 @@ const Box = styled('div')`
   ${color}
   ${display}
   ${flexWrap}
+  ${flexDirection}
   ${justifyContent}
   ${alignItems}
 `;

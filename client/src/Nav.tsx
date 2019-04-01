@@ -4,6 +4,7 @@ import { color, space } from 'styled-system';
 import { SearchBox } from 'react-instantsearch-dom';
 import { Match } from '@reach/router';
 
+import { NAV_HEIGHT } from './theme';
 import { Box } from './design';
 import Logo from './Logo';
 import AlgoliaLogo from './AlgoliaLogo';
@@ -12,6 +13,7 @@ const StyledNav = styled('nav')`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: ${NAV_HEIGHT}px;
   ${color}
   ${space}
 `;
@@ -23,13 +25,13 @@ function Nav() {
       <Match path="/talks/:objectId">
         {({ match }) =>
           match ? null : (
-            <Box display="flex" alignItems="center">
+            <Box display="flex" flexDirection="column">
               <SearchBox
                 translations={{
                   placeholder: 'Find a talk...'
                 }}
               />
-              <Box ml={1}>
+              <Box pt={1}>
                 <a
                   href="https://www.algolia.com"
                   target="_blank"
