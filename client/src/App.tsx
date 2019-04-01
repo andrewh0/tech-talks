@@ -42,7 +42,7 @@ function App() {
   ) => {
     setVideo(objectId, videoId);
     setPlayerSize('full');
-    navigate(`/videos/${objectId}`);
+    navigate(`/talks/${objectId}`);
   };
   const handleVideoPageLoad = async (objectId?: string): Promise<void> => {
     if (objectId) {
@@ -58,7 +58,7 @@ function App() {
   };
   const handleVideoExpand = (navigate: (path: string) => void) => {
     setPlayerSize('full');
-    navigate(`/videos/${videoObjectId}`);
+    navigate(`/talks/${videoObjectId}`);
   };
   return (
     <ThemeProvider theme={theme}>
@@ -75,11 +75,11 @@ function App() {
             />
             <About path="about" />
             <VideoPage
-              path="videos/:objectId"
+              path="talks/:objectId"
               onPageLoad={handleVideoPageLoad}
             />
           </Router>
-          <Match path="/videos/:objectId">
+          <Match path="/talks/:objectId">
             {({ navigate, match }) => (
               <Player
                 onVideoClose={handleVideoClose}
