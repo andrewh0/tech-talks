@@ -22,7 +22,6 @@ export type OnVideoCardClickType = (
 
 const ContentContainer = styled(Box)`
   position: relative;
-  overflow: ${props => (props.playerSize === 'full' ? 'hidden' : 'auto')};
   max-height: calc(100vh - ${NAV_HEIGHT}px);
   min-height: calc(100vh - ${NAV_HEIGHT}px);
 `;
