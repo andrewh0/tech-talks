@@ -17,6 +17,7 @@ app.set('port', process.env.PORT || 3001);
 
 app.get('/api/talks/:objectId', async (req, res) => {
   const talks = await prisma.talk({ id: req.params.objectId });
+  console.log('getting a talk');
   res.json(talks);
 });
 
