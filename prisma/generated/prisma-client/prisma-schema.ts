@@ -1087,6 +1087,8 @@ type Talk {
   thumbnailUrl: String
   videoId: String
   viewCount: Int
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 type TalkConnection {
@@ -1176,10 +1178,10 @@ enum TalkOrderByInput {
   videoId_DESC
   viewCount_ASC
   viewCount_DESC
-  createdAt_ASC
-  createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 type TalkPreviousValues {
@@ -1194,6 +1196,8 @@ type TalkPreviousValues {
   thumbnailUrl: String
   videoId: String
   viewCount: Int
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 input TalkScalarWhereInput {
@@ -1299,6 +1303,22 @@ input TalkScalarWhereInput {
   viewCount_lte: Int
   viewCount_gt: Int
   viewCount_gte: Int
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   AND: [TalkScalarWhereInput!]
   OR: [TalkScalarWhereInput!]
   NOT: [TalkScalarWhereInput!]
@@ -1549,6 +1569,22 @@ input TalkWhereInput {
   viewCount_lte: Int
   viewCount_gt: Int
   viewCount_gte: Int
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   AND: [TalkWhereInput!]
   OR: [TalkWhereInput!]
   NOT: [TalkWhereInput!]

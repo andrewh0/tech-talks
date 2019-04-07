@@ -300,10 +300,10 @@ export type TalkOrderByInput =
   | "videoId_DESC"
   | "viewCount_ASC"
   | "viewCount_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
   | "updatedAt_ASC"
-  | "updatedAt_DESC";
+  | "updatedAt_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC";
 
 export type OrganizationOrderByInput =
   | "id_ASC"
@@ -682,6 +682,22 @@ export interface TalkWhereInput {
   viewCount_lte?: Int;
   viewCount_gt?: Int;
   viewCount_gte?: Int;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
   AND?: TalkWhereInput[] | TalkWhereInput;
   OR?: TalkWhereInput[] | TalkWhereInput;
   NOT?: TalkWhereInput[] | TalkWhereInput;
@@ -1053,6 +1069,22 @@ export interface TalkScalarWhereInput {
   viewCount_lte?: Int;
   viewCount_gt?: Int;
   viewCount_gte?: Int;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
   AND?: TalkScalarWhereInput[] | TalkScalarWhereInput;
   OR?: TalkScalarWhereInput[] | TalkScalarWhereInput;
   NOT?: TalkScalarWhereInput[] | TalkScalarWhereInput;
@@ -1800,6 +1832,8 @@ export interface Talk {
   thumbnailUrl?: String;
   videoId?: String;
   viewCount?: Int;
+  updatedAt: DateTimeOutput;
+  createdAt: DateTimeOutput;
 }
 
 export interface TalkPromise extends Promise<Talk>, Fragmentable {
@@ -1826,6 +1860,8 @@ export interface TalkPromise extends Promise<Talk>, Fragmentable {
   thumbnailUrl: () => Promise<String>;
   videoId: () => Promise<String>;
   viewCount: () => Promise<Int>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
 }
 
 export interface TalkSubscription
@@ -1854,6 +1890,8 @@ export interface TalkSubscription
   thumbnailUrl: () => Promise<AsyncIterator<String>>;
   videoId: () => Promise<AsyncIterator<String>>;
   viewCount: () => Promise<AsyncIterator<Int>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface EventConnection {
@@ -2312,6 +2350,8 @@ export interface TalkPreviousValues {
   thumbnailUrl?: String;
   videoId?: String;
   viewCount?: Int;
+  updatedAt: DateTimeOutput;
+  createdAt: DateTimeOutput;
 }
 
 export interface TalkPreviousValuesPromise
@@ -2328,6 +2368,8 @@ export interface TalkPreviousValuesPromise
   thumbnailUrl: () => Promise<String>;
   videoId: () => Promise<String>;
   viewCount: () => Promise<Int>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
 }
 
 export interface TalkPreviousValuesSubscription
@@ -2344,6 +2386,8 @@ export interface TalkPreviousValuesSubscription
   thumbnailUrl: () => Promise<AsyncIterator<String>>;
   videoId: () => Promise<AsyncIterator<String>>;
   viewCount: () => Promise<AsyncIterator<Int>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 /*

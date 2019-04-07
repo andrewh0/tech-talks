@@ -22,6 +22,8 @@ type Talk {
   thumbnailUrl: String
   videoId: String
   viewCount: Int
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 type Speaker {
