@@ -1,0 +1,58 @@
+enum VideoSource {
+  YOUTUBE,
+  VIMEO
+}
+
+enum EventType {
+  MEETUP,
+  CONFERENCE
+}
+
+type Talk {
+  id: ID! @unique
+  event: Event
+  speakers: [Speaker!]!
+  description: String
+  duration: Int
+  hidden: Boolean
+  private: Boolean
+  publishedAt: DateTime
+  source: VideoSource
+  title: String!
+  thumbnailUrl: String
+  videoId: String
+  viewCount: Int
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+type Speaker {
+  id: ID! @unique
+  events: [Event!]!
+  talks: [Talk!]!
+  name: String!
+  twitterHandle: String
+}
+
+type Event {
+  id: ID! @unique
+  organization: Organization
+  speakers: [Speaker!]!
+  talks: [Talk!]!
+  city: String
+  country: String
+  endDate: String
+  name: String
+  startDate: String
+  type: EventType
+  youtubePlaylist: String
+}
+
+type Organization {
+  id: ID! @unique
+  events: [Event!]!
+  name: String
+  twitterHandle: String
+  website: String
+  youtubeChannel: String
+}
