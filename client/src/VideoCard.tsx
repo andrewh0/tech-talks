@@ -90,6 +90,7 @@ function VideoCard(props: {
       onClick={handleVideoCardClick}
       bg="darkGray"
       p={[0, 1, 2]}
+      mb={[4, 3]}
       width={[1, 1 / 2, 1 / 4]}
       title={props.hit.title}
     >
