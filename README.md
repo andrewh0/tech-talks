@@ -1,70 +1,101 @@
 # Tech Talks
 
-![tech-talks](https://user-images.githubusercontent.com/2905455/40894060-b0cea240-675b-11e8-8b7c-61eb6cab3be0.gif)
+![tech-talks-demo](https://user-images.githubusercontent.com/2905455/55691068-c6414c00-594e-11e9-8498-5143c962b671.gif)
 
-This is a work-in-progress, but I'd thought I'd build in public and share what I have so far! This project began tool for myself to learn about new technologies, and I'm glad that others have had the same idea (see Related Projects below).
+Tech Talks is a place to discover and watch conference talks about web development. So far, I've collected about 3,700 talks from a number of JavaScript conferences since 2016 by looking up their associated conference playlists on YouTube.
 
-## Development
-You'll need to have Docker installed for development. After it is installed, clone this repo and navigate to the project directory.
+This is a work-in-progress, but I'd thought I'd build in public and share what I have right now. Others have built similar apps as well (check out [Related Projects](#related-projects) below).
 
+In the future, I'd love to be able to surface interesting content from lesser-known speakers and conferences.
+
+## Setup and Development
+
+Clone the git repository and navigate to the `tech-talks` folder.
 ```
 git clone git@github.com:andrewh0/tech-talks.git
 cd tech-talks
 ```
 
-The app expects a JSON file called `data.json` in the root directory, which is an array of video objects. Here is an example video object:
+This app uses TypeScript for both the frontend and backend, so you'll notice a `package.json` in both the `client` and `root` directories.
+
+Install dependencies for both the client and the server.
 ```
-{
-  "title": "Feross Aboukhadijeh: Write Perfect Code With Standard And ESLint - JSConf.Asia 2018",
-  "description": "In this talk, you'll learn about code linting – how to use Standard and ESLint to catch programmer errors before they cause problems for your users.",
-  "source": "youtube",
-  "videoId": "kuHfMw8j4xk",
-  "videoPublishedAt": 20180209,
-  "eventName": "JSConf.Asia",
-  "eventType": "conference",
-  "eventLocation": "Singapore, Singapore",
-  "thumbnailUrl": "https://i.ytimg.com/vi/kuHfMw8j4xk/mqdefault.jpg",
-  "thumbnailHeight": 180,
-  "thumbnailWidth": 320,
-  "year": 2018,
-  "views": 2990,
-  "duration": 1475
-}
+yarn
+cd client && yarn
 ```
 
-Running the following in the terminal sets you up with a cleanly seeded database and a server running on `localhost:3000`.
+### Deploying a Prisma Service
 
+This app relies heavily on [Prisma](https://www.prisma.io/) to manage data. If you're unfamiliar, Prisma provides a GraphQL layer over your database, replacing a traditional ORM. You'll need a running Prisma server to continue. This project uses [Prisma's Heroku integration](https://www.prisma.io/blog/heroku-integration-homihof6eifi) to manage a Postgres database, but you can also opt to use a local database.
+
+Once you have created a Prisma server and you have obtained your Prisma API credentials, you can add them to the `.env` folder in the root directory, using the `.env.example` file as a reference.
+
+When your credentials have been added, run the following command to deploy your service to Prisma.
 ```
-docker-compose up
+yarn prisma:deploy
 ```
 
-You can stop the services with
+### Setting up Algolia
+
+This app uses [Algolia](https://www.algolia.com/) for search. You'll need an Algolia account to start managing your search index. Be sure to add your Algolia API credentials to `.env`. The `createAlgoliaIndex.ts` script in the `scripts` folder may be helpful here for seeding the index.
+
+### Obtaining YouTube API credentials
+
+The YouTube API is used to retrieve video and playlist data. You'll need to enable the YouTube API via the [Google Developer Console](https://console.developers.google.com) and get your API credentials there. Add them to the `.env` file in the root directory.
+
+### Running the app locally
+Start the Express server with the following command.
 ```
-docker-compose stop
+yarn start
 ```
 
-You can make the code look pretty via `prettier` with
+Navigate to the `client` directory to start the client server.
 ```
-yarn run pretty
+cd client
+yarn start
 ```
+
+Go to `localhost:3000` in your browser.
+
+### Prettier
+
+From the client and root folders, you can run the following command to format the client and server code, respectively.
+```
+yarn run prettier
+```
+
+## Deployment
+
+This app is hosted on Heroku and uses many of its built-in features.
+Remember to add your API credentials to the production environment.
+
+This app uses:
+
+- Heroku Scheduler to update video view counts and to update the Algolia search index.
+- Papertrail for logs
+- Postgres as its data store
 
 ## Built with
+- [TypeScript](https://www.typescriptlang.org/)
+- [React](https://reactjs.org/)
+- [Emotion](https://emotion.sh/docs/introduction/)
+- [styled-system](https://styled-system.com/)
+- [reach-router](https://reach.tech/)
+- [Prisma](https://www.prisma.io/)
 - [Algolia Search](https://www.algolia.com/)
-- [styled-components](https://www.styled-components.com/)
-- [Razzle.js](https://github.com/jaredpalmer/razzle/)
-- [Sequelize](http://docs.sequelizejs.com/)
 - [Postgres](https://www.postgresql.org/)
-- [Docker](https://www.docker.com/)
+- [Heroku](https://heroku.com/)
 
 ## Credentials
-This app connects with some external services to get relevant data. You'll need to grab API Keys from them and add it to `config/secrets.js`
-- [Twitter](https://apps.twitter.com/)
+This app connects with some external services to get relevant data. You'll need to grab API Keys from them and add them to your `.env` file in the root directory.
+- [Prisma](https://app.prisma.io/)
 - [Algolia](https://www.algolia.com/manage/applications)
 - [YouTube](https://console.cloud.google.com/apis/library/youtube.googleapis.com/)
 
 ## Related Projects
 - https://awesometalks.party/ ([source](https://github.com/SaraVieira/awesome-talks))
 - http://highlight.app/
+- https://confs.tech/
 
 ## Contributing
 Contributions of any kind are welcome! Thank you 🙏
