@@ -2,6 +2,10 @@ import { prisma } from '../prisma/generated/prisma-client';
 import { google } from 'googleapis';
 import { get } from 'lodash';
 
+if (!process.env['YOUTUBE_API_KEY']) {
+  throw 'Missing YouTube credentials.';
+}
+
 const youtube = google.youtube({
   version: 'v3',
   auth: process.env.YOUTUBE_API_KEY
@@ -11,9 +15,16 @@ async function updateViewCounts() {
   const talks = await prisma.talks();
   talks.forEach(async ({ id, videoId }) => {
     if (videoId) {
-      const { viewCount } = await getYouTubeVideoCountData(videoId);
-      if (viewCount) {
-        await updateTalkViewCount(id, viewCount);
+      try {
+        const { viewCount } = await getYouTubeVideoCountData(videoId);
+        if (viewCount) {
+          await updateTalkViewCount(id, viewCount);
+        }
+      } catch (e) {
+        console.log(
+          `Could not update view count for videoId ${videoId} / talk id ${id}:`,
+          e
+        );
       }
     }
   });
