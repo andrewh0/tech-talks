@@ -11,8 +11,16 @@ const youtube = google.youtube({
   auth: process.env.YOUTUBE_API_KEY
 });
 
+/*
+Update the view counts bit by bit to avoid slowness / memory issues.
+This task will run every 10 minutes via Heroku Scheduler (~144 times / day).
+*/
+
 async function updateViewCounts() {
-  const talks = await prisma.talks();
+  const talks = await prisma.talks({
+    first: 30,
+    orderBy: 'updatedAt_ASC'
+  });
   talks.forEach(async ({ id, videoId }) => {
     if (videoId) {
       try {

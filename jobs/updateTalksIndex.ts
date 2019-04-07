@@ -23,5 +23,11 @@ async function updateAlgoliaIndex() {
     console.log('Algolia Index updated!');
   });
 }
-
-updateAlgoliaIndex();
+/*
+Heroku's Scheduler can only be set to Daily / Hourly / 10 minutes.
+We set the frequency to Daily and run this script roughly every other
+day to reduce Algolia usage.
+*/
+if (new Date().getDate() % 2 === 1) {
+  updateAlgoliaIndex();
+}
