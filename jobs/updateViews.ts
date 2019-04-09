@@ -18,7 +18,7 @@ This task will run every 10 minutes via Heroku Scheduler (~144 times / day).
 
 async function updateViewCounts() {
   const talks = await prisma.talks({
-    first: 30,
+    first: 20,
     orderBy: 'updatedAt_ASC'
   });
   talks.forEach(async ({ id, videoId }) => {
