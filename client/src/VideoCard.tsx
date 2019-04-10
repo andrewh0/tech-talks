@@ -34,6 +34,7 @@ const CardOverlayBox = styled(Box)`
   background-color: ${theme.colors.darkGray};
   opacity: 0.9;
   color: ${theme.colors.white};
+  font-weight: 500;
   border-radius: 4px;
   ${space}
   ${fontSize}

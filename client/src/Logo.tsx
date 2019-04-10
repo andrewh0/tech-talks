@@ -23,7 +23,7 @@ const StyledLink = styled(Link)`
 
 function Logo() {
   return (
-    <StyledLogo my={0} fontSize={[4]}>
+    <StyledLogo my={0} fontSize={[3, 4]}>
       <StyledLink to="/">TechTalks</StyledLink>
     </StyledLogo>
   );
