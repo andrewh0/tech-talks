@@ -2,7 +2,6 @@ import React from 'react';
 import { InstantSearch, connectInfiniteHits } from 'react-instantsearch-dom';
 import VideoCard, { VideoHit } from './VideoCard';
 import { OnVideoCardClickType } from './App';
-import Icon, { arrowDown } from './Icon';
 
 import { Box, Button } from './design';
 
@@ -24,9 +23,10 @@ function Hits(props: {
   hasMore: boolean;
   refine: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   navigate: (path: string) => void;
+  playerSize: string;
 }) {
   return (
-    <Box display="flex" flexWrap="wrap">
+    <Box display="flex" flexWrap="wrap" pb={props.playerSize === "minimized" ? 7 : 0}>
       {props.hits.map((hit: VideoHit, i: number) => (
         <VideoCard
           key={i}
@@ -40,12 +40,12 @@ function Hits(props: {
           p={3}
           mx={2}
           my={0}
-          fontSize={1}
+          fontSize={2}
           disabled={!props.hasMore}
           onClick={props.refine}
           title="Load more talks"
         >
-          More <Icon path={arrowDown.path} viewBox={arrowDown.viewBox} />
+          Load more
         </Button>
       </Box>
     </Box>
@@ -57,11 +57,13 @@ const CustomHits = connectInfiniteHits(Hits);
 function Search(props: {
   onVideoCardClick: OnVideoCardClickType;
   navigate: (path: string) => void;
+  playerSize: string;
 }) {
   return (
     <CustomHits
       onVideoCardClick={props.onVideoCardClick}
       navigate={props.navigate}
+      playerSize={props.playerSize}
     />
   );
 }

@@ -29,7 +29,7 @@ const ContentContainer = styled(Box)`
 function App() {
   const [videoId, setVideoId] = useState();
   const [videoObjectId, setVideoObjectId] = useState();
-  const [playerSize, setPlayerSize] = useState('minimized');
+  const [playerSize, setPlayerSize] = useState('hidden');
   const setVideo = (videoObjectId: string | null, videoId: string | null) => {
     setVideoId(videoId);
     setVideoObjectId(videoObjectId);
@@ -54,6 +54,7 @@ function App() {
   };
   const handleVideoClose = () => {
     setVideo(null, null);
+    setPlayerSize('hidden');
   };
   const handleVideoExpand = (navigate: (path: string) => void) => {
     setPlayerSize('full');
@@ -63,7 +64,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <InstantSearchProvider>
         <Nav />
-        <ContentContainer bg="darkGray" playerSize={playerSize}>
+        <ContentContainer bg="darkGray">
           <Router>
             <Home
               path="/"

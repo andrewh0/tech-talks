@@ -37,6 +37,7 @@ function Home(props: {
           <Search
             onVideoCardClick={props.onVideoCardClick}
             navigate={navigate}
+            playerSize={props.playerSize}
           />
         </Box>
       )}

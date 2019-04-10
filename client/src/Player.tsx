@@ -56,28 +56,23 @@ function PlayerControls({
     >
       <Button
         title="Expand"
-        p={2}
+        p={0}
         onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
           e.preventDefault();
           onVideoExpand();
         }}
       >
-        <Icon path={expand.path} viewBox={expand.viewBox} width="16px" />
+        <Icon path={expand.path} viewBox={expand.viewBox} />
       </Button>
       <Button
         title="Close"
-        p={2}
+        p={0}
         onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
           e.preventDefault();
           onVideoClose();
         }}
       >
-        <Icon
-          path={close.path}
-          viewBox={close.viewBox}
-          width="16px"
-          height="14px"
-        />
+        <Icon path={close.path} viewBox={close.viewBox} />
       </Button>
     </PlayerControlsContainer>
   );
