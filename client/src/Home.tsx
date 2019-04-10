@@ -1,6 +1,7 @@
 import React from 'react';
 import { Location } from '@reach/router';
 import Search from './Search';
+import SortBy from './SortBy';
 import { OnVideoCardClickType } from './App';
 import { Box, Text } from './design';
 
@@ -18,14 +19,20 @@ function Home(props: {
       {({ navigate }) => (
         <Box>
           <Title
-            textAlign="center"
             p={2}
             my={2}
             fontWeight={900}
             color="almostWhite"
-            fontSize={4}
+            fontSize={[3]}
           >
-            Popular Talks
+            Conference talks about web development, sorted by{' '}
+            <SortBy
+              defaultRefinement="TALKS"
+              items={[
+                { value: 'TALKS', label: 'view count' },
+                { value: 'TALKS_RECENTLY_ADDED', label: 'publish date' }
+              ]}
+            />
           </Title>
           <Search
             onVideoCardClick={props.onVideoCardClick}
