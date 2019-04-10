@@ -1031,6 +1031,18 @@
     "@svgr/plugin-svgo" "^4.0.3"
     loader-utils "^1.1.0"
 
+"@types/algoliasearch-helper@*":
+  version "2.26.0"
+  resolved "https://registry.yarnpkg.com/@types/algoliasearch-helper/-/algoliasearch-helper-2.26.0.tgz#314849c4b14e2c495fd38e239758b37633dcba16"
+  integrity sha512-X+5sSx5Pc+cDVO3s8FTgYSxtS+oDiXZxolW6MJdzGhzEx/69Kn5YhLDBYpZOMUGvc8nccEy3ahfgGN/sLa7AsA==
+  dependencies:
+    "@types/algoliasearch" "*"
+
+"@types/algoliasearch@*":
+  version "3.30.8"
+  resolved "https://registry.yarnpkg.com/@types/algoliasearch/-/algoliasearch-3.30.8.tgz#f7004bd905e61f7f56b0e6da2744ebd4dbafc87c"
+  integrity sha512-Lzf9kcLtFJe9gAu6lqc0/RR/yiQy7LfWXZYpZVaXUGsJ1t+ifyAiH/iPpXhslDqS11A6JiPKBeQTuG0/VtPLdA==
+
 "@types/format-duration@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/format-duration/-/format-duration-1.0.1.tgz#6dad5abde010ae98ed89caa83057141e9e8367f0"
@@ -1087,6 +1099,22 @@
   integrity sha512-MX7n1wq3G/De15RGAAqnmidzhr2Y9O/ClxPxyqaNg96pGyeXUYPSvujgzEVpLo9oIP4Wn1UETl+rxTN02KEpBw==
   dependencies:
     "@types/react" "*"
+
+"@types/react-instantsearch-core@*":
+  version "5.2.7"
+  resolved "https://registry.yarnpkg.com/@types/react-instantsearch-core/-/react-instantsearch-core-5.2.7.tgz#f95edc15b3a13be4da6597d8e88b5d75a4468af0"
+  integrity sha512-qe07rmwCv7WxVkQsPYlyYtNt22LFQHbrldDTUcbK1x/hvFR42yc0XFQ2YkgAs7y2FcvwX2k9SHKUSwyieUr5Dg==
+  dependencies:
+    "@types/algoliasearch-helper" "*"
+    "@types/react" "*"
+
+"@types/react-instantsearch-dom@^5.2.3":
+  version "5.2.3"
+  resolved "https://registry.yarnpkg.com/@types/react-instantsearch-dom/-/react-instantsearch-dom-5.2.3.tgz#041a2de68d6c072327f476580f325e9d6b8f2fdc"
+  integrity sha512-iUhIP5A4O/Fl6QfzLxL/xbDyHRTVLHaUTYw6LgQyUTuP1OFNldOZXIxSevCg1rS46OL2ZCXYEL+93HKEzL5dAQ==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-instantsearch-core" "*"
 
 "@types/react-youtube@^7.6.1":
   version "7.6.1"
