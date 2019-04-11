@@ -54,6 +54,7 @@ export type VideoHit = {
   source: string;
   videoId: string;
   thumbnailUrl: string;
+  organizationName: string;
 };
 
 function formatViews(viewCount: number): string {
