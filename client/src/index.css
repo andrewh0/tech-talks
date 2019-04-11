@@ -61,6 +61,10 @@ code {
 
 /* Algolia React InstantSearch styles */
 
+.ais-SearchBox {
+  width: 100%;
+}
+
 .ais-SearchBox-form {
   display: block;
   position: relative;
@@ -73,23 +77,24 @@ code {
   padding: 8px 32px;
   width: 100%;
   position: relative;
-  background-color: #323232;
-  border: 1px solid #323232;
-  border-radius: 4px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid #56a4ff;
   color: white;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: 600;
 }
 .ais-SearchBox-input::-webkit-input-placeholder {
-  color: #646570;
+  color: #dedede;
 }
 .ais-SearchBox-input::-moz-placeholder {
-  color: #646570;
+  color: #dedede;
 }
 .ais-SearchBox-input:-ms-input-placeholder {
-  color: #646570;
+  color: #dedede;
 }
 .ais-SearchBox-input:-moz-placeholder {
-  color: #646570;
+  color: #dedede;
 }
 
 .ais-SearchBox-submit,
@@ -113,7 +118,7 @@ code {
 }
 
 .ais-SearchBox-reset {
-  right: 4px;
+  display: none;
 }
 
 .ais-SearchBox-submitIcon,
@@ -125,71 +130,3 @@ code {
   -webkit-transform: translateX(-50%) translateY(-50%);
   transform: translateX(-50%) translateY(-50%);
 }
-
-.ais-SearchBox-submitIcon path,
-.ais-SearchBox-resetIcon path {
-  fill: #646570;
-}
-
-.ais-SearchBox-submitIcon {
-  width: 16px;
-  height: 16px;
-}
-
-.ais-SearchBox-resetIcon {
-  width: 14px;
-  height: 14px;
-}
-
-.ais-SearchBox-loadingIcon {
-  width: 16px;
-  height: 16px;
-}
-
-/* .ais-InfiniteHits {
-  max-width: 1200px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.ais-InfiniteHits-list {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.ais-InfiniteHits-item {
-  width: 100%;
-  transform: translate3d(0, 0, 0);
-  transition: 0.2s;
-}
-
-.ais-InfiniteHits > .ais-InfiniteHits-loadMore {
-  padding: 8px;
-  border-radius: 4px;
-  width: 200px;
-  background-color: #56a4ff;
-}
-
-.ais-InfiniteHits > .ais-InfiniteHits-loadMore--disabled {
-  background-color: #323232;
-  color: #646570;
-} */
-/*
-@media (min-width: 576px) {
-  .ais-InfiniteHits-item {
-    width: 50%;
-  }
-}
-
-@media (min-width: 768px) {
-  .ais-InfiniteHits-item {
-    width: 33.3333333%;
-  }
-}
-
-@media (min-width: 992px) {
-  .ais-InfiniteHits-item {
-    width: 25%;
-  }
-} */
