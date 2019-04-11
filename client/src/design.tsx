@@ -37,6 +37,7 @@ const Text = styled('div')`
   ${lineHeight}
   ${color}
   ${textAlign}
+  ${width}
 `;
 
 const StyledLink = styled(Link)`

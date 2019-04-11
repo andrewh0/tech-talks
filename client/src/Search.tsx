@@ -3,7 +3,7 @@ import { InstantSearch, connectInfiniteHits } from 'react-instantsearch-dom';
 import VideoCard, { VideoHit } from './VideoCard';
 import { OnVideoCardClickType } from './App';
 
-import { Box, Button } from './design';
+import { Box, Button, Text } from './design';
 
 function InstantSearchProvider({ children }: { children: any }) {
   return (
@@ -16,6 +16,8 @@ function InstantSearchProvider({ children }: { children: any }) {
     </InstantSearch>
   );
 }
+
+const EmptyStateText = Text.withComponent('p');
 
 function Hits(props: {
   hits: Array<VideoHit>;
@@ -31,27 +33,42 @@ function Hits(props: {
       flexWrap="wrap"
       pb={props.playerSize === 'minimized' ? 7 : 0}
     >
-      {props.hits.map((hit: VideoHit, i: number) => (
-        <VideoCard
-          key={i}
-          hit={hit}
-          onVideoCardClick={props.onVideoCardClick}
-          navigate={props.navigate}
-        />
-      ))}
-      <Box display="flex" justifyContent="flex-start" width={1} my={2}>
-        <Button
-          p={3}
-          mx={2}
-          my={0}
-          fontSize={2}
-          disabled={!props.hasMore}
-          onClick={props.refine}
-          title="Load more talks"
+      {props.hits.length > 0 ? (
+        props.hits.map((hit: VideoHit, i: number) => (
+          <VideoCard
+            key={i}
+            hit={hit}
+            onVideoCardClick={props.onVideoCardClick}
+            navigate={props.navigate}
+          />
+        ))
+      ) : (
+        <EmptyStateText
+          my={1}
+          p={2}
+          color="almostWhite"
+          fontWeight={900}
+          fontSize={[2]}
+          width="100%"
+          textAlign="center"
         >
-          Load more
-        </Button>
-      </Box>
+          No talks to display. Maybe try a different search?
+        </EmptyStateText>
+      )}
+      {props.hasMore ? (
+        <Box display="flex" justifyContent="flex-start" width={1} my={2}>
+          <Button
+            p={3}
+            mx={2}
+            my={0}
+            fontSize={2}
+            onClick={props.refine}
+            title="Load more talks"
+          >
+            Load more
+          </Button>
+        </Box>
+      ) : null}
     </Box>
   );
 }
