@@ -10,6 +10,7 @@ const Select = styled('select')`
   display: inline-block;
   border: none;
   cursor: pointer;
+  padding: 0;
   ${fontWeight}
   ${space}
   ${fontSize}

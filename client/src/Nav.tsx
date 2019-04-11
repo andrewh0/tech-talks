@@ -30,7 +30,6 @@ const NavButton = styled(Button)`
 const SearchContainer = styled(Box)`
   display: flex;
   align-items: center;
-  border-radius: 0;
   width: 100%;
 `;
 
