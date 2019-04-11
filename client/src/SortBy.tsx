@@ -2,6 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { connectSortBy } from 'react-instantsearch-dom';
 import { space, fontSize, fontWeight, color } from 'styled-system';
+import theme from './theme';
 
 type SortByItem = { value: string; label: string };
 
@@ -11,6 +12,9 @@ const Select = styled('select')`
   border: none;
   cursor: pointer;
   padding: 0;
+  &:hover {
+    color: ${theme.colors.brandLighter}
+  }
   ${fontWeight}
   ${space}
   ${fontSize}
