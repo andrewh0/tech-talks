@@ -35,6 +35,7 @@ async function createTalksAlgoliaIndex() {
           publishedAt
           event {
             organization {
+              id
               name
             }
           }
@@ -49,7 +50,7 @@ async function createTalksAlgoliaIndex() {
     videoId: string;
     thumbnailUrl: string;
     publishedAt: number | null;
-    event: { organization: { name: string } };
+    event: { organization: { name: string; id: string } };
   }>;
 
   const mappedTalks = talks.map(talk => ({
@@ -61,7 +62,9 @@ async function createTalksAlgoliaIndex() {
     videoId: talk.videoId,
     thumbnailUrl: talk.thumbnailUrl,
     publishedAt: talk.publishedAt ? new Date(talk.publishedAt).valueOf() : null,
-    objectID: talk.id
+    objectID: talk.id,
+    organizationName: talk.event.organization.name,
+    organizationId: talk.event.organization.id
   }));
 
   talksIndex.addObjects(mappedTalks, (err, _content) => {
