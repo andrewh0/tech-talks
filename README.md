@@ -2,7 +2,7 @@
 
 ![tech-talks-demo](https://user-images.githubusercontent.com/2905455/55691068-c6414c00-594e-11e9-8498-5143c962b671.gif)
 
-Tech Talks is a place to discover and watch conference talks about web development. So far, I've collected about 3,700 talks from a number of JavaScript conferences since 2016 by looking up their associated conference playlists on YouTube.
+Tech Talks is a place to discover and watch conference talks about web development. So far, I've collected about 3,700 talks from a number of JavaScript conferences since 2017 by looking up their associated conference playlists on YouTube.
 
 This is a work-in-progress, but I'd thought I'd build in public and share what I have right now. Others have built similar apps as well (check out [Related Projects](#related-projects) below).
 
@@ -92,10 +92,13 @@ This app connects with some external services to get relevant data. You'll need 
 - [Algolia](https://www.algolia.com/manage/applications)
 - [YouTube](https://console.cloud.google.com/apis/library/youtube.googleapis.com/)
 
-## Related Projects
+## Related Projects and Resources
 - https://awesometalks.party/ ([source](https://github.com/SaraVieira/awesome-talks))
 - http://highlight.app/
+- https://www.reactjsvideos.com/
+- https://eventil.com/talks
 - https://confs.tech/
+- https://www.confreaks.com
 
 ## Contributing
 Contributions of any kind are welcome! Thank you 🙏
