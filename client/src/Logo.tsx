@@ -13,6 +13,7 @@ const StyledLogo = styled('h1')`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
+  color: ${theme.colors.brand};
   &:visited {
     color: ${theme.colors.brand};
   }

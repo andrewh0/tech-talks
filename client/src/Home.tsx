@@ -17,10 +17,11 @@ function Home(props: {
   return (
     <Location>
       {({ navigate }) => (
-        <Box>
+        <Box px={[0, 4]}>
           <Title
-            p={2}
-            my={2}
+            px={[2, 0]}
+            py={3}
+            m={0}
             fontWeight={900}
             color="almostWhite"
             fontSize={[3]}

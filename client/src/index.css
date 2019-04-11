@@ -34,6 +34,7 @@ body {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   background-color: #131313;
+  line-height: 1.5;
 }
 
 @supports (font-variation-settings: normal) {
