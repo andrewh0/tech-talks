@@ -13,7 +13,8 @@ import {
   justifyContent,
   flexDirection,
   alignItems,
-  textAlign
+  textAlign,
+  maxWidth
 } from 'styled-system';
 
 import theme from './theme';
@@ -28,6 +29,7 @@ const Box = styled('div')`
   ${flexDirection}
   ${justifyContent}
   ${alignItems}
+  ${maxWidth}
 `;
 
 const Text = styled('div')`
@@ -63,4 +65,12 @@ const Button = styled('button')`
   }
 `;
 
-export { Box, Button, Text, StyledLink };
+const A = styled('a')`
+  ${color}
+  ${fontSize}
+`;
+
+const H1 = styled(Text)``.withComponent('h1');
+const P = styled(Text)``.withComponent('p');
+
+export { H1, P, A, Box, Button, Text, StyledLink };
