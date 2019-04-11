@@ -13,11 +13,45 @@ const client = algoliasearch(
 const talksIndex = client.initIndex('TALKS');
 
 async function createTalksAlgoliaIndex() {
-  const talks = await prisma.talks({
-    where: {
-      private: false
-    }
-  });
+  // Prisma doesn't really support nested queries, so we need to use a gql fragment here.
+  // https://www.prisma.io/docs/1.30/prisma-client/basic-data-access/reading-data-TYPESCRIPT-rsc3/#selecting-fields
+  const talks = (await prisma
+    .talks({
+      where: {
+        private: false
+      },
+      first: 10
+    })
+    .$fragment(
+      `fragment TalkOrganizationNames on Talk {
+          id
+          viewCount
+          description
+          title
+          duration
+          source
+          videoId
+          thumbnailUrl
+          publishedAt
+          event {
+            organization {
+              name
+            }
+          }
+        }`
+    )) as Array<{
+    id: string;
+    viewCount: number;
+    description: string;
+    title: string;
+    duration: number;
+    source: string;
+    videoId: string;
+    thumbnailUrl: string;
+    publishedAt: number | null;
+    event: { organization: { name: string } };
+  }>;
+
   const mappedTalks = talks.map(talk => ({
     viewCount: talk.viewCount,
     description: talk.description,
