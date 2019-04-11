@@ -26,7 +26,11 @@ function Hits(props: {
   playerSize: string;
 }) {
   return (
-    <Box display="flex" flexWrap="wrap" pb={props.playerSize === "minimized" ? 7 : 0}>
+    <Box
+      display="flex"
+      flexWrap="wrap"
+      pb={props.playerSize === 'minimized' ? 7 : 0}
+    >
       {props.hits.map((hit: VideoHit, i: number) => (
         <VideoCard
           key={i}
