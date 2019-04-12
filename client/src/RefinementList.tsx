@@ -35,7 +35,7 @@ function CustomRefinementList() {
     toggleOpen(!isOpen);
   };
   return (
-    <Box>
+    <Box px={[2, 0]}>
       <FilterButton p={2} mb={3} onClick={handleFilterButtonClick}>
         <Box mr={1} display="flex" alignItems="center">
           <Icon path={filter.path} viewBox={filter.viewBox} />
