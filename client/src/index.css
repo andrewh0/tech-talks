@@ -86,16 +86,16 @@ code {
   border-radius: 0;
 }
 .ais-SearchBox-input::-webkit-input-placeholder {
-  color: #dedede;
+  color: #646570;
 }
 .ais-SearchBox-input::-moz-placeholder {
-  color: #dedede;
+  color: #646570;
 }
 .ais-SearchBox-input:-ms-input-placeholder {
-  color: #dedede;
+  color: #646570;
 }
 .ais-SearchBox-input:-moz-placeholder {
-  color: #dedede;
+  color: #646570;
 }
 
 .ais-SearchBox-submit,
@@ -130,4 +130,53 @@ code {
   left: 50%;
   -webkit-transform: translateX(-50%) translateY(-50%);
   transform: translateX(-50%) translateY(-50%);
+}
+.ais-RefinementList {
+  width: 100%;
+}
+
+.ais-RefinementList .ais-RefinementList-searchBox {
+  max-width: 256px;
+  margin-bottom: 8px;
+}
+
+.ais-RefinementList .ais-RefinementList-searchBox .ais-SearchBox-reset {
+  fill: white;
+  display: block;
+}
+.ais-RefinementList .ais-RefinementList-searchBox .ais-SearchBox-reset[hidden] {
+  display: none;
+}
+.ais-RefinementList .ais-RefinementList-searchBox .ais-SearchBox-submit {
+  fill: white;
+}
+
+.ais-RefinementList-list {
+  max-height: 50vh;
+  overflow: scroll;
+  font-weight: 500;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(296px, 1fr));
+}
+
+.ais-RefinementList-item {
+  font-size: 14px;
+  padding: 4px;
+}
+
+.ais-RefinementList-label,
+.ais-RefinementList-checkbox {
+  cursor: pointer;
+}
+
+.ais-RefinementList-labelText {
+  padding-left: 4px;
+}
+
+.ais-RefinementList-count {
+  background-color: #646570;
+  border-radius: 4px;
+  padding: 2px;
+  margin-left: 4px;
+  font-weight: 500;
 }

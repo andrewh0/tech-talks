@@ -30,6 +30,11 @@ const openInNew = {
     'M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z'
 };
 
+const filter = {
+  viewBox: '0 0 24 24',
+  path: 'M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z'
+};
+
 const SVG = styled('svg')`
   width: ${props => props.width || `24px`};
   height: ${props => props.height || `24px`};
@@ -57,6 +62,6 @@ function Icon(props: {
   );
 }
 
-export { menu, openInNew, expand, close, search };
+export { filter, menu, openInNew, expand, close, search };
 
 export default Icon;

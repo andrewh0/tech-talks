@@ -174,7 +174,7 @@ function NavLinks({
 const MenuList = styled('ul')`
   margin: 0;
   padding: 0;
-  z-index: 1;
+  z-index: 2;
   left: 0;
   top: 100%;
   background-color: ${theme.colors.darkGray};

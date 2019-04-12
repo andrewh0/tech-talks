@@ -2,6 +2,7 @@ import React from 'react';
 import { Location } from '@reach/router';
 import Search from './Search';
 import SortBy from './SortBy';
+import RefinementList from './RefinementList';
 import { OnVideoCardClickType } from './App';
 import { Box, Text } from './design';
 
@@ -35,6 +36,7 @@ function Home(props: {
               ]}
             />
           </Title>
+          <RefinementList />
           <Search
             onVideoCardClick={props.onVideoCardClick}
             navigate={navigate}
