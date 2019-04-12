@@ -112,14 +112,14 @@ function VideoCard(props: {
         </CardOverlayBox>
       </CardImage>
       <Box p={2}>
-      <Box width="100%" display="flex" justifyContent="space-between">
-        <Text color="gray" fontSize={[1, 0]} fontWeight={500}>
-          {props.hit.organizationName}
-        </Text>
-        <Text color="gray" fontSize={[1, 0]} fontWeight={500}>
-          {new Date(props.hit.publishedAt).getFullYear()}
-        </Text>
-      </Box>
+        <Box width="100%" display="flex" justifyContent="space-between">
+          <Text color="gray" fontSize={[1, 0]} fontWeight={500}>
+            {props.hit.organizationName}
+          </Text>
+          <Text color="gray" fontSize={[1, 0]} fontWeight={500}>
+            {new Date(props.hit.publishedAt).getFullYear()}
+          </Text>
+        </Box>
         <Text color="almostWhite" fontWeight={600} fontSize={[2, 1]}>
           <Highlight attribute="title" hit={props.hit} />
         </Text>
