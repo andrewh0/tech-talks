@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { RefinementList } from 'react-instantsearch-dom';
+import {
+  RefinementList,
+  CurrentRefinements,
+  ClearRefinements
+} from 'react-instantsearch-dom';
 import { Button, Box } from './design';
 import Icon, { filter } from './Icon';
 import styled from '@emotion/styled';
@@ -12,6 +16,20 @@ type RefinementItem = {
   isRefined: boolean;
   label: string;
   value: Array<string>;
+};
+
+type CurrentRefinement = {
+  attribute: string;
+  id: string;
+  index: string;
+  items: Array<CurrentRefinementItem>;
+  label: string;
+  value: Function;
+};
+
+type CurrentRefinementItem = {
+  label: string;
+  value: Function;
 };
 
 const HideableBox = styled(Box)`
@@ -72,6 +90,21 @@ function SearchOptions() {
             Filter conferences
           </FilterButton>
         </Box>
+      </Box>
+      <Box color="almostWhite" px={3} pt={3} pb={0}>
+        <CurrentRefinements
+          transformItems={(items: Array<CurrentRefinement>) =>
+            items.map(item => ({
+              ...item,
+              label: ''
+            }))
+          }
+        />
+        <ClearRefinements
+          translations={{
+            reset: 'Clear all'
+          }}
+        />
       </Box>
       <HideableBox
         isHidden={!isOpen}

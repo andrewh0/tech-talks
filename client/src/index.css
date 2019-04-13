@@ -184,3 +184,32 @@ code {
   margin-left: 4px;
   font-weight: 500;
 }
+.ais-CurrentRefinements-category {
+  font-size: 12px;
+  display: inline-block;
+  background-color: #646570;
+  border-radius: 4px;
+  padding: 4px;
+  margin-right: 8px;
+}
+
+.ais-CurrentRefinements-categoryLabel {
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.ais-CurrentRefinements-delete {
+  cursor: pointer;
+}
+
+.ais-ClearRefinements {
+  margin-top: 8px;
+}
+
+.ais-ClearRefinements-button {
+  color: #56a4ff;
+}
+
+.ais-ClearRefinements-button--disabled {
+  display: none;
+}
