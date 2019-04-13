@@ -45,7 +45,7 @@ const MenuList = styled('ul')`
   z-index: 2;
   left: 0;
   top: 100%;
-  background-color: ${theme.colors.darkGray};
+  background-color: ${theme.colors.gray};
   position: absolute;
   width: 100%;
   box-shadow: 0px 8px 16px 8px rgba(0, 0, 0, 0.3);
