@@ -1,21 +1,9 @@
 import React from 'react';
-import { InstantSearch, connectInfiniteHits } from 'react-instantsearch-dom';
+import { connectInfiniteHits } from 'react-instantsearch-dom';
+
 import VideoCard, { VideoHit } from './VideoCard';
 import { OnVideoCardClickType } from './App';
-
 import { Box, Button, Text } from './design';
-
-function InstantSearchProvider({ children }: { children: any }) {
-  return (
-    <InstantSearch
-      appId="TOYFG73GH3"
-      indexName="TALKS"
-      apiKey="dd15269aa4416b500656d26f74c4126c"
-    >
-      {children}
-    </InstantSearch>
-  );
-}
 
 const EmptyStateText = Text.withComponent('p');
 
@@ -75,7 +63,7 @@ function Hits(props: {
 
 const CustomHits = connectInfiniteHits(Hits);
 
-function Search(props: {
+function SearchResults(props: {
   onVideoCardClick: OnVideoCardClickType;
   navigate: (path: string) => void;
   playerSize: string;
@@ -89,5 +77,4 @@ function Search(props: {
   );
 }
 
-export { InstantSearchProvider };
-export default Search;
+export default SearchResults;

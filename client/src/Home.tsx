@@ -1,6 +1,6 @@
 import React from 'react';
 import { Location } from '@reach/router';
-import Search from './Search';
+import SearchResults from './SearchResults';
 import SearchOptions from './SearchOptions';
 import { OnVideoCardClickType } from './App';
 import { Box, Text } from './design';
@@ -40,7 +40,7 @@ function Home(props: {
             </a>
           </Box>
           <SearchOptions />
-          <Search
+          <SearchResults
             onVideoCardClick={props.onVideoCardClick}
             navigate={navigate}
             playerSize={props.playerSize}

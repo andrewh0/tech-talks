@@ -6,12 +6,11 @@ import styled from '@emotion/styled';
 import theme, { NAV_HEIGHT } from './theme';
 import { Box } from './design';
 
-import { InstantSearchProvider } from './Search';
+import InstantSearchProvider from './SearchProvider';
 import Nav from './Nav';
 import Home from './Home';
 import About from './About';
 import VideoPage from './VideoPage';
-
 import Player from './Player';
 
 export type OnVideoCardClickType = (
