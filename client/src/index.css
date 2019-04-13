@@ -61,6 +61,12 @@ code {
 
 /* Algolia React InstantSearch styles */
 
+.ais-Highlight-highlighted {
+  font-style: normal;
+  background-color: #56a4ff;
+  color: #00031A;
+}
+
 .ais-SearchBox {
   width: 100%;
 }
