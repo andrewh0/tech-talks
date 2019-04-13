@@ -40,6 +40,7 @@ const Text = styled('div')`
   ${color}
   ${textAlign}
   ${width}
+  ${display}
 `;
 
 const StyledLink = styled(Link)`

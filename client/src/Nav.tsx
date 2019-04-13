@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { color, space, display } from 'styled-system';
-import { SearchBox } from 'react-instantsearch-dom';
-import { Link, Location, NavigateFn, WindowLocation } from '@reach/router';
+import { Link } from '@reach/router';
 
 import theme, { NAV_HEIGHT } from './theme';
 import { Box, Button } from './design';
 import Logo from './Logo';
-import AlgoliaLogo from './AlgoliaLogo';
-import Icon, { search, close, menu, openInNew } from './Icon';
+import Icon, { menu, openInNew } from './Icon';
 
 const StyledNav = styled('nav')`
   position: relative;
@@ -40,136 +38,6 @@ const NavA = styled(NavLink)`
   display: flex;
   align-items: center;
 `.withComponent('a');
-
-const SearchContainer = styled(Box)`
-  display: flex;
-  align-items: center;
-  width: 100%;
-`;
-
-function HomeNav({
-  location,
-  navigate,
-  onMenuToggle,
-  isMenuOpen
-}: {
-  location: WindowLocation;
-  navigate: NavigateFn;
-  onMenuToggle: (isMenuOpen: boolean) => void;
-  isMenuOpen: boolean;
-}) {
-  const [isSearchOpen, toggleSearchOpen] = useState();
-  const handleCloseSearch = (e: KeyboardEvent) => {
-    const which = e.which || e.keyCode;
-    if (which === 27) {
-      // Escape key
-      toggleSearchOpen(false);
-    }
-  };
-  useEffect(() => {
-    if (isSearchOpen) {
-      document.addEventListener('keydown', handleCloseSearch);
-    }
-    return () => {
-      document.removeEventListener('keydown', handleCloseSearch);
-    };
-  }, [isSearchOpen]);
-
-  useEffect(() => {
-    if (location.pathname !== '/') {
-      toggleSearchOpen(false);
-    }
-  }, [location.pathname]);
-
-  return isSearchOpen ? (
-    <SearchContainer color="gray" p={1}>
-      <SearchBox
-        translations={{
-          placeholder: 'Find a talk...'
-        }}
-        submit={<Icon path={search.path} viewBox={search.viewBox} />}
-        autoFocus={true}
-      />
-      <NavButton
-        p={1}
-        onClick={() => {
-          toggleSearchOpen(false);
-        }}
-        color="gray"
-      >
-        <Icon path={close.path} viewBox={close.viewBox} />
-      </NavButton>
-      <Box p={1}>
-        <a
-          href="https://www.algolia.com"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          <AlgoliaLogo />
-        </a>
-      </Box>
-    </SearchContainer>
-  ) : (
-    <React.Fragment>
-      <NavLinks onMenuToggle={onMenuToggle} isMenuOpen={isMenuOpen} />
-      <NavButton
-        onClick={() => {
-          toggleSearchOpen(true);
-          if (location.pathname !== '/') {
-            navigate('/');
-          }
-        }}
-      >
-        <Icon path={search.path} viewBox={search.viewBox} />
-      </NavButton>
-    </React.Fragment>
-  );
-}
-
-function NavLinks({
-  onMenuToggle,
-  isMenuOpen
-}: {
-  onMenuToggle: (isMenuOpen: boolean) => void;
-  isMenuOpen: boolean;
-}) {
-  return (
-    <Box color="almostWhite">
-      <Box display={['none', 'flex']} alignItems="center">
-        <Logo />
-        <NavLink to="/about" color="almostWhite" px={2}>
-          About
-        </NavLink>
-        <NavA
-          href="https://github.com/andrewh0/tech-talks"
-          color="almostWhite"
-          px={2}
-        >
-          Contribute
-          <Box pl={1} display="inline-flex">
-            <Icon
-              path={openInNew.path}
-              viewBox={openInNew.viewBox}
-              height="16px"
-              width="16px"
-            />
-          </Box>
-        </NavA>
-      </Box>
-
-      <Box display={['flex', 'none']} alignItems="center">
-        <NavButton
-          onClick={(_e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-            onMenuToggle(!isMenuOpen);
-          }}
-        >
-          <Icon path={menu.path} viewBox={menu.viewBox} />
-        </NavButton>
-        <Logo />
-      </Box>
-    </Box>
-  );
-}
 
 const MenuList = styled('ul')`
   margin: 0;
@@ -231,16 +99,7 @@ function Nav() {
   }, [isMenuOpen]);
   return (
     <StyledNav bg="black" p={[2, 4]}>
-      <Location>
-        {({ location, navigate }) => (
-          <HomeNav
-            location={location}
-            navigate={navigate}
-            onMenuToggle={handleToggleMenu}
-            isMenuOpen={isMenuOpen}
-          />
-        )}
-      </Location>
+      <NavLinks onMenuToggle={handleToggleMenu} isMenuOpen={isMenuOpen} />
       {isMenuOpen ? (
         <MenuList display={['block', 'none']}>
           <MenuItem>
@@ -268,6 +127,50 @@ function Nav() {
         </MenuList>
       ) : null}
     </StyledNav>
+  );
+}
+
+function NavLinks({
+  onMenuToggle,
+  isMenuOpen
+}: {
+  onMenuToggle: (isMenuOpen: boolean) => void;
+  isMenuOpen: boolean;
+}) {
+  return (
+    <Box color="almostWhite">
+      <Box display={['none', 'flex']} alignItems="center">
+        <Logo />
+        <NavLink to="/about" color="almostWhite" px={2}>
+          About
+        </NavLink>
+        <NavA
+          href="https://github.com/andrewh0/tech-talks"
+          color="almostWhite"
+          px={2}
+        >
+          Contribute
+          <Box pl={1} display="inline-flex">
+            <Icon
+              path={openInNew.path}
+              viewBox={openInNew.viewBox}
+              height="16px"
+              width="16px"
+            />
+          </Box>
+        </NavA>
+      </Box>
+      <Box display={['flex', 'none']} alignItems="center">
+        <NavButton
+          onClick={(_e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            onMenuToggle(!isMenuOpen);
+          }}
+        >
+          <Icon path={menu.path} viewBox={menu.viewBox} />
+        </NavButton>
+        <Logo />
+      </Box>
+    </Box>
   );
 }
 

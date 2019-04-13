@@ -112,6 +112,7 @@ code {
   right: 8px;
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
+  fill: #646570;
 }
 
 .ais-SearchBox-submit {
@@ -119,7 +120,7 @@ code {
 }
 
 .ais-SearchBox-reset {
-  display: none;
+  right: 4px;
 }
 
 .ais-SearchBox-submitIcon,
@@ -140,15 +141,8 @@ code {
   margin-bottom: 8px;
 }
 
-.ais-RefinementList .ais-RefinementList-searchBox .ais-SearchBox-reset {
-  fill: white;
-  display: block;
-}
-.ais-RefinementList .ais-RefinementList-searchBox .ais-SearchBox-reset[hidden] {
-  display: none;
-}
-.ais-RefinementList .ais-RefinementList-searchBox .ais-SearchBox-submit {
-  fill: white;
+.ais-RefinementList .ais-RefinementList-searchBox .ais-SearchBox-input {
+  font-weight: normal;
 }
 
 .ais-RefinementList-list {

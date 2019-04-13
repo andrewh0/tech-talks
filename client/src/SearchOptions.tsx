@@ -3,6 +3,9 @@ import { RefinementList } from 'react-instantsearch-dom';
 import { Button, Box } from './design';
 import Icon, { filter } from './Icon';
 import styled from '@emotion/styled';
+import SortBy from './SortBy';
+import SearchBox from './SearchBox';
+
 
 type RefinementItem = {
   count: number;
@@ -16,11 +19,18 @@ const HideableBox = styled(Box)`
 `;
 
 const FilterButton = styled(Button)`
+  padding: 0;
   display: inline-flex;
   align-items: center;
+  text-transform: none;
+  font-weight: unset;
+  background: none;
+  &:hover {
+    background: none;
+  }
 `;
 
-function CustomRefinementList() {
+function SearchOptions() {
   const [isOpen, toggleOpen] = useState(false);
   const transformItems = (items: Array<RefinementItem>) =>
     items.slice().sort((a: RefinementItem, b: RefinementItem) => {
@@ -35,17 +45,30 @@ function CustomRefinementList() {
     toggleOpen(!isOpen);
   };
   return (
-    <Box px={[2, 0]}>
-      <FilterButton p={2} mb={3} onClick={handleFilterButtonClick}>
-        <Box mr={1} display="flex" alignItems="center">
-          <Icon path={filter.path} viewBox={filter.viewBox} />
+    <Box mb={3} px={[2, 0]}>
+      <Box display="flex" alignItems="center" flexWrap="wrap">
+        <SearchBox />
+        <Box display="flex" alignItems="center"  flexWrap="wrap">
+        <SortBy
+          defaultRefinement="TALKS"
+          items={[
+            { value: 'TALKS', label: 'Most viewed' },
+            { value: 'TALKS_RECENTLY_ADDED', label: 'Newest' }
+          ]}
+        />
+        <FilterButton p={2} fontSize={2} onClick={handleFilterButtonClick}>
+          <Box mr={1} display="flex" alignItems="center">
+            <Icon path={filter.path} viewBox={filter.viewBox} />
+          </Box>
+          Filter conferences
+        </FilterButton>
         </Box>
-        Filter
-      </FilterButton>
+      </Box>
       <HideableBox
         isHidden={!isOpen}
         color="almostWhite"
         mb={3}
+        p={3}
         display="flex"
         justifyContent="center"
       >
@@ -61,4 +84,4 @@ function CustomRefinementList() {
   );
 }
 
-export default CustomRefinementList;
+export default SearchOptions;

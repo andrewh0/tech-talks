@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { connectSortBy } from 'react-instantsearch-dom';
 import { space, fontSize, fontWeight, color } from 'styled-system';
-import theme from './theme';
+import { Box, P } from './design';
 
 type SortByItem = { value: string; label: string };
 
@@ -11,10 +11,7 @@ const Select = styled('select')`
   display: inline-block;
   border: none;
   cursor: pointer;
-  padding: 0;
-  &:hover {
-    color: ${theme.colors.brandLighter}
-  }
+  font-weight: bold;
   ${fontWeight}
   ${space}
   ${fontSize}
@@ -34,20 +31,25 @@ const SortBy = ({
     refine((e.target as HTMLSelectElement).value);
   };
   return (
-    <Select
-      value={currentRefinement}
-      onChange={onChange}
-      fontWeight={900}
-      color="brand"
-      bg="darkGray"
-      fontSize={[3]}
-    >
-      {items.map((item: SortByItem) => (
-        <option value={item.value} key={item.value}>
-          {item.label}
-        </option>
-      ))}
-    </Select>
+    <Box pr={2}>
+      <P fontSize={2} color="almostWhite" m={0} display="inline-block">
+      Sort by:{' '}
+      </P>
+      <Select
+        value={currentRefinement}
+        onChange={onChange}
+        color="brand"
+        bg="darkGray"
+        fontSize={2}
+        p={2}
+      >
+        {items.map((item: SortByItem) => (
+          <option value={item.value} key={item.value}>
+            {item.label}
+          </option>
+        ))}
+      </Select>
+    </Box>
   );
 };
 
