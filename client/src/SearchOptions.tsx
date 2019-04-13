@@ -5,7 +5,7 @@ import Icon, { filter } from './Icon';
 import styled from '@emotion/styled';
 import SortBy from './SortBy';
 import SearchBox from './SearchBox';
-
+import theme from './theme';
 
 type RefinementItem = {
   count: number;
@@ -23,11 +23,15 @@ const FilterButton = styled(Button)`
   display: inline-flex;
   align-items: center;
   text-transform: none;
-  font-weight: unset;
+  font-weight: normal;
   background: none;
   &:hover {
     background: none;
   }
+  ${props =>
+    props.isOpen
+      ? `color: ${theme.colors.brand};`
+      : `color: ${theme.colors.almostWhite};`}
 `;
 
 function SearchOptions() {
@@ -48,20 +52,25 @@ function SearchOptions() {
     <Box mb={3} px={[2, 0]}>
       <Box display="flex" alignItems="center" flexWrap="wrap">
         <SearchBox />
-        <Box display="flex" alignItems="center"  flexWrap="wrap">
-        <SortBy
-          defaultRefinement="TALKS"
-          items={[
-            { value: 'TALKS', label: 'Most viewed' },
-            { value: 'TALKS_RECENTLY_ADDED', label: 'Newest' }
-          ]}
-        />
-        <FilterButton p={2} fontSize={2} onClick={handleFilterButtonClick}>
-          <Box mr={1} display="flex" alignItems="center">
-            <Icon path={filter.path} viewBox={filter.viewBox} />
-          </Box>
-          Filter conferences
-        </FilterButton>
+        <Box display="flex" alignItems="center" flexWrap="wrap">
+          <SortBy
+            defaultRefinement="TALKS"
+            items={[
+              { value: 'TALKS', label: 'Most viewed' },
+              { value: 'TALKS_RECENTLY_ADDED', label: 'Newest' }
+            ]}
+          />
+          <FilterButton
+            p={2}
+            fontSize={2}
+            onClick={handleFilterButtonClick}
+            isOpen={isOpen}
+          >
+            <Box mr={1} display="flex" alignItems="center">
+              <Icon path={filter.path} viewBox={filter.viewBox} />
+            </Box>
+            Filter conferences
+          </FilterButton>
         </Box>
       </Box>
       <HideableBox

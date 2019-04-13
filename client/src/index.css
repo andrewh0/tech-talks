@@ -134,19 +134,23 @@ code {
 }
 .ais-RefinementList {
   width: 100%;
+  border: 2px solid #56a4ff;
+  border-radius: 4px;
+  padding: 8px;
 }
 
 .ais-RefinementList .ais-RefinementList-searchBox {
-  max-width: 256px;
+  width: 100%;
   margin-bottom: 8px;
 }
 
 .ais-RefinementList .ais-RefinementList-searchBox .ais-SearchBox-input {
   font-weight: normal;
+  border-bottom: none;
 }
 
 .ais-RefinementList-list {
-  max-height: 50vh;
+  max-height: 25vh;
   overflow: scroll;
   font-weight: 500;
   display: grid;
