@@ -67,7 +67,7 @@ function SearchOptions() {
             isOpen={isOpen}
           >
             <Box mr={1} display="flex" alignItems="center">
-              <Icon path={filter.path} viewBox={filter.viewBox} />
+              <Icon path={filter} />
             </Box>
             Filter conferences
           </FilterButton>

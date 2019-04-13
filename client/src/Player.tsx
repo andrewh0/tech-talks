@@ -62,7 +62,7 @@ function PlayerControls({
           onVideoExpand();
         }}
       >
-        <Icon path={expand.path} viewBox={expand.viewBox} />
+        <Icon path={expand} />
       </Button>
       <Button
         title="Close"
@@ -72,7 +72,7 @@ function PlayerControls({
           onVideoClose();
         }}
       >
-        <Icon path={close.path} viewBox={close.viewBox} />
+        <Icon path={close} />
       </Button>
     </PlayerControlsContainer>
   );

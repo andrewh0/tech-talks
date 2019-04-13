@@ -116,8 +116,7 @@ function Nav() {
               Contribute
               <Box pl={1} display="inline-flex">
                 <Icon
-                  path={openInNew.path}
-                  viewBox={openInNew.viewBox}
+                  path={openInNew}
                   height="16px"
                   width="16px"
                 />
@@ -152,8 +151,7 @@ function NavLinks({
           Contribute
           <Box pl={1} display="inline-flex">
             <Icon
-              path={openInNew.path}
-              viewBox={openInNew.viewBox}
+              path={openInNew}
               height="16px"
               width="16px"
             />
@@ -166,7 +164,7 @@ function NavLinks({
             onMenuToggle(!isMenuOpen);
           }}
         >
-          <Icon path={menu.path} viewBox={menu.viewBox} />
+          <Icon path={menu} />
         </NavButton>
         <Logo />
       </Box>

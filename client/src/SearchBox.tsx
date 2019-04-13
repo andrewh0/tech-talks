@@ -17,8 +17,8 @@ function CustomSearchBox() {
         translations={{
           placeholder: 'Find a talk...'
         }}
-        submit={<Icon path={search.path} viewBox={search.viewBox} />}
-        reset={<Icon path={close.path} viewBox={close.viewBox} />}
+        submit={<Icon path={search} />}
+        reset={<Icon path={close} />}
         autoFocus={true}
       />
     </SearchContainer>
