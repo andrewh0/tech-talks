@@ -33,7 +33,7 @@ const SortBy = ({
   return (
     <Box pr={2}>
       <P fontSize={2} color="almostWhite" m={0} display="inline-block">
-      Sort by:{' '}
+        Sort by:{' '}
       </P>
       <Select
         value={currentRefinement}

@@ -115,11 +115,7 @@ function Nav() {
             >
               Contribute
               <Box pl={1} display="inline-flex">
-                <Icon
-                  path={openInNew}
-                  height="16px"
-                  width="16px"
-                />
+                <Icon path={openInNew} height="16px" width="16px" />
               </Box>
             </MenuItemA>
           </MenuItem>
@@ -150,11 +146,7 @@ function NavLinks({
         >
           Contribute
           <Box pl={1} display="inline-flex">
-            <Icon
-              path={openInNew}
-              height="16px"
-              width="16px"
-            />
+            <Icon path={openInNew} height="16px" width="16px" />
           </Box>
         </NavA>
       </Box>
