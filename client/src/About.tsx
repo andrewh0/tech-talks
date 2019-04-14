@@ -1,9 +1,10 @@
 import React from 'react';
 import { Box, H1, P, A } from './design';
+import { CONTENT_MAX_WIDTH } from './theme';
 
 function About(props: { path: string }) {
   return (
-    <Box p={[2, 4]} mx="auto" color="almostWhite" maxWidth="800px">
+    <Box p={[2, 4]} mx="auto" color="almostWhite" maxWidth={CONTENT_MAX_WIDTH}>
       <H1 fontSize={[3, 4]} fontWeight={900} mx={0} mt={0} mb={3}>
         About
       </H1>

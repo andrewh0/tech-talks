@@ -5,6 +5,7 @@ import SearchOptions from './SearchOptions';
 import { OnVideoCardClickType } from './App';
 import { Box, Text } from './design';
 import AlgoliaLogo from './AlgoliaLogo';
+import { CONTENT_MAX_WIDTH } from './theme';
 
 const Title = Text.withComponent('h1');
 
@@ -18,7 +19,7 @@ function Home(props: {
   return (
     <Location>
       {({ navigate }) => (
-        <Box px={[0, 4]}>
+        <Box px={[0, 4]} mx="auto" maxWidth={CONTENT_MAX_WIDTH}>
           <Title
             px={[2, 0]}
             pt={3}
