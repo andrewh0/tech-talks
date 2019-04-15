@@ -3,7 +3,7 @@ import { ThemeProvider } from 'emotion-theming';
 import { Router, Match } from '@reach/router';
 import styled from '@emotion/styled';
 
-import theme, { NAV_HEIGHT } from './theme';
+import theme from './theme';
 import { Box } from './design';
 
 import InstantSearchProvider from './SearchProvider';
@@ -12,6 +12,7 @@ import Home from './Home';
 import About from './About';
 import VideoPage from './VideoPage';
 import Player from './Player';
+import CookieFooter from './CookieFooter';
 
 export type OnVideoCardClickType = (
   objectId: string,
@@ -21,8 +22,6 @@ export type OnVideoCardClickType = (
 
 const ContentContainer = styled(Box)`
   position: relative;
-  max-height: calc(100vh - ${NAV_HEIGHT}px);
-  min-height: calc(100vh - ${NAV_HEIGHT}px);
 `;
 
 function App() {
@@ -97,6 +96,7 @@ function App() {
             )}
           </Match>
         </ContentContainer>
+        <CookieFooter />
       </InstantSearchProvider>
     </ThemeProvider>
   );

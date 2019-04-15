@@ -19,7 +19,7 @@ function Hits(props: {
     <Box
       display="flex"
       flexWrap="wrap"
-      pb={props.playerSize === 'minimized' ? 7 : 0}
+      pb={props.playerSize === 'minimized' ? 7 : 4}
     >
       {props.hits.length > 0 ? (
         props.hits.map((hit: VideoHit, i: number) => (
