@@ -5,7 +5,11 @@ import { sortBy, omit } from 'lodash';
 import { Box, H1, P, StyledLink } from './design';
 import { CONTENT_MAX_WIDTH } from './theme';
 import VideoCard, { VideoHit } from './VideoCard';
-import { OnVideoCardClickType, SavedTalksMapType, OnVideoSaveType } from './App';
+import {
+  OnVideoCardClickType,
+  SavedTalksMapType,
+  OnVideoSaveType
+} from './App';
 import Icon, { add } from './Icon';
 
 function SavedPage(props: {

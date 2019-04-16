@@ -2,7 +2,12 @@ import React from 'react';
 import { Location } from '@reach/router';
 import SearchResults from './SearchResults';
 import SearchOptions from './SearchOptions';
-import { OnVideoCardClickType, SavedTalksMapType, SetPlayerSizeType, OnVideoSaveType } from './App';
+import {
+  OnVideoCardClickType,
+  SavedTalksMapType,
+  SetPlayerSizeType,
+  OnVideoSaveType
+} from './App';
 import { Box, H1 } from './design';
 import AlgoliaLogo from './AlgoliaLogo';
 import { CONTENT_MAX_WIDTH } from './theme';

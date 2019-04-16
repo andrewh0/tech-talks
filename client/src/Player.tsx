@@ -6,7 +6,7 @@ import YouTubePlayer from './YouTubePlayer';
 import Icon, { expand, close } from './Icon';
 import { Box, Button } from './design';
 import theme from './theme';
-import {SetPlayerSizeType} from './App';
+import { SetPlayerSizeType } from './App';
 
 const VideoPlayerContainer = styled(Box)`
   position: absolute;
