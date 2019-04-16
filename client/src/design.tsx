@@ -71,7 +71,12 @@ const A = styled('a')`
   ${fontSize}
 `;
 
+const Span = styled('span')`
+  ${display}
+  ${justifyContent}
+`;
+
 const H1 = Text.withComponent('h1');
 const P = Text.withComponent('p');
 
-export { H1, P, A, Box, Button, Text, StyledLink };
+export { H1, P, A, Span, Box, Button, Text, StyledLink };

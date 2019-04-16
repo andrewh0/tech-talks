@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Location } from '@reach/router';
 import { sortBy, omit } from 'lodash';
 
-import { Box, H1, P, StyledLink } from './design';
+import { Span, Box, H1, P, StyledLink } from './design';
 import { CONTENT_MAX_WIDTH } from './theme';
 import VideoCard, { VideoHit } from './VideoCard';
 import {
@@ -60,13 +60,13 @@ function SavedPage(props: {
                 width="100%"
                 textAlign="center"
               >
-                <Box display="flex" justifyContent="center">
+                <Span display="flex" justifyContent="center">
                   No talks saved yet. When you press{' '}
-                  <Box display="inline-flex">
+                  <Span display="inline-flex">
                     <Icon path={add} />
-                  </Box>{' '}
+                  </Span>{' '}
                   on a talk, it'll show up here.
-                </Box>
+                </Span>
                 <StyledLink to="/" color="brand">
                   Find a talk.
                 </StyledLink>
