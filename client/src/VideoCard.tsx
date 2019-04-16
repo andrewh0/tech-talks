@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Highlight } from 'react-instantsearch-dom';
 import formatDurationMs from 'format-duration';
@@ -7,6 +7,7 @@ import { space, fontSize, bottom, right, left, top } from 'styled-system';
 import { Box, Text } from './design';
 import { OnVideoCardClickType } from './App';
 import theme from './theme';
+import Icon, { check, add } from './Icon';
 
 const StyledImage = styled('img')`
   display: flex;
@@ -30,6 +31,9 @@ const CardImage = styled(Box)`
 `;
 
 const CardOverlayBox = styled(Box)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   background-color: ${theme.colors.darkGray};
   opacity: 0.9;
@@ -43,6 +47,14 @@ const CardOverlayBox = styled(Box)`
   ${right}
   ${left}
 `;
+
+const SaveUnsaveButton = styled(CardOverlayBox)`
+  border: none;
+  cursor: pointer;
+  &:hover {
+    background-color: ${theme.colors.brand};
+  }
+`.withComponent('button');
 
 export type VideoHit = {
   viewCount: number;
@@ -77,9 +89,13 @@ function formatViews(viewCount: number): string {
 
 function VideoCard(props: {
   hit: VideoHit;
+  isSearchResult: boolean;
+  isSaved: boolean;
   onVideoCardClick: OnVideoCardClickType;
   navigate: (path: string) => void;
+  onVideoSave: Function;
 }) {
+  const [isSaved, setSaved] = useState(props.isSaved);
   const handleVideoCardClick = (e: React.MouseEvent) => {
     e.preventDefault();
     props.onVideoCardClick(
@@ -99,17 +115,33 @@ function VideoCard(props: {
     >
       <CardImage>
         <StyledImage src={props.hit.thumbnailUrl} alt={props.hit.title} />
-        <CardOverlayBox bottom={4} left={4} p={1}>
-          <Text fontSize={0}>
-            {formatViews(props.hit.viewCount)}{' '}
-            {props.hit.viewCount === 1 ? 'view' : 'views'}
-          </Text>
-        </CardOverlayBox>
+        {props.isSearchResult ? (
+          <CardOverlayBox bottom={4} left={4} p={1}>
+            <Text fontSize={0}>
+              {formatViews(props.hit.viewCount)}{' '}
+              {props.hit.viewCount === 1 ? 'view' : 'views'}
+            </Text>
+          </CardOverlayBox>
+        ) : null}
         <CardOverlayBox bottom={4} right={4} p={1}>
           <Text fontSize={0}>
             {formatDurationMs(props.hit.duration * 1000)}
           </Text>
         </CardOverlayBox>
+        <SaveUnsaveButton
+          top={4}
+          right={4}
+          p={1}
+          title={isSaved ? 'Added to saved talks' : 'Save this talk'}
+          onClick={(e: React.MouseEvent) => {
+            const nextSavedState = !isSaved;
+            e.stopPropagation();
+            setSaved(nextSavedState);
+            props.onVideoSave(props.hit, nextSavedState);
+          }}
+        >
+          {isSaved ? <Icon path={check} /> : <Icon path={add} />}
+        </SaveUnsaveButton>
       </CardImage>
       <Box p={2}>
         <Box width="100%" display="flex" justifyContent="space-between">
@@ -121,7 +153,11 @@ function VideoCard(props: {
           </Text>
         </Box>
         <Text color="almostWhite" fontWeight={600} fontSize={[2, 1]}>
-          <Highlight attribute="title" hit={props.hit} />
+          {props.isSearchResult ? (
+            <Highlight attribute="title" hit={props.hit} />
+          ) : (
+            props.hit.title
+          )}
         </Text>
       </Box>
     </Card>

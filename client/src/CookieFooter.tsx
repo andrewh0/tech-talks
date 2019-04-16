@@ -25,7 +25,7 @@ function CookieFooter() {
   useEffect(() => {
     window.localStorage.setItem(
       LOCALSTORAGE_COOKIE_DISMISSAL_KEY,
-      isCookieAgreementDismissed
+      JSON.stringify(isCookieAgreementDismissed)
     );
   }, [isCookieAgreementDismissed]);
   return !isCookieAgreementDismissed ? (

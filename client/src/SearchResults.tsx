@@ -1,11 +1,10 @@
 import React from 'react';
 import { connectInfiniteHits } from 'react-instantsearch-dom';
+import { get } from 'lodash';
 
 import VideoCard, { VideoHit } from './VideoCard';
 import { OnVideoCardClickType } from './App';
-import { Box, Button, Text } from './design';
-
-const EmptyStateText = Text.withComponent('p');
+import { Box, Button, P } from './design';
 
 function Hits(props: {
   hits: Array<VideoHit>;
@@ -14,6 +13,8 @@ function Hits(props: {
   refine: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   navigate: (path: string) => void;
   playerSize: string;
+  onVideoSave: Function;
+  savedTalks: any;
 }) {
   return (
     <Box
@@ -24,14 +25,17 @@ function Hits(props: {
       {props.hits.length > 0 ? (
         props.hits.map((hit: VideoHit, i: number) => (
           <VideoCard
-            key={i}
+            key={hit.objectID}
             hit={hit}
             onVideoCardClick={props.onVideoCardClick}
             navigate={props.navigate}
+            isSearchResult={true}
+            isSaved={get(props.savedTalks, [hit.objectID]) || false}
+            onVideoSave={props.onVideoSave}
           />
         ))
       ) : (
-        <EmptyStateText
+        <P
           my={1}
           p={2}
           color="almostWhite"
@@ -41,7 +45,7 @@ function Hits(props: {
           textAlign="center"
         >
           No talks to display. Maybe try a different search?
-        </EmptyStateText>
+        </P>
       )}
       {props.hasMore ? (
         <Box display="flex" justifyContent="flex-start" width={1} my={2}>
@@ -67,12 +71,16 @@ function SearchResults(props: {
   onVideoCardClick: OnVideoCardClickType;
   navigate: (path: string) => void;
   playerSize: string;
+  onVideoSave: Function;
+  savedTalks: any;
 }) {
   return (
     <CustomHits
       onVideoCardClick={props.onVideoCardClick}
       navigate={props.navigate}
       playerSize={props.playerSize}
+      onVideoSave={props.onVideoSave}
+      savedTalks={props.savedTalks}
     />
   );
 }

@@ -71,7 +71,7 @@ const A = styled('a')`
   ${fontSize}
 `;
 
-const H1 = styled(Text)``.withComponent('h1');
-const P = styled(Text)``.withComponent('p');
+const H1 = Text.withComponent('h1');
+const P = Text.withComponent('p');
 
 export { H1, P, A, Box, Button, Text, StyledLink };

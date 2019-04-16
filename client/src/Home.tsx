@@ -3,24 +3,24 @@ import { Location } from '@reach/router';
 import SearchResults from './SearchResults';
 import SearchOptions from './SearchOptions';
 import { OnVideoCardClickType } from './App';
-import { Box, Text } from './design';
+import { Box, H1 } from './design';
 import AlgoliaLogo from './AlgoliaLogo';
 import { CONTENT_MAX_WIDTH } from './theme';
 
-const Title = Text.withComponent('h1');
-
 function Home(props: {
   onVideoCardClick: OnVideoCardClickType;
+  onVideoSave: Function;
   path: string;
   setPlayerSize: Function;
   videoId?: string;
   playerSize: string;
+  savedTalks: any;
 }) {
   return (
     <Location>
       {({ navigate }) => (
         <Box px={[0, 4]} mx="auto" maxWidth={CONTENT_MAX_WIDTH}>
-          <Title
+          <H1
             px={[2, 0]}
             pt={3}
             pb={0}
@@ -30,7 +30,7 @@ function Home(props: {
             fontSize={3}
           >
             Conference talks about web development
-          </Title>
+          </H1>
           <Box px={[2, 0]} pb={3}>
             <a
               href="https://www.algolia.com"
@@ -45,6 +45,8 @@ function Home(props: {
             onVideoCardClick={props.onVideoCardClick}
             navigate={navigate}
             playerSize={props.playerSize}
+            onVideoSave={props.onVideoSave}
+            savedTalks={props.savedTalks}
           />
         </Box>
       )}

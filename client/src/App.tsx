@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from 'emotion-theming';
 import { Router, Match } from '@reach/router';
 import styled from '@emotion/styled';
+import { keyBy, sortBy, omit, map } from 'lodash';
 
 import theme from './theme';
 import { Box } from './design';
@@ -13,6 +14,8 @@ import About from './About';
 import VideoPage from './VideoPage';
 import Player from './Player';
 import CookieFooter from './CookieFooter';
+import SavedPage from './SavedPage';
+import { VideoHit } from './VideoCard';
 
 export type OnVideoCardClickType = (
   objectId: string,
@@ -24,10 +27,53 @@ const ContentContainer = styled(Box)`
   position: relative;
 `;
 
+const LOCALSTORAGE_SAVED_TALKS_KEY = 'TT_SAVED_TALKS';
+
 function App() {
   const [videoId, setVideoId] = useState();
   const [videoObjectId, setVideoObjectId] = useState();
   const [playerSize, setPlayerSize] = useState('hidden');
+  const savedTalksInitial = () =>
+    keyBy(
+      JSON.parse(
+        window.localStorage.getItem(LOCALSTORAGE_SAVED_TALKS_KEY) ||
+          JSON.stringify([])
+      ).map((item: any, i: number) => ({ ...item, order: i })),
+      'objectID'
+    );
+  const [savedTalks, setSavedTalks] = useState(savedTalksInitial);
+  useEffect(() => {
+    const savedTalksList = sortBy(savedTalks, [o => o.order]).map(talk =>
+      omit(talk, ['order'])
+    );
+    window.localStorage.setItem(
+      LOCALSTORAGE_SAVED_TALKS_KEY,
+      JSON.stringify(savedTalksList)
+    );
+  }, [savedTalks]);
+  const handleSetSavedTalk = (talk: VideoHit, shouldSave: boolean) => {
+    if (shouldSave) {
+      if (savedTalks[talk.objectID]) {
+        return;
+      }
+      const savedTalksList = map(savedTalks, t => t);
+      setSavedTalks({
+        ...savedTalks,
+        [talk.objectID]: {
+          ...talk,
+          order: savedTalksList.length
+        }
+      });
+    } else {
+      if (!savedTalks[talk.objectID]) {
+        return;
+      }
+      setSavedTalks(omit(savedTalks, talk.objectID));
+    }
+    if (shouldSave && savedTalks[talk.objectID]) {
+      return;
+    }
+  };
   const setVideo = (videoObjectId: string | null, videoId: string | null) => {
     setVideoId(videoId);
     setVideoObjectId(videoObjectId);
@@ -75,8 +121,17 @@ function App() {
               setPlayerSize={setPlayerSize}
               videoId={videoId}
               playerSize={playerSize}
+              onVideoSave={handleSetSavedTalk}
+              savedTalks={savedTalks}
             />
             <About path="about" />
+            <SavedPage
+              path="saved"
+              onVideoCardClick={handleVideoCardClick}
+              onVideoSave={handleSetSavedTalk}
+              playerSize={playerSize}
+              savedTalks={savedTalks}
+            />
             <VideoPage
               path="talks/:objectId"
               onPageLoad={handleVideoPageLoad}
@@ -102,4 +157,5 @@ function App() {
   );
 }
 
+export { LOCALSTORAGE_SAVED_TALKS_KEY };
 export default App;

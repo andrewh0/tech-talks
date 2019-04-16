@@ -103,6 +103,11 @@ function Nav() {
       {isMenuOpen ? (
         <MenuList display={['block', 'none']}>
           <MenuItem>
+            <MenuItemLink to="/saved" color="almostWhite">
+              Saved Talks
+            </MenuItemLink>
+          </MenuItem>
+          <MenuItem>
             <MenuItemLink to="/about" color="almostWhite">
               About
             </MenuItemLink>
@@ -136,6 +141,9 @@ function NavLinks({
     <Box color="almostWhite">
       <Box display={['none', 'flex']} alignItems="center">
         <Logo />
+        <NavLink to="/saved" color="almostWhite" px={2}>
+          Saved Talks
+        </NavLink>
         <NavLink to="/about" color="almostWhite" px={2}>
           About
         </NavLink>
