@@ -5,7 +5,7 @@ import formatDurationMs from 'format-duration';
 import numeral from 'numeral';
 import { space, fontSize, bottom, right, left, top } from 'styled-system';
 import { Box, Text } from './design';
-import { OnVideoCardClickType } from './App';
+import { OnVideoCardClickType, OnVideoSaveType } from './App';
 import theme from './theme';
 import Icon, { check, add } from './Icon';
 
@@ -93,7 +93,7 @@ function VideoCard(props: {
   isSaved: boolean;
   onVideoCardClick: OnVideoCardClickType;
   navigate: (path: string) => void;
-  onVideoSave: Function;
+  onVideoSave: OnVideoSaveType;
 }) {
   const [isSaved, setSaved] = useState(props.isSaved);
   const handleVideoCardClick = (e: React.MouseEvent) => {

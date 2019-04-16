@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
+import { display, justifyContent } from 'styled-system';
 
 import YouTubePlayer from './YouTubePlayer';
 import Icon, { expand, close } from './Icon';
 import { Box, Button } from './design';
 import theme from './theme';
-import { display, justifyContent } from 'styled-system';
+import {SetPlayerSizeType} from './App';
 
 const VideoPlayerContainer = styled(Box)`
   position: absolute;
@@ -81,7 +82,7 @@ function PlayerControls({
 function Player(props: {
   playerSize: string;
   videoId: string;
-  setPlayerSize: Function;
+  setPlayerSize: SetPlayerSizeType;
   match: { uri: string; path: string } | null;
   navigate: (path: string) => void;
   onVideoClose: () => void;

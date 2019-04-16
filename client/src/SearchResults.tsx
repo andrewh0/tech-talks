@@ -3,7 +3,7 @@ import { connectInfiniteHits } from 'react-instantsearch-dom';
 import { get } from 'lodash';
 
 import VideoCard, { VideoHit } from './VideoCard';
-import { OnVideoCardClickType } from './App';
+import { OnVideoCardClickType, OnVideoSaveType, SavedTalksMapType } from './App';
 import { Box, Button, P } from './design';
 
 function Hits(props: {
@@ -13,8 +13,8 @@ function Hits(props: {
   refine: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   navigate: (path: string) => void;
   playerSize: string;
-  onVideoSave: Function;
-  savedTalks: any;
+  onVideoSave: OnVideoSaveType;
+  savedTalks: SavedTalksMapType;
 }) {
   return (
     <Box
@@ -23,14 +23,14 @@ function Hits(props: {
       pb={props.playerSize === 'minimized' ? 7 : 4}
     >
       {props.hits.length > 0 ? (
-        props.hits.map((hit: VideoHit, i: number) => (
+        props.hits.map((hit: VideoHit) => (
           <VideoCard
             key={hit.objectID}
             hit={hit}
             onVideoCardClick={props.onVideoCardClick}
             navigate={props.navigate}
             isSearchResult={true}
-            isSaved={get(props.savedTalks, [hit.objectID]) || false}
+            isSaved={!!get(props.savedTalks, [hit.objectID])}
             onVideoSave={props.onVideoSave}
           />
         ))
@@ -71,8 +71,8 @@ function SearchResults(props: {
   onVideoCardClick: OnVideoCardClickType;
   navigate: (path: string) => void;
   playerSize: string;
-  onVideoSave: Function;
-  savedTalks: any;
+  onVideoSave: OnVideoSaveType;
+  savedTalks: SavedTalksMapType;
 }) {
   return (
     <CustomHits

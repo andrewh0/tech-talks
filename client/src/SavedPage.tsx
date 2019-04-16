@@ -5,22 +5,22 @@ import { sortBy, omit } from 'lodash';
 import { Box, H1, P, StyledLink } from './design';
 import { CONTENT_MAX_WIDTH } from './theme';
 import VideoCard, { VideoHit } from './VideoCard';
-import { OnVideoCardClickType } from './App';
+import { OnVideoCardClickType, SavedTalksMapType, OnVideoSaveType } from './App';
 import Icon, { add } from './Icon';
 
 function SavedPage(props: {
   path: string;
   onVideoCardClick: OnVideoCardClickType;
-  onVideoSave: Function;
+  onVideoSave: OnVideoSaveType;
   playerSize: string;
-  savedTalks: any;
+  savedTalks: SavedTalksMapType;
 }) {
   const initialSavedTalks = () =>
     sortBy(props.savedTalks, [o => o.order]).map(talk => omit(talk, ['order']));
   const [savedTalks, setSavedTalks] = useState(initialSavedTalks);
   const onVideoSave = (talk: VideoHit, shouldSave: boolean) => {
     const nextSavedTalks = savedTalks.filter(
-      (savedTalk: any) => savedTalk.objectID !== talk.objectID
+      (savedTalk: VideoHit) => savedTalk.objectID !== talk.objectID
     );
     setSavedTalks(nextSavedTalks);
     props.onVideoSave(talk, shouldSave);

@@ -23,11 +23,21 @@ export type OnVideoCardClickType = (
   navigate: (path: string) => void
 ) => void;
 
+export type OnVideoSaveType = (talk: VideoHit, shouldSave: boolean) => void;
+
+export type SetPlayerSizeType = (size: string) => void;
+
 const ContentContainer = styled(Box)`
   position: relative;
 `;
 
 const LOCALSTORAGE_SAVED_TALKS_KEY = 'TT_SAVED_TALKS';
+
+export type SavedTalksMapType = {
+  [objectID: string]: SavedTalkType;
+};
+
+export type SavedTalkType = VideoHit & { order: number };
 
 function App() {
   const [videoId, setVideoId] = useState();
@@ -38,7 +48,7 @@ function App() {
       JSON.parse(
         window.localStorage.getItem(LOCALSTORAGE_SAVED_TALKS_KEY) ||
           JSON.stringify([])
-      ).map((item: any, i: number) => ({ ...item, order: i })),
+      ).map((item: VideoHit, i: number) => ({ ...item, order: i })),
       'objectID'
     );
   const [savedTalks, setSavedTalks] = useState(savedTalksInitial);
@@ -69,9 +79,6 @@ function App() {
         return;
       }
       setSavedTalks(omit(savedTalks, talk.objectID));
-    }
-    if (shouldSave && savedTalks[talk.objectID]) {
-      return;
     }
   };
   const setVideo = (videoObjectId: string | null, videoId: string | null) => {

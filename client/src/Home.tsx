@@ -2,19 +2,19 @@ import React from 'react';
 import { Location } from '@reach/router';
 import SearchResults from './SearchResults';
 import SearchOptions from './SearchOptions';
-import { OnVideoCardClickType } from './App';
+import { OnVideoCardClickType, SavedTalksMapType, SetPlayerSizeType, OnVideoSaveType } from './App';
 import { Box, H1 } from './design';
 import AlgoliaLogo from './AlgoliaLogo';
 import { CONTENT_MAX_WIDTH } from './theme';
 
 function Home(props: {
   onVideoCardClick: OnVideoCardClickType;
-  onVideoSave: Function;
+  onVideoSave: OnVideoSaveType;
   path: string;
-  setPlayerSize: Function;
+  setPlayerSize: SetPlayerSizeType;
   videoId?: string;
   playerSize: string;
-  savedTalks: any;
+  savedTalks: SavedTalksMapType;
 }) {
   return (
     <Location>
