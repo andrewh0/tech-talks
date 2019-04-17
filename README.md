@@ -1,6 +1,6 @@
 # Tech Talks
 
-![tech-talks-demo](https://user-images.githubusercontent.com/2905455/55691068-c6414c00-594e-11e9-8498-5143c962b671.gif)
+![tech-talks-demo](https://user-images.githubusercontent.com/2905455/56312865-fedae580-6105-11e9-9079-9bbc27293a7e.gif)
 
 Tech Talks is a place to discover and watch conference talks about web development. So far, I've collected about 3,700 talks from a number of JavaScript conferences since 2017 by looking up their associated conference playlists on YouTube.
 
