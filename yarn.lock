@@ -3222,7 +3222,7 @@ prisma-yml@1.28.5:
     scuid "^1.0.2"
     yaml-ast-parser "^0.0.40"
 
-prisma@1.28:
+prisma@1.28.5:
   version "1.28.5"
   resolved "https://registry.yarnpkg.com/prisma/-/prisma-1.28.5.tgz#0b137d1046c614b3d81f5d69916521587c1c553a"
   integrity sha512-51S4tiMmm41F036SZ6Cjp0xW0GCHUqwW8ci+Lifnj12zgZiLWgP2q1s5/lvlCVlYmldr8ITOxipXOJF3a1S9bA==
