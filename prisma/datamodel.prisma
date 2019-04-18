@@ -1,17 +1,17 @@
 enum VideoSource {
-  YOUTUBE,
+  YOUTUBE
   VIMEO
 }
 
 enum EventType {
-  MEETUP,
+  MEETUP
   CONFERENCE
 }
 
 type Talk {
-  id: ID! @unique
-  event: Event
-  speakers: [Speaker!]!
+  id: ID! @id
+  event: Event!
+  speakers: [Speaker]
   description: String
   duration: Int
   hidden: Boolean
@@ -22,23 +22,25 @@ type Talk {
   thumbnailUrl: String
   videoId: String
   viewCount: Int
-  updatedAt: DateTime!
-  createdAt: DateTime!
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
 }
 
 type Speaker {
-  id: ID! @unique
-  events: [Event!]!
-  talks: [Talk!]!
+  id: ID! @id
+  events: [Event]
+  talks: [Talk]
   name: String!
   twitterHandle: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type Event {
-  id: ID! @unique
-  organization: Organization
-  speakers: [Speaker!]!
-  talks: [Talk!]!
+  id: ID! @id
+  organization: Organization!
+  speakers: [Speaker]
+  talks: [Talk]
   city: String
   country: String
   endDate: String
@@ -46,13 +48,17 @@ type Event {
   startDate: String
   type: EventType
   youtubePlaylist: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type Organization {
-  id: ID! @unique
-  events: [Event!]!
+  id: ID! @id
+  events: [Event]
   name: String
   twitterHandle: String
   website: String
   youtubeChannel: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
