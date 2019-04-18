@@ -21,7 +21,7 @@
     "csvtojson": "^2.0.8",
     "json2csv": "^4.3.5",
     "prettier": "^1.16.4",
-    "prisma": "^1.27.3"
+    "prisma": "1.28"
   },
   "dependencies": {
     "@types/algoliasearch": "^3.30.5",
