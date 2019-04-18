@@ -21,7 +21,7 @@
     "csvtojson": "^2.0.8",
     "json2csv": "^4.3.5",
     "prettier": "^1.16.4",
-    "prisma": "1.30.1"
+    "prisma": "^1.31.1"
   },
   "dependencies": {
     "@types/algoliasearch": "^3.30.5",
@@ -36,7 +36,7 @@
     "googleapis": "^37.2.0",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
-    "prisma-client-lib": "^1.27.1",
+    "prisma-client-lib": "^1.31.1",
     "ts-node": "^8.0.2",
     "typescript": "^3.3.3333",
     "url-parse": "^1.4.4"
