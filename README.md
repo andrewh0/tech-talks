@@ -2,7 +2,7 @@
 
 ![tech-talks-demo](https://user-images.githubusercontent.com/2905455/56312865-fedae580-6105-11e9-9079-9bbc27293a7e.gif)
 
-Tech Talks is a place to discover and watch conference talks about web development. So far, I've collected about 3,700 talks from a number of JavaScript conferences since 2017 by looking up their associated conference playlists on YouTube.
+Tech Talks is a place to discover and watch conference talks about web development. So far, I've collected over 4,000 talks from a number of JavaScript conferences since 2017 by looking up their associated conference playlists on YouTube.
 
 This is a work-in-progress, but I'd thought I'd build in public and share what I have right now. Others have built similar apps as well; be sure to check out [Related Projects](#related-projects) below.
 
