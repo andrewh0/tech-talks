@@ -5,8 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node --require dotenv/config index.ts",
+    "start:prod": "node --require dotenv/config build/index.js",
     "prettier": "prettier --config package.json --write \"./index.ts\" --loglevel warn",
-    "heroku-postbuild": "cd client && yarn && yarn run build",
+    "heroku-postbuild": "yarn run tsc && cd client && yarn && yarn run build",
     "prisma:generate": "prisma generate",
     "prisma:deploy": "prisma deploy --env-file .env",
     "prisma:seed": "prisma seed --env-file .env --reset",
