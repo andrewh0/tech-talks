@@ -12,4 +12,4 @@ hooks:
     - yarn prisma:generate
 
 seed:
-  run: yarn ts-node ./prisma/seed.ts
+  run: yarn ts-node ./src/prisma/seed.ts

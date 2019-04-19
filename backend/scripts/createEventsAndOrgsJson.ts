@@ -1,6 +1,6 @@
-import * as data2017 from '../data/events-2017.json';
-import * as data2018 from '../data/events-2018.json';
-import * as data2019 from '../data/events-2019.json';
+import * as data2017 from '../../data/events-2017.json';
+import * as data2018 from '../../data/events-2018.json';
+import * as data2019 from '../../data/events-2019.json';
 import * as fs from 'fs';
 import * as path from 'path';
 
