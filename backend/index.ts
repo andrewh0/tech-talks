@@ -8,7 +8,7 @@ const app = express();
 app.use(bodyParser.json());
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, './client/build')));
+  app.use(express.static(path.join(__dirname, '../client/build')));
 }
 
 app.disable('x-powered-by');
@@ -37,7 +37,7 @@ app.get('/api/talks/:objectId', async (req, res) => {
 
 if (process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, './client/build/index.html'));
+    res.sendFile(path.join(__dirname, '../client/build/index.html'));
   });
 }
 
