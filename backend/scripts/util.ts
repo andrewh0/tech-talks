@@ -96,4 +96,13 @@ async function getPlaylistVideos(
   }
 }
 
-export { getVideoDetails, getPlaylistVideos };
+async function getManyPlaylistVideos(playlists: Array<string>) {
+  const result = await Promise.all(
+    playlists.map(async playlist => {
+      return await getPlaylistVideos(playlist);
+    })
+  );
+  return flatten(result);
+}
+
+export { getVideoDetails, getPlaylistVideos, getManyPlaylistVideos };

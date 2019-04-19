@@ -1,6 +1,6 @@
 import * as algoliasearch from 'algoliasearch';
 import { prisma } from '../prisma/generated/prisma-client';
-import { getVideoDetails, getPlaylistVideos } from './util';
+import { getVideoDetails, getManyPlaylistVideos } from './util';
 import { EventType } from '../prisma/generated/prisma-client/index';
 
 /*
@@ -33,11 +33,11 @@ type EventOpts = {
   type?: EventType;
 };
 
-async function createEventWithPlaylist(
-  playlistId: string,
+async function createEventWithPlaylists(
+  playlistIds: Array<string>,
   eventOpts: EventOpts
 ) {
-  const videoIds = await getPlaylistVideos(playlistId);
+  const videoIds = await getManyPlaylistVideos(playlistIds);
   const talksToCreate = await getVideoDetails(videoIds);
   const createdEvent = (await prisma.createEvent({
     organization: {
@@ -52,7 +52,7 @@ async function createEventWithPlaylist(
     name: eventOpts.name,
     startDate: eventOpts.startDate,
     type: eventOpts.type,
-    youtubePlaylist: `https://www.youtube.com/playlist?list=${playlistId}`
+    youtubePlaylist: `https://www.youtube.com/playlist?list=${playlistIds[0]}`
   }).$fragment(`
       fragment EventWithTalks on Event {
         id
@@ -111,13 +111,13 @@ async function createEventWithPlaylist(
 
 Example:
 
-createEventWithPlaylist('PLVSuvWb4Q2Y7oxwvpzlwFxAO6IbIjMDgB', {
+createEventWithPlaylists(['PLVSuvWb4Q2Y7oxwvpzlwFxAO6IbIjMDgB'], {
   organizationId: 'cjuohnicl071y0792wik0hztn',
   city: 'Helsinki',
   country: 'Finland',
-  endDate: '10-19-2018',
+  endDate: '2018-10-19',
   name: 'GraphQL Finland',
-  startDate: '10-19-2018',
+  startDate: '2018-10-19',
   type: 'CONFERENCE'
 });
 
