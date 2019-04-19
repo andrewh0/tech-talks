@@ -13,5 +13,6 @@
     "isolatedModules": true,
     "outDir": "build"
   },
-  "include": ["backend/**/*"]
+  "include": ["backend/**/*"],
+  "exclude": ["backend/scripts/*", "backend/prisma/seed.ts"]
 }
