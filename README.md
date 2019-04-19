@@ -4,9 +4,7 @@
 
 Tech Talks is a place to discover and watch conference talks about web development. So far, I've collected about 3,700 talks from a number of JavaScript conferences since 2017 by looking up their associated conference playlists on YouTube.
 
-This is a work-in-progress, but I'd thought I'd build in public and share what I have right now. Others have built similar apps as well (check out [Related Projects](#related-projects) below).
-
-In the future, I'd love to be able to surface interesting content from lesser-known speakers and conferences.
+This is a work-in-progress, but I'd thought I'd build in public and share what I have right now. Others have built similar apps as well; be sure to check out [Related Projects](#related-projects) below.
 
 ## Setup and Development
 
@@ -26,7 +24,7 @@ cd client && yarn
 
 ### Deploying a Prisma Service
 
-This app relies heavily on [Prisma](https://www.prisma.io/) to manage data. If you're unfamiliar, Prisma provides a GraphQL layer over your database, replacing a traditional ORM. You'll need a running Prisma server to continue. This project uses [Prisma's Heroku integration](https://www.prisma.io/blog/heroku-integration-homihof6eifi) to manage a Postgres database, but you can also opt to use a local database.
+This app relies heavily on [Prisma](https://www.prisma.io/) to manage data. If you're unfamiliar, Prisma provides a GraphQL layer over your database, replacing a traditional ORM. You'll need a running Prisma server to continue. This project uses [Prisma's Heroku integration](https://www.prisma.io/blog/heroku-integration-homihof6eifi) to manage an AWS RDS instance, but you can also opt to use a local database.
 
 Once you have created a Prisma server and you have obtained your Prisma API credentials, you can add them to the `.env` folder in the root directory, using the `.env.example` file as a reference.
 
@@ -73,7 +71,6 @@ This app uses:
 
 - Heroku Scheduler to update video view counts and to update the Algolia search index.
 - Papertrail for logs
-- Postgres as its data store
 
 ## Built with
 - [TypeScript](https://www.typescriptlang.org/)
@@ -93,11 +90,11 @@ This app connects with some external services to get relevant data. You'll need 
 - [YouTube](https://console.cloud.google.com/apis/library/youtube.googleapis.com/)
 
 ## Related Projects and Resources
-- https://awesometalks.party/ ([source](https://github.com/SaraVieira/awesome-talks))
-- http://highlight.app/
-- https://www.reactjsvideos.com/
+- https://confs.tech
+- https://awesometalks.party
+- https://highlight.app
+- https://www.reactjsvideos.com
 - https://eventil.com/talks
-- https://confs.tech/
 - https://www.confreaks.com
 
 ## Contributing
