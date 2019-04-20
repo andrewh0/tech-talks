@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'normalize.css';
+import './instantsearch-7.1.1-reset.css';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
