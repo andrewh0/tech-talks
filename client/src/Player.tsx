@@ -106,7 +106,11 @@ function Player(props: {
   }, [props.videoId, !!props.match]);
   const windowInnerHeight = useDebouncedWindowInnerHeight();
   return props.videoId ? (
-    <VideoPlayerContainer playerSize={props.playerSize} videoId={props.videoId} playerHeight={windowInnerHeight}>
+    <VideoPlayerContainer
+      playerSize={props.playerSize}
+      videoId={props.videoId}
+      playerHeight={windowInnerHeight}
+    >
       {props.playerSize === 'minimized' ? (
         <PlayerControls
           onVideoClose={props.onVideoClose}

@@ -18,10 +18,7 @@ import CookieFooter from './CookieFooter';
 import SavedPage from './SavedPage';
 import { VideoHit } from './VideoCard';
 
-export type OnVideoCardClickType = (
-  objectId: string,
-  videoId: string
-) => void;
+export type OnVideoCardClickType = (objectId: string, videoId: string) => void;
 
 export type OnVideoSaveType = (talk: VideoHit, shouldSave: boolean) => void;
 
@@ -86,10 +83,7 @@ function App() {
     setVideoObjectId(videoObjectId);
   };
   const prevVideoId = usePrevious(videoId);
-  const handleVideoCardClick = (
-    objectId: string,
-    videoId: string
-  ) => {
+  const handleVideoCardClick = (objectId: string, videoId: string) => {
     // This happens when the user opens a video in a new tab while the minimized player is open.
     if (!!prevVideoId && prevVideoId !== videoId) {
       setVideo(null, null);
