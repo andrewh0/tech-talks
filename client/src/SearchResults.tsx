@@ -15,7 +15,6 @@ function Hits(props: {
   onVideoCardClick: OnVideoCardClickType;
   hasMore: boolean;
   refine: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  navigate: (path: string) => void;
   playerSize: string;
   onVideoSave: OnVideoSaveType;
   savedTalks: SavedTalksMapType;
@@ -32,7 +31,6 @@ function Hits(props: {
             key={hit.objectID}
             hit={hit}
             onVideoCardClick={props.onVideoCardClick}
-            navigate={props.navigate}
             isSearchResult={true}
             isSaved={!!get(props.savedTalks, [hit.objectID])}
             onVideoSave={props.onVideoSave}
@@ -73,7 +71,6 @@ const CustomHits = connectInfiniteHits(Hits);
 
 function SearchResults(props: {
   onVideoCardClick: OnVideoCardClickType;
-  navigate: (path: string) => void;
   playerSize: string;
   onVideoSave: OnVideoSaveType;
   savedTalks: SavedTalksMapType;
@@ -81,7 +78,6 @@ function SearchResults(props: {
   return (
     <CustomHits
       onVideoCardClick={props.onVideoCardClick}
-      navigate={props.navigate}
       playerSize={props.playerSize}
       onVideoSave={props.onVideoSave}
       savedTalks={props.savedTalks}

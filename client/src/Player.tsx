@@ -7,6 +7,7 @@ import Icon, { expand, close } from './Icon';
 import { Box, Button } from './design';
 import theme from './theme';
 import { SetPlayerSizeType } from './App';
+import { usePrevious } from './util';
 
 const VideoPlayerContainer = styled(Box)`
   position: absolute;
@@ -89,13 +90,18 @@ function Player(props: {
   onVideoExpand: (navigate: (path: string) => void) => void;
 }) {
   const onVideoExpand = () => props.onVideoExpand(props.navigate);
+  const previousMatch = usePrevious(props.match);
   useEffect(() => {
-    if (props.videoId && props.playerSize === 'full' && !props.match) {
-      props.setPlayerSize('minimized');
-    } else if (props.videoId && props.playerSize !== 'full' && props.match) {
-      props.setPlayerSize('full');
+    if (props.videoId) {
+      if (props.match && !previousMatch) {
+        props.setPlayerSize('full');
+      } else if (!props.match && previousMatch) {
+        props.setPlayerSize('minimized');
+      }
+    } else {
+      props.setPlayerSize('hidden');
     }
-  }, [props.videoId, props.match]);
+  }, [props.videoId, !!props.match]);
   return props.videoId ? (
     <VideoPlayerContainer playerSize={props.playerSize} videoId={props.videoId}>
       {props.playerSize !== 'full' ? (

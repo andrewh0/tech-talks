@@ -1,5 +1,4 @@
 import React from 'react';
-import { Location } from '@reach/router';
 import SearchResults from './SearchResults';
 import SearchOptions from './SearchOptions';
 import {
@@ -22,40 +21,35 @@ function Home(props: {
   savedTalks: SavedTalksMapType;
 }) {
   return (
-    <Location>
-      {({ navigate }) => (
-        <Box px={[0, 4]} mx="auto" maxWidth={CONTENT_MAX_WIDTH}>
-          <H1
-            px={[2, 0]}
-            pt={3}
-            pb={0}
-            m={0}
-            fontWeight={900}
-            color="almostWhite"
-            fontSize={3}
-          >
-            Conference talks about web development
-          </H1>
-          <Box px={[2, 0]} pb={3}>
-            <a
-              href="https://www.algolia.com"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              <AlgoliaLogo />
-            </a>
-          </Box>
-          <SearchOptions />
-          <SearchResults
-            onVideoCardClick={props.onVideoCardClick}
-            navigate={navigate}
-            playerSize={props.playerSize}
-            onVideoSave={props.onVideoSave}
-            savedTalks={props.savedTalks}
-          />
-        </Box>
-      )}
-    </Location>
+    <Box px={[0, 4]} mx="auto" maxWidth={CONTENT_MAX_WIDTH}>
+      <H1
+        px={[2, 0]}
+        pt={3}
+        pb={0}
+        m={0}
+        fontWeight={900}
+        color="almostWhite"
+        fontSize={3}
+      >
+        Conference talks about web development
+      </H1>
+      <Box px={[2, 0]} pb={3}>
+        <a
+          href="https://www.algolia.com"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          <AlgoliaLogo />
+        </a>
+      </Box>
+      <SearchOptions />
+      <SearchResults
+        onVideoCardClick={props.onVideoCardClick}
+        playerSize={props.playerSize}
+        onVideoSave={props.onVideoSave}
+        savedTalks={props.savedTalks}
+      />
+    </Box>
   );
 }
 

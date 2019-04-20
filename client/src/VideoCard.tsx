@@ -4,6 +4,7 @@ import { Highlight } from 'react-instantsearch-dom';
 import formatDurationMs from 'format-duration';
 import numeral from 'numeral';
 import { space, fontSize, bottom, right, left, top } from 'styled-system';
+import { Link } from '@reach/router';
 import { Box, Text } from './design';
 import { OnVideoCardClickType, OnVideoSaveType } from './App';
 import theme from './theme';
@@ -24,7 +25,8 @@ const Card = styled(Box)`
     transform: translateY(-4px);
   }
   transition: transform 0.2s ease-out;
-`;
+  text-decoration: none;
+`.withComponent(Link);
 
 const CardImage = styled(Box)`
   position: relative;
@@ -92,17 +94,11 @@ function VideoCard(props: {
   isSearchResult: boolean;
   isSaved: boolean;
   onVideoCardClick: OnVideoCardClickType;
-  navigate: (path: string) => void;
   onVideoSave: OnVideoSaveType;
 }) {
   const [isSaved, setSaved] = useState(props.isSaved);
   const handleVideoCardClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    props.onVideoCardClick(
-      props.hit.objectID,
-      props.hit.videoId,
-      props.navigate
-    );
+    props.onVideoCardClick(props.hit.objectID, props.hit.videoId);
   };
   return (
     <Card
@@ -112,6 +108,7 @@ function VideoCard(props: {
       mb={[4, 3]}
       width={[1, 1 / 2, 1 / 4]}
       title={props.hit.title}
+      to={`/talks/${props.hit.objectID}`}
     >
       <CardImage>
         <StyledImage src={props.hit.thumbnailUrl} alt={props.hit.title} />
@@ -135,6 +132,7 @@ function VideoCard(props: {
           title={isSaved ? 'Added to saved talks' : 'Save this talk'}
           onClick={(e: React.MouseEvent) => {
             const nextSavedState = !isSaved;
+            e.preventDefault();
             e.stopPropagation();
             setSaved(nextSavedState);
             props.onVideoSave(props.hit, nextSavedState);

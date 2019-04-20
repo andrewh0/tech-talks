@@ -6,6 +6,7 @@ import { keyBy, sortBy, omit, map } from 'lodash';
 
 import theme from './theme';
 import { Box } from './design';
+import { usePrevious } from './util';
 
 import InstantSearchProvider from './SearchProvider';
 import Nav from './Nav';
@@ -19,8 +20,7 @@ import { VideoHit } from './VideoCard';
 
 export type OnVideoCardClickType = (
   objectId: string,
-  videoId: string,
-  navigate: (path: string) => void
+  videoId: string
 ) => void;
 
 export type OnVideoSaveType = (talk: VideoHit, shouldSave: boolean) => void;
@@ -85,14 +85,17 @@ function App() {
     setVideoId(videoId);
     setVideoObjectId(videoObjectId);
   };
+  const prevVideoId = usePrevious(videoId);
   const handleVideoCardClick = (
     objectId: string,
-    videoId: string,
-    navigate: (path: string) => void
+    videoId: string
   ) => {
-    setVideo(objectId, videoId);
-    setPlayerSize('full');
-    navigate(`/talks/${objectId}`);
+    // This happens when the user opens a video in a new tab while the minimized player is open.
+    if (!!prevVideoId && prevVideoId !== videoId) {
+      setVideo(null, null);
+    } else {
+      setVideo(objectId, videoId);
+    }
   };
   const handleVideoPageLoad = async (objectId?: string): Promise<void> => {
     if (objectId) {
