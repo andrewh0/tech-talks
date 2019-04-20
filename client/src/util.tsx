@@ -1,4 +1,5 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
+import { debounce } from 'lodash';
 
 function usePrevious(value: any) {
   const ref = useRef();
@@ -8,4 +9,18 @@ function usePrevious(value: any) {
   return ref.current;
 }
 
-export { usePrevious };
+function useDebouncedWindowInnerHeight() {
+  const [innerHeight, setInnerHeight] = useState(() => window.innerHeight);
+  const debouncedSetInnerHeight = debounce(() => {
+    setInnerHeight(window.innerHeight);
+  }, 200);
+  useEffect(() => {
+    window.addEventListener('resize', debouncedSetInnerHeight);
+    return () => {
+      window.removeEventListener('resize', debouncedSetInnerHeight);
+    };
+  });
+  return innerHeight;
+}
+
+export { usePrevious, useDebouncedWindowInnerHeight };

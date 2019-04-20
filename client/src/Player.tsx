@@ -7,7 +7,8 @@ import Icon, { expand, close } from './Icon';
 import { Box, Button } from './design';
 import theme from './theme';
 import { SetPlayerSizeType } from './App';
-import { usePrevious } from './util';
+import { usePrevious, useDebouncedWindowInnerHeight } from './util';
+import { NAV_HEIGHT } from './theme';
 
 const VideoPlayerContainer = styled(Box)`
   position: absolute;
@@ -33,6 +34,7 @@ const VideoPlayerContainer = styled(Box)`
       ? `
         width: 100%;
         visibility: visible;
+        height: ${props.playerHeight - NAV_HEIGHT}px;
       `
       : ''}
 `;
@@ -102,8 +104,9 @@ function Player(props: {
       props.setPlayerSize('hidden');
     }
   }, [props.videoId, !!props.match]);
+  const windowInnerHeight = useDebouncedWindowInnerHeight();
   return props.videoId ? (
-    <VideoPlayerContainer playerSize={props.playerSize} videoId={props.videoId}>
+    <VideoPlayerContainer playerSize={props.playerSize} videoId={props.videoId} playerHeight={windowInnerHeight}>
       {props.playerSize === 'minimized' ? (
         <PlayerControls
           onVideoClose={props.onVideoClose}

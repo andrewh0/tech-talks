@@ -50,13 +50,17 @@ code {
     monospace;
 }
 
+.youtube-player-container {
+  width: 100%;
+  height: 100%;
+}
+
 .youtube-player {
   display: block;
-  width: 100%;
-  height: 169px;
 }
-.youtube-player_full {
-  height: calc(100vh - var(--nav-height));
+
+.youtube-player_min {
+  height: 169px;
 }
 
 /* Algolia React InstantSearch styles */

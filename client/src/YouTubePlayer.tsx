@@ -9,8 +9,9 @@ type YouTubePlayerProps = {
 function YouTubePlayer(props: YouTubePlayerProps) {
   return props.videoId ? (
     <YouTube
+      containerClassName="youtube-player-container"
       className={`youtube-player ${
-        props.playerSize === 'full' ? 'youtube-player_full' : ''
+        props.playerSize === 'minimized' ? 'youtube-player_min' : ''
       }`}
       videoId={props.videoId}
       opts={{
@@ -20,7 +21,9 @@ function YouTubePlayer(props: YouTubePlayerProps) {
           iv_load_policy: 3, // annotations off
           modestbranding: 1,
           playsinline: 1 // affects iOS
-        }
+        },
+        width: '100%',
+        height: '100%'
       }}
     />
   ) : null;
