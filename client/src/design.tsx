@@ -74,6 +74,7 @@ const A = styled('a')`
 const Span = styled('span')`
   ${display}
   ${justifyContent}
+  ${flexWrap}
 `;
 
 const H1 = Text.withComponent('h1');

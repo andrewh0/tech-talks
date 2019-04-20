@@ -57,7 +57,7 @@ function SavedPage(props: {
             width="100%"
             textAlign="center"
           >
-            <Span display="flex" justifyContent="center">
+            <Span display="flex" justifyContent="center" flexWrap="wrap">
               No talks saved yet. When you press{' '}
               <Span display="inline-flex">
                 <Icon path={add} />
