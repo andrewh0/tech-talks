@@ -42,6 +42,7 @@ const SortBy = ({
         bg="darkGray"
         fontSize={2}
         p={2}
+        aria-label="Select sort"
       >
         {items.map((item: SortByItem) => (
           <option value={item.value} key={item.value}>

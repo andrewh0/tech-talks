@@ -160,6 +160,7 @@ function NavLinks({
       </Box>
       <Box display={['flex', 'none']} alignItems="center">
         <NavButton
+          aria-label="Toggle navigation menu"
           onClick={(_e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             onMenuToggle(!isMenuOpen);
           }}

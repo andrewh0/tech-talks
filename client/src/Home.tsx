@@ -38,6 +38,7 @@ function Home(props: {
           href="https://www.algolia.com"
           target="_blank"
           rel="noreferrer noopener"
+          aria-label="Learn more about Algolia"
         >
           <AlgoliaLogo />
         </a>
