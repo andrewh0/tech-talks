@@ -104,7 +104,7 @@ function Player(props: {
   }, [props.videoId, !!props.match]);
   return props.videoId ? (
     <VideoPlayerContainer playerSize={props.playerSize} videoId={props.videoId}>
-      {props.playerSize !== 'full' ? (
+      {props.playerSize === 'minimized' ? (
         <PlayerControls
           onVideoClose={props.onVideoClose}
           onVideoExpand={onVideoExpand}
