@@ -116,12 +116,7 @@ function App() {
       <InstantSearchProvider>
         <Nav />
         <ContentContainer bg="darkGray">
-          {/*
-            Reach Router manages focus and scroll position, so scroll position is not always in the intended place.
-            Setting primary={false} is a workaround, but unfortunately removes a lot of the accessibility features.
-            https://github.com/reach/router/issues/198
-          */}
-          <Router primary={false}>
+          <Router>
             <Home
               path="/"
               onVideoCardClick={handleVideoCardClick}
