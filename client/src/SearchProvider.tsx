@@ -19,8 +19,8 @@ const createURL = (state: SearchState) => {
     state.refinementList.organizationName.join('~');
   const routeState = {
     query: state.query || undefined,
-    organizationName: organizationName || undefined,
-    page: state.page || 1
+    confs: organizationName || undefined,
+    page: state.page
   };
   return `?${qs.stringify(routeState)}`;
 };
@@ -36,8 +36,8 @@ const urlToSearchState = (location: WindowLocation) => {
     query: routeState.query || '',
     refinementList: {
       organizationName:
-        (routeState.organizationName &&
-          routeState.organizationName.split('~')) ||
+        (routeState.confs &&
+          routeState.confs.split('~')) ||
         []
     },
     page: routeState.page || 1
