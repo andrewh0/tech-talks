@@ -9,11 +9,11 @@ function About(props: { path: string }) {
         About
       </H1>
       <P fontSize={[2, 3]} fontWeight={500} mt={0}>
-        Technical presentations can take hundreds of hours to prepare but
-        unfortunately, some of the best ones are left undiscovered. Tech Talks
-        contains over 4,000 conference talks about web development since 2017
-        and aims to help people become better developers by making insightful
-        talks more accessible.
+        Technical presentations can take weeks to prepare but unfortunately,
+        some of the best ones are left undiscovered. Tech Talks contains over
+        4,000 conference talks about web development since 2017 and aims to help
+        people become better developers by making insightful talks more
+        accessible.
       </P>
       <P fontSize={[2, 3]} fontWeight={500} mt={0}>
         Tech Talks was inspired by and built for the web development community.
