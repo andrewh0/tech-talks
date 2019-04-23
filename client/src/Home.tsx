@@ -1,4 +1,5 @@
 import React from 'react';
+import InstantSearchProvider from './SearchProvider';
 import SearchResults from './SearchResults';
 import SearchOptions from './SearchOptions';
 import {
@@ -43,13 +44,15 @@ function Home(props: {
           <AlgoliaLogo />
         </a>
       </Box>
-      <SearchOptions />
-      <SearchResults
-        onVideoCardClick={props.onVideoCardClick}
-        playerSize={props.playerSize}
-        onVideoSave={props.onVideoSave}
-        savedTalks={props.savedTalks}
-      />
+      <InstantSearchProvider>
+        <SearchOptions />
+        <SearchResults
+          onVideoCardClick={props.onVideoCardClick}
+          playerSize={props.playerSize}
+          onVideoSave={props.onVideoSave}
+          savedTalks={props.savedTalks}
+        />
+      </InstantSearchProvider>
     </Box>
   );
 }

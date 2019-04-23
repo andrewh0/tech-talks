@@ -8,7 +8,6 @@ import theme from './theme';
 import { Box } from './design';
 import { usePrevious } from './util';
 
-import InstantSearchProvider from './SearchProvider';
 import Nav from './Nav';
 import Home from './Home';
 import About from './About';
@@ -110,48 +109,43 @@ function App() {
   };
   return (
     <ThemeProvider theme={theme}>
-      <InstantSearchProvider>
-        <Nav />
-        <ContentContainer bg="darkGray">
-          <Router>
-            <Home
-              path="/"
-              onVideoCardClick={handleVideoCardClick}
-              setPlayerSize={setPlayerSize}
+      <Nav />
+      <ContentContainer bg="darkGray">
+        <Router>
+          <Home
+            path="/"
+            onVideoCardClick={handleVideoCardClick}
+            setPlayerSize={setPlayerSize}
+            videoId={videoId}
+            playerSize={playerSize}
+            onVideoSave={handleSetSavedTalk}
+            savedTalks={savedTalks}
+          />
+          <About path="about" />
+          <SavedPage
+            path="saved"
+            onVideoCardClick={handleVideoCardClick}
+            onVideoSave={handleSetSavedTalk}
+            playerSize={playerSize}
+            savedTalks={savedTalks}
+          />
+          <VideoPage path="talks/:objectId" onPageLoad={handleVideoPageLoad} />
+        </Router>
+        <Match path="/talks/:objectId">
+          {({ navigate, match }) => (
+            <Player
+              onVideoClose={handleVideoClose}
+              onVideoExpand={handleVideoExpand}
+              playerSize={playerSize}
               videoId={videoId}
-              playerSize={playerSize}
-              onVideoSave={handleSetSavedTalk}
-              savedTalks={savedTalks}
+              setPlayerSize={setPlayerSize}
+              match={match}
+              navigate={navigate}
             />
-            <About path="about" />
-            <SavedPage
-              path="saved"
-              onVideoCardClick={handleVideoCardClick}
-              onVideoSave={handleSetSavedTalk}
-              playerSize={playerSize}
-              savedTalks={savedTalks}
-            />
-            <VideoPage
-              path="talks/:objectId"
-              onPageLoad={handleVideoPageLoad}
-            />
-          </Router>
-          <Match path="/talks/:objectId">
-            {({ navigate, match }) => (
-              <Player
-                onVideoClose={handleVideoClose}
-                onVideoExpand={handleVideoExpand}
-                playerSize={playerSize}
-                videoId={videoId}
-                setPlayerSize={setPlayerSize}
-                match={match}
-                navigate={navigate}
-              />
-            )}
-          </Match>
-        </ContentContainer>
-        <CookieFooter />
-      </InstantSearchProvider>
+          )}
+        </Match>
+      </ContentContainer>
+      <CookieFooter />
     </ThemeProvider>
   );
 }

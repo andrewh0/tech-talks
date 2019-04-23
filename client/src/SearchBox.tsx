@@ -20,6 +20,8 @@ function CustomSearchBox() {
         submit={<Icon path={search} />}
         reset={<Icon path={close} />}
         autoFocus={true}
+        // This is turned off for performance reasons (but would be nice to have on!)
+        searchAsYouType={false}
       />
     </SearchContainer>
   );
