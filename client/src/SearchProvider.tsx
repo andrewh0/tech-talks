@@ -4,6 +4,7 @@ import { InstantSearch } from 'react-instantsearch-dom';
 import { WindowLocation, Location, NavigateFn } from '@reach/router';
 import { debounce } from 'lodash';
 import { usePrevious } from './util';
+import { DEFAULT_INDEX_NAME, TALKS_RECENTLY_ADDED } from './SearchOptions';
 
 type SearchState = {
   query: string;
@@ -11,6 +12,17 @@ type SearchState = {
     organizationName: Array<string>;
   };
   page: number;
+  sortBy: string;
+};
+
+const INDEX_TO_URL_PARAMS: { [indexName: string]: string } = {
+  [DEFAULT_INDEX_NAME]: 'views',
+  [TALKS_RECENTLY_ADDED]: 'newest'
+};
+
+const URL_PARAMS_TO_INDEX_NAME: { [param: string]: string } = {
+  views: DEFAULT_INDEX_NAME,
+  newest: TALKS_RECENTLY_ADDED
 };
 
 const createURL = (state: SearchState) => {
@@ -21,7 +33,8 @@ const createURL = (state: SearchState) => {
   const routeState = {
     query: state.query || undefined,
     confs: organizationName || undefined,
-    page: state.page
+    page: state.page,
+    sort: INDEX_TO_URL_PARAMS[state.sortBy]
   };
   return `?${qs.stringify(routeState)}`;
 };
@@ -38,7 +51,10 @@ const urlToSearchState = (location: WindowLocation) => {
     refinementList: {
       organizationName: (routeState.confs && routeState.confs.split('~')) || []
     },
-    page: routeState.page || 1
+    page: routeState.page || 1,
+    sortBy:
+      (routeState.sort && URL_PARAMS_TO_INDEX_NAME[routeState.sort]) ||
+      DEFAULT_INDEX_NAME
   };
 
   return searchState;
@@ -74,7 +90,7 @@ const InstantSearchProvider = ({
   return (
     <InstantSearch
       appId="TOYFG73GH3"
-      indexName="TALKS"
+      indexName={DEFAULT_INDEX_NAME}
       apiKey="dd15269aa4416b500656d26f74c4126c"
       searchState={searchState}
       onSearchStateChange={onSearchStateChange}

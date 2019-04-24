@@ -36,6 +36,9 @@ const HideableBox = styled(Box)`
   ${props => (props.isHidden ? `display: none;` : `display: flex;`)}
 `;
 
+const DEFAULT_INDEX_NAME = 'TALKS';
+const TALKS_RECENTLY_ADDED = 'TALKS_RECENTLY_ADDED';
+
 const FilterButton = styled(Button)`
   padding: 0;
   display: inline-flex;
@@ -72,10 +75,10 @@ function SearchOptions() {
         <SearchBox />
         <Box display="flex" alignItems="center" flexWrap="wrap">
           <SortBy
-            defaultRefinement="TALKS"
+            defaultRefinement={DEFAULT_INDEX_NAME}
             items={[
-              { value: 'TALKS', label: 'Most viewed' },
-              { value: 'TALKS_RECENTLY_ADDED', label: 'Newest' }
+              { value: DEFAULT_INDEX_NAME, label: 'Most viewed' },
+              { value: TALKS_RECENTLY_ADDED, label: 'Newest' }
             ]}
           />
           <FilterButton
@@ -126,4 +129,5 @@ function SearchOptions() {
   );
 }
 
+export { DEFAULT_INDEX_NAME, TALKS_RECENTLY_ADDED };
 export default SearchOptions;
