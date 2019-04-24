@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import qs from 'qs';
 import { InstantSearch } from 'react-instantsearch-dom';
 import { WindowLocation, Location, NavigateFn } from '@reach/router';
 import { debounce } from 'lodash';
+import { usePrevious } from './util';
 
 type SearchState = {
   query: string;
@@ -35,10 +36,7 @@ const urlToSearchState = (location: WindowLocation) => {
   const searchState = {
     query: routeState.query || '',
     refinementList: {
-      organizationName:
-        (routeState.confs &&
-          routeState.confs.split('~')) ||
-        []
+      organizationName: (routeState.confs && routeState.confs.split('~')) || []
     },
     page: routeState.page || 1
   };
@@ -55,7 +53,15 @@ const InstantSearchProvider = ({
   navigate: NavigateFn;
   location: WindowLocation;
 }) => {
-  const [searchState, setSearchState] = useState(urlToSearchState(location));
+  const [searchState, setSearchState] = useState(() =>
+    urlToSearchState(location)
+  );
+  const prevLocation = usePrevious(location);
+  useEffect(() => {
+    if (prevLocation !== location) {
+      setSearchState(urlToSearchState(location));
+    }
+  });
   const onSearchStateChange = (nextSearchState: SearchState) => {
     const debouncedNavigate = debounce(() => {
       navigate(searchStateToUrl(location, nextSearchState), {
