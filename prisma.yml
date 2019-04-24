@@ -1,11 +1,11 @@
 endpoint: ${env:PRISMA_ENDPOINT}
-datamodel: datamodel.prisma
+datamodel: ./backend/prisma/datamodel.prisma
 
 secret: ${env:PRISMA_SECRET}
 
 generate:
   - generator: typescript-client
-    output: ./generated/prisma-client/
+    output: ./backend/prisma/generated/prisma-client/
 
 hooks:
   post-deploy:
