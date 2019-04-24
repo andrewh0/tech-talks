@@ -37,8 +37,7 @@ async function updateVideoAttributes() {
 }
 
 /*
-We need to stay below the daily YouTube API quota of 10,000 units, so we
-only update the view count here.
+We need to stay below the daily YouTube API quota of 10,000 units.
 https://developers.google.com/youtube/v3/docs/videos/list#part
 */
 async function getYouTubeVideoData(
