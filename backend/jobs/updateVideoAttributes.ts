@@ -49,7 +49,7 @@ async function getYouTubeVideoData(
   });
   const viewCount = get(res, ['data', 'items', '0', 'statistics', 'viewCount']);
   const privacyStatus =
-    get(res, ['data', 'item', 'status', 'privacyStatus']) || false;
+    get(res, ['data', 'items', '0', 'status', 'privacyStatus']) || 'public';
   if (viewCount !== undefined && viewCount !== null) {
     return {
       viewCount: parseInt(viewCount),
