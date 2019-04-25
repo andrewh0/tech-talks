@@ -21,7 +21,8 @@ export type OnVideoCardClickType = (objectId: string, videoId: string) => void;
 
 export type OnVideoSaveType = (talk: VideoHit, shouldSave: boolean) => void;
 
-export type SetPlayerSizeType = (size: string) => void;
+export type SetPlayerSizeType = (size: PlayerState) => void;
+export type PlayerState = 'hidden' | 'minimized' | 'full';
 
 const ContentContainer = styled(Box)`
   position: relative;
@@ -38,7 +39,7 @@ export type SavedTalkType = VideoHit & { order: number };
 function App() {
   const [videoId, setVideoId] = useState();
   const [videoObjectId, setVideoObjectId] = useState();
-  const [playerSize, setPlayerSize] = useState('hidden');
+  const [playerSize, setPlayerSize] = useState<PlayerState>('hidden');
   const savedTalksInitial = () =>
     keyBy(
       JSON.parse(
