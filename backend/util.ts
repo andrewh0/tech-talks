@@ -1,4 +1,3 @@
-
 export type TalkResponse = {
   id: string;
   viewCount: number;
@@ -11,22 +10,21 @@ export type TalkResponse = {
   publishedAt: number | null;
   event: { organization: { name: string; id: string } };
   private: boolean;
-}
+};
 
 function responseToVideoHit(talk: TalkResponse) {
   return {
     viewCount: talk.viewCount,
     description: talk.description,
     title: talk.title,
+    publishedAt: talk.publishedAt ? new Date(talk.publishedAt).valueOf() : null,
+    objectID: talk.id,
     duration: talk.duration,
     source: talk.source,
     videoId: talk.videoId,
     thumbnailUrl: talk.thumbnailUrl,
-    publishedAt: talk.publishedAt ? new Date(talk.publishedAt).valueOf() : null,
-    objectID: talk.id,
     organizationName: talk.event.organization.name,
-    organizationId: talk.event.organization.id,
-    private: talk.private
+    organizationId: talk.event.organization.id
   };
 }
 
