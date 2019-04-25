@@ -45,6 +45,10 @@ async function updateAlgoliaIndex() {
         .filter((result: { objectID: string } | null) => !!result)
         .map((result: { objectID: string }) => result.objectID);
       if (objectIDsToDelete.length > 0) {
+        console.log(
+          'Removing the following objects from Algolia:',
+          objectIDsToDelete
+        );
         // The response is defined differently in the d.ts file, so we use `any` here.
         // It should be { objectIDs: Array<string>; taskID: number; }
         // See https://www.algolia.com/doc/api-reference/api-methods/delete-objects/?language=javascript#response
