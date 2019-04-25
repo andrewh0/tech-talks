@@ -17,18 +17,9 @@ import CookieFooter from './CookieFooter';
 import SavedPage from './SavedPage';
 import { VideoHit } from './VideoCard';
 
-export type OnVideoCardClickType = (objectId: string, videoId: string) => void;
-
-export type OnVideoSaveType = (talk: VideoHit, shouldSave: boolean) => void;
-
-export type SetPlayerSizeType = (size: PlayerState) => void;
 export type PlayerState = 'hidden' | 'minimized' | 'full';
 
-const ContentContainer = styled(Box)`
-  position: relative;
-`;
-
-const LOCALSTORAGE_SAVED_TALKS_KEY = 'TT_SAVED_TALKS';
+export type OnVideoSaveType = (talk: VideoHit, shouldSave: boolean) => void;
 
 export type SavedTalksMapType = {
   [objectID: string]: SavedTalkType;
@@ -36,10 +27,59 @@ export type SavedTalksMapType = {
 
 export type SavedTalkType = VideoHit & { order: number };
 
-function App() {
-  const [videoId, setVideoId] = useState();
-  const [videoObjectId, setVideoObjectId] = useState();
+const ContentContainer = styled(Box)`
+  position: relative;
+`;
+
+const LOCALSTORAGE_SAVED_TALKS_KEY = 'TT_SAVED_TALKS';
+
+const CurrentVideoContext = React.createContext<
+  [VideoHit | null, (video: VideoHit | null) => void] | null
+>(null);
+
+function useCurrentVideo() {
+  const context = React.useContext(CurrentVideoContext);
+  if (!context) {
+    throw new Error(
+      'useCurrentVideo must be used within a CurrentVideoProvider'
+    );
+  }
+  const [video, setCurrentVideo] = context;
+  const prevVideo = usePrevious(video);
+  return {
+    prevVideo,
+    video,
+    setCurrentVideo
+  };
+}
+
+const PlayerContext = React.createContext<
+  [PlayerState, (playerSize: PlayerState) => void] | null
+>(null);
+
+function CurrentVideoProvider(props: any) {
+  const [video, setCurrentVideo] = React.useState<VideoHit | null>(null);
+  const value = React.useMemo(() => [video, setCurrentVideo], [video])
+  return <CurrentVideoContext.Provider {...props} value={value} />;
+}
+
+function PlayerContextProvider(props: any) {
   const [playerSize, setPlayerSize] = useState<PlayerState>('hidden');
+  const value = React.useMemo(() => [playerSize, setPlayerSize], [playerSize]);
+  return <PlayerContext.Provider {...props} value={value} />;
+}
+
+function usePlayerState() {
+  const context = React.useContext(PlayerContext);
+  if (!context) {
+    throw new Error(
+      'usePlayerState must be used within a PlayerContextProvider'
+    );
+  }
+  return context;
+}
+
+function App() {
   const savedTalksInitial = () =>
     keyBy(
       JSON.parse(
@@ -78,78 +118,43 @@ function App() {
       setSavedTalks(omit(savedTalks, talk.objectID));
     }
   };
-  const setVideo = (videoObjectId: string | null, videoId: string | null) => {
-    setVideoId(videoId);
-    setVideoObjectId(videoObjectId);
-  };
-  const prevVideoId = usePrevious(videoId);
-  const handleVideoCardClick = (objectId: string, videoId: string) => {
-    // This happens when the user opens a video in a new tab while the minimized player is open.
-    if (!!prevVideoId && prevVideoId !== videoId) {
-      setVideo(null, null);
-    } else {
-      setVideo(objectId, videoId);
-    }
-  };
-  const handleVideoPageLoad = async (objectId?: string): Promise<void> => {
-    if (objectId) {
-      let json = await fetch(`/api/talks/${objectId}`).then(r => r.json());
-      if (json && json.videoId) {
-        setVideo(objectId, json.videoId);
-        setPlayerSize('full');
-      }
-    }
-  };
-  const handleVideoClose = () => {
-    setVideo(null, null);
-    setPlayerSize('hidden');
-  };
-  const handleVideoExpand = (navigate: (path: string) => void) => {
-    setPlayerSize('full');
-    navigate(`/talks/${videoObjectId}`);
-  };
   return (
     <ThemeProvider theme={theme}>
       <Nav />
       <ContentContainer bg="darkGray">
-        <Router>
-          <Home
-            path="/"
-            onVideoCardClick={handleVideoCardClick}
-            setPlayerSize={setPlayerSize}
-            videoId={videoId}
-            playerSize={playerSize}
-            onVideoSave={handleSetSavedTalk}
-            savedTalks={savedTalks}
-          />
-          <About path="about" />
-          <SavedPage
-            path="saved"
-            onVideoCardClick={handleVideoCardClick}
-            onVideoSave={handleSetSavedTalk}
-            playerSize={playerSize}
-            savedTalks={savedTalks}
-          />
-          <VideoPage path="talks/:objectId" onPageLoad={handleVideoPageLoad} />
-        </Router>
-        <Match path="/talks/:objectId">
-          {({ navigate, match }) => (
-            <Player
-              onVideoClose={handleVideoClose}
-              onVideoExpand={handleVideoExpand}
-              playerSize={playerSize}
-              videoId={videoId}
-              setPlayerSize={setPlayerSize}
-              match={match}
-              navigate={navigate}
-            />
-          )}
-        </Match>
+        <CurrentVideoProvider>
+          <PlayerContextProvider>
+            <Router>
+              <Home
+                path="/"
+                onVideoSave={handleSetSavedTalk}
+                savedTalks={savedTalks}
+              />
+              <About path="about" />
+              <SavedPage
+                path="saved"
+                onVideoSave={handleSetSavedTalk}
+                savedTalks={savedTalks}
+              />
+              <VideoPage
+                path="talks/:objectId"
+              />
+            </Router>
+            <Match path="/talks/:objectId">
+              {({ navigate, match }) => (
+                <Player
+                  match={match}
+                  navigate={navigate}
+                />
+              )}
+            </Match>
+          </PlayerContextProvider>
+        </CurrentVideoProvider>
       </ContentContainer>
       <CookieFooter />
     </ThemeProvider>
   );
 }
 
-export { LOCALSTORAGE_SAVED_TALKS_KEY };
+export { LOCALSTORAGE_SAVED_TALKS_KEY, useCurrentVideo, usePlayerState };
 export default App;

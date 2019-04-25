@@ -1,17 +1,18 @@
 import React from 'react';
 import YouTube from 'react-youtube';
+import { usePlayerState } from './App';
 
 type YouTubePlayerProps = {
   videoId: string | null;
-  playerSize: string;
 };
 
 function YouTubePlayer(props: YouTubePlayerProps) {
+  const [playerSize, _setPlayerSize] = usePlayerState();
   return props.videoId ? (
     <YouTube
       containerClassName="youtube-player-container"
       className={`youtube-player ${
-        props.playerSize === 'minimized' ? 'youtube-player_min' : ''
+        playerSize === 'minimized' ? 'youtube-player_min' : ''
       }`}
       videoId={props.videoId}
       opts={{

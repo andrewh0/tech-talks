@@ -6,9 +6,10 @@ import YouTubePlayer from './YouTubePlayer';
 import Icon, { expand, close } from './Icon';
 import { Box, Button } from './design';
 import theme from './theme';
-import { SetPlayerSizeType } from './App';
+import { useCurrentVideo, usePlayerState } from './App';
 import { usePrevious, useDebouncedWindowInnerHeight } from './util';
 import { NAV_HEIGHT } from './theme';
+import { NavigateFn } from '@reach/router';
 
 const VideoPlayerContainer = styled(Box)`
   position: absolute;
@@ -45,13 +46,19 @@ const PlayerControlsContainer = styled(Box)`
   ${theme.space}
 `;
 
-function PlayerControls({
-  onVideoClose,
-  onVideoExpand
-}: {
-  onVideoClose: () => void;
-  onVideoExpand: () => void;
-}) {
+function PlayerControls({ navigate }: { navigate: NavigateFn }) {
+  const { video, setCurrentVideo } = useCurrentVideo();
+  const [_playerSize, setPlayerSize] = usePlayerState();
+  const handleVideoClose = () => {
+    setCurrentVideo(null);
+    setPlayerSize('hidden');
+  };
+  const handleVideoExpand = () => {
+    if (video) {
+      setPlayerSize('full');
+      navigate(`/talks/${video.objectID}`);
+    }
+  };
   return (
     <PlayerControlsContainer
       display="flex"
@@ -63,7 +70,7 @@ function PlayerControls({
         p={0}
         onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
           e.preventDefault();
-          onVideoExpand();
+          handleVideoExpand();
         }}
       >
         <Icon path={expand} />
@@ -73,7 +80,7 @@ function PlayerControls({
         p={0}
         onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
           e.preventDefault();
-          onVideoClose();
+          handleVideoClose();
         }}
       >
         <Icon path={close} />
@@ -83,41 +90,35 @@ function PlayerControls({
 }
 
 function Player(props: {
-  playerSize: string;
-  videoId: string;
-  setPlayerSize: SetPlayerSizeType;
   match: { uri: string; path: string } | null;
-  navigate: (path: string) => void;
-  onVideoClose: () => void;
-  onVideoExpand: (navigate: (path: string) => void) => void;
+  navigate: NavigateFn;
 }) {
-  const onVideoExpand = () => props.onVideoExpand(props.navigate);
   const previousMatch = usePrevious(props.match);
+  const { video } = useCurrentVideo();
+  const videoId = video ? video.videoId : null;
+  const [playerSize, setPlayerSize] = usePlayerState();
   useEffect(() => {
-    if (props.videoId) {
+    if (videoId) {
       if (props.match && !previousMatch) {
-        props.setPlayerSize('full');
+        setPlayerSize('full');
       } else if (!props.match && previousMatch) {
-        props.setPlayerSize('minimized');
+        setPlayerSize('minimized');
       }
     } else {
-      props.setPlayerSize('hidden');
+      setPlayerSize('hidden');
     }
-  }, [props.videoId, !!props.match]);
+  }, [videoId, !!props.match]);
   const windowInnerHeight = useDebouncedWindowInnerHeight();
-  return props.videoId ? (
+  return videoId ? (
     <VideoPlayerContainer
-      playerSize={props.playerSize}
-      videoId={props.videoId}
+      playerSize={playerSize}
+      videoId={videoId}
       playerHeight={windowInnerHeight}
     >
-      {props.playerSize === 'minimized' ? (
-        <PlayerControls
-          onVideoClose={props.onVideoClose}
-          onVideoExpand={onVideoExpand}
-        />
+      {playerSize === 'minimized' ? (
+        <PlayerControls navigate={props.navigate} />
       ) : null}
-      <YouTubePlayer videoId={props.videoId} playerSize={props.playerSize} />
+      <YouTubePlayer videoId={videoId} />
     </VideoPlayerContainer>
   ) : null;
 }
