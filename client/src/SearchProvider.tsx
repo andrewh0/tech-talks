@@ -4,7 +4,11 @@ import { InstantSearch } from 'react-instantsearch-dom';
 import { WindowLocation, Location, NavigateFn } from '@reach/router';
 import { debounce } from 'lodash';
 import { usePrevious } from './util';
-import { DEFAULT_INDEX_NAME, TALKS_RECENTLY_ADDED } from './SearchOptions';
+import {
+  DEFAULT_INDEX_NAME,
+  TALKS_RECENTLY_ADDED,
+  TALKS_RELEVANT
+} from './SearchOptions';
 
 type SearchState = {
   query: string;
@@ -17,12 +21,14 @@ type SearchState = {
 
 const INDEX_TO_URL_PARAMS: { [indexName: string]: string } = {
   [DEFAULT_INDEX_NAME]: 'views',
-  [TALKS_RECENTLY_ADDED]: 'newest'
+  [TALKS_RECENTLY_ADDED]: 'newest',
+  [TALKS_RELEVANT]: 'rel'
 };
 
 const URL_PARAMS_TO_INDEX_NAME: { [param: string]: string } = {
   views: DEFAULT_INDEX_NAME,
-  newest: TALKS_RECENTLY_ADDED
+  newest: TALKS_RECENTLY_ADDED,
+  rel: TALKS_RELEVANT
 };
 
 const createURL = (state: SearchState) => {
@@ -60,7 +66,29 @@ const urlToSearchState = (location: WindowLocation) => {
   return searchState;
 };
 
-const InstantSearchProvider = ({
+const SearchStateContext = React.createContext<
+  [SearchState, (state: SearchState) => void] | null
+>(null);
+
+function SearchStateProvider(props: any) {
+  const [searchState, setSearchState] = useState<SearchState>(() =>
+    urlToSearchState(props.location)
+  );
+  const value = React.useMemo(() => [searchState, setSearchState], [
+    searchState
+  ]);
+  return <SearchStateContext.Provider {...props} value={value} />;
+}
+
+function useSearchState() {
+  const context = React.useContext(SearchStateContext);
+  if (!context) {
+    throw new Error('useSearchState must be used within a SearchStateProvider');
+  }
+  return context;
+}
+
+const ControlledInstantSearch = ({
   children,
   location,
   navigate
@@ -69,9 +97,7 @@ const InstantSearchProvider = ({
   navigate: NavigateFn;
   location: WindowLocation;
 }) => {
-  const [searchState, setSearchState] = useState(() =>
-    urlToSearchState(location)
-  );
+  const [searchState, setSearchState] = useSearchState();
   const prevLocation = usePrevious(location);
   useEffect(() => {
     if (prevLocation !== location) {
@@ -79,12 +105,19 @@ const InstantSearchProvider = ({
     }
   });
   const onSearchStateChange = (nextSearchState: SearchState) => {
+    let modifiedNextSearchState = nextSearchState;
+    if (!searchState.query && !!nextSearchState.query) {
+      modifiedNextSearchState = {
+        ...nextSearchState,
+        sortBy: TALKS_RELEVANT
+      };
+    }
     const debouncedNavigate = debounce(() => {
-      navigate(searchStateToUrl(location, nextSearchState), {
-        state: nextSearchState
+      navigate(searchStateToUrl(location, modifiedNextSearchState), {
+        state: modifiedNextSearchState
       });
     }, URL_UPDATE_DEBOUNCE_TIME);
-    setSearchState(nextSearchState);
+    setSearchState(modifiedNextSearchState);
     debouncedNavigate();
   };
   return (
@@ -105,14 +138,17 @@ function InstantSearchWithLocation({ children }: { children: any }) {
   return (
     <Location>
       {({ location, navigate }) => (
-        <InstantSearchProvider
-          children={children}
-          location={location}
-          navigate={navigate}
-        />
+        <SearchStateProvider location={location}>
+          <ControlledInstantSearch
+            children={children}
+            location={location}
+            navigate={navigate}
+          />
+        </SearchStateProvider>
       )}
     </Location>
   );
 }
 
+export { useSearchState };
 export default InstantSearchWithLocation;

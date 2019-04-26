@@ -10,6 +10,7 @@ import styled from '@emotion/styled';
 import SortBy from './SortBy';
 import SearchBox from './SearchBox';
 import theme from './theme';
+import { useSearchState } from './SearchProvider';
 
 type RefinementItem = {
   count: number;
@@ -38,6 +39,7 @@ const HideableBox = styled(Box)`
 
 const DEFAULT_INDEX_NAME = 'TALKS';
 const TALKS_RECENTLY_ADDED = 'TALKS_RECENTLY_ADDED';
+const TALKS_RELEVANT = 'TALKS_RELEVANT';
 
 const FilterButton = styled(Button)`
   padding: 0;
@@ -57,6 +59,7 @@ const FilterButton = styled(Button)`
 
 function SearchOptions() {
   const [isOpen, toggleOpen] = useState(false);
+  const [searchState, _setSearchState] = useSearchState();
   const transformItems = (items: Array<RefinementItem>) =>
     items.slice().sort((a: RefinementItem, b: RefinementItem) => {
       const textA = a.label.toUpperCase();
@@ -69,6 +72,7 @@ function SearchOptions() {
     e.preventDefault();
     toggleOpen(!isOpen);
   };
+  const shouldShowRelevantOption = searchState && searchState.query;
   return (
     <Box mb={3} px={[2, 0]}>
       <Box display="flex" alignItems="center" flexWrap="wrap">
@@ -76,10 +80,18 @@ function SearchOptions() {
         <Box display="flex" alignItems="center" flexWrap="wrap">
           <SortBy
             defaultRefinement={DEFAULT_INDEX_NAME}
-            items={[
-              { value: DEFAULT_INDEX_NAME, label: 'Most viewed' },
-              { value: TALKS_RECENTLY_ADDED, label: 'Newest' }
-            ]}
+            items={
+              shouldShowRelevantOption
+                ? [
+                    { value: TALKS_RELEVANT, label: 'Relevance' },
+                    { value: DEFAULT_INDEX_NAME, label: 'Most viewed' },
+                    { value: TALKS_RECENTLY_ADDED, label: 'Newest' }
+                  ]
+                : [
+                    { value: DEFAULT_INDEX_NAME, label: 'Most viewed' },
+                    { value: TALKS_RECENTLY_ADDED, label: 'Newest' }
+                  ]
+            }
           />
           <FilterButton
             p={2}
@@ -129,5 +141,5 @@ function SearchOptions() {
   );
 }
 
-export { DEFAULT_INDEX_NAME, TALKS_RECENTLY_ADDED };
+export { DEFAULT_INDEX_NAME, TALKS_RECENTLY_ADDED, TALKS_RELEVANT };
 export default SearchOptions;
