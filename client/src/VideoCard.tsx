@@ -6,7 +6,8 @@ import numeral from 'numeral';
 import { space, fontSize, bottom, right, left, top } from 'styled-system';
 import { Link } from '@reach/router';
 import { Box, Text } from './design';
-import { OnVideoSaveType, useCurrentVideo } from './App';
+import { OnVideoSaveType } from './App';
+import { useCurrentVideo } from './CurrentVideoProvider';
 import theme from './theme';
 import Icon, { check, add } from './Icon';
 

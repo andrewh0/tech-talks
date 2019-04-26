@@ -4,7 +4,8 @@ import { sortBy, omit } from 'lodash';
 import { Span, Box, H1, P, StyledLink } from './design';
 import { CONTENT_MAX_WIDTH } from './theme';
 import VideoCard, { VideoHit } from './VideoCard';
-import { SavedTalksMapType, OnVideoSaveType, usePlayerState } from './App';
+import { SavedTalksMapType, OnVideoSaveType } from './App';
+import { usePlayerState } from './PlayerContextProvider';
 import Icon, { add } from './Icon';
 
 function SavedPage(props: {

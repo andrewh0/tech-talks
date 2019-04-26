@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Box } from './design';
-import { useCurrentVideo, usePlayerState } from './App';
+import { useCurrentVideo } from './CurrentVideoProvider';
+import { usePlayerState } from './PlayerContextProvider';
 
 function VideoPage(props: { path: string; objectId?: string }) {
   const [_playerSize, setPlayerSize] = usePlayerState();

@@ -3,7 +3,8 @@ import { connectInfiniteHits } from 'react-instantsearch-dom';
 import { get } from 'lodash';
 
 import VideoCard, { VideoHit } from './VideoCard';
-import { OnVideoSaveType, SavedTalksMapType, usePlayerState } from './App';
+import { OnVideoSaveType, SavedTalksMapType } from './App';
+import { usePlayerState } from './PlayerContextProvider';
 import { Box, Button, P } from './design';
 
 function Hits(props: {

@@ -6,7 +6,6 @@ import { keyBy, sortBy, omit, map } from 'lodash';
 
 import theme from './theme';
 import { Box } from './design';
-import { usePrevious } from './util';
 
 import Nav from './Nav';
 import Home from './Home';
@@ -16,8 +15,8 @@ import Player from './Player';
 import CookieFooter from './CookieFooter';
 import SavedPage from './SavedPage';
 import { VideoHit } from './VideoCard';
-
-export type PlayerState = 'hidden' | 'minimized' | 'full';
+import { CurrentVideoProvider } from './CurrentVideoProvider';
+import { PlayerContextProvider } from './PlayerContextProvider';
 
 export type OnVideoSaveType = (talk: VideoHit, shouldSave: boolean) => void;
 
@@ -32,52 +31,6 @@ const ContentContainer = styled(Box)`
 `;
 
 const LOCALSTORAGE_SAVED_TALKS_KEY = 'TT_SAVED_TALKS';
-
-const CurrentVideoContext = React.createContext<
-  [VideoHit | null, (video: VideoHit | null) => void] | null
->(null);
-
-function useCurrentVideo() {
-  const context = React.useContext(CurrentVideoContext);
-  if (!context) {
-    throw new Error(
-      'useCurrentVideo must be used within a CurrentVideoProvider'
-    );
-  }
-  const [video, setCurrentVideo] = context;
-  const prevVideo = usePrevious(video);
-  return {
-    prevVideo,
-    video,
-    setCurrentVideo
-  };
-}
-
-const PlayerContext = React.createContext<
-  [PlayerState, (playerSize: PlayerState) => void] | null
->(null);
-
-function CurrentVideoProvider(props: any) {
-  const [video, setCurrentVideo] = React.useState<VideoHit | null>(null);
-  const value = React.useMemo(() => [video, setCurrentVideo], [video]);
-  return <CurrentVideoContext.Provider {...props} value={value} />;
-}
-
-function PlayerContextProvider(props: any) {
-  const [playerSize, setPlayerSize] = useState<PlayerState>('hidden');
-  const value = React.useMemo(() => [playerSize, setPlayerSize], [playerSize]);
-  return <PlayerContext.Provider {...props} value={value} />;
-}
-
-function usePlayerState() {
-  const context = React.useContext(PlayerContext);
-  if (!context) {
-    throw new Error(
-      'usePlayerState must be used within a PlayerContextProvider'
-    );
-  }
-  return context;
-}
 
 function App() {
   const savedTalksInitial = () =>
@@ -151,5 +104,5 @@ function App() {
   );
 }
 
-export { LOCALSTORAGE_SAVED_TALKS_KEY, useCurrentVideo, usePlayerState };
+export { LOCALSTORAGE_SAVED_TALKS_KEY };
 export default App;

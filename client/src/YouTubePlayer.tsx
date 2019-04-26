@@ -1,6 +1,6 @@
 import React from 'react';
 import YouTube from 'react-youtube';
-import { usePlayerState } from './App';
+import { usePlayerState } from './PlayerContextProvider';
 
 type YouTubePlayerProps = {
   videoId: string | null;
