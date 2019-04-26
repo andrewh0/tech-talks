@@ -71,6 +71,7 @@ function SavedPage(props: {
               isSearchResult={false}
               isSaved={true}
               onVideoSave={onVideoSave}
+              filterable={false}
             />
           ))
         )}

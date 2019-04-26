@@ -4,12 +4,14 @@ import { Highlight } from 'react-instantsearch-dom';
 import formatDurationMs from 'format-duration';
 import numeral from 'numeral';
 import { space, fontSize, bottom, right, left, top } from 'styled-system';
-import { Link } from '@reach/router';
+import { Link, navigate, Location, WindowLocation } from '@reach/router';
 import { Box, Text } from './design';
 import { OnVideoSaveType } from './App';
 import { useCurrentVideo } from './CurrentVideoProvider';
 import theme from './theme';
 import Icon, { check, add } from './Icon';
+import { urlToSearchState, searchStateToUrl } from './SearchProvider';
+import VideoCardLink from './VideoCardLink';
 
 const StyledImage = styled('img')`
   display: flex;
@@ -95,6 +97,7 @@ function VideoCard(props: {
   isSearchResult: boolean;
   isSaved: boolean;
   onVideoSave: OnVideoSaveType;
+  filterable: boolean;
 }) {
   const [isSaved, setSaved] = useState(props.isSaved);
   const { video, prevVideo, setCurrentVideo } = useCurrentVideo();
@@ -106,6 +109,21 @@ function VideoCard(props: {
     } else {
       setCurrentVideo(props.hit);
     }
+  };
+  const computeNextOrgFilterUrl = (location: WindowLocation) => {
+    const searchState = urlToSearchState(location);
+    const nextSearchState = {
+      ...searchState,
+      refinementList: {
+        ...(searchState.refinementList || {}),
+        organizationName: [props.hit.organizationName]
+      }
+    };
+    return searchStateToUrl(location, nextSearchState);
+  };
+
+  const handleOrgClick = (location: WindowLocation) => {
+    navigate(computeNextOrgFilterUrl(location));
   };
   return (
     <Card
@@ -150,9 +168,17 @@ function VideoCard(props: {
       </CardImage>
       <Box p={2}>
         <Box width="100%" display="flex" justifyContent="space-between">
-          <Text color="gray" fontSize={[1, 0]} fontWeight={500}>
-            {props.hit.organizationName}
-          </Text>
+          <Location>
+            {({ location }) => (
+              <VideoCardLink
+                isSaved={isSaved}
+                onClick={handleOrgClick}
+                label={props.hit.organizationName}
+                location={location}
+                filterable={props.filterable}
+              />
+            )}
+          </Location>
           <Text color="gray" fontSize={[1, 0]} fontWeight={500}>
             {new Date(props.hit.publishedAt).getFullYear()}
           </Text>

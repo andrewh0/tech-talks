@@ -150,5 +150,5 @@ function InstantSearchWithLocation({ children }: { children: any }) {
   );
 }
 
-export { useSearchState };
+export { useSearchState, urlToSearchState, searchStateToUrl };
 export default InstantSearchWithLocation;

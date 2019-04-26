@@ -49,6 +49,9 @@ const StyledLink = styled(Link)`
   &:visited {
     color: ${color};
   }
+  &:active {
+    color: ${color};
+  }
 `;
 
 const Button = styled('button')`
@@ -66,6 +69,20 @@ const Button = styled('button')`
   }
 `;
 
+const TextButton = styled('button')`
+  background: none;
+  border: none;
+  padding: 0;
+  &:hover {
+    color: ${theme.colors.almostWhite};
+  }
+  cursor: pointer;
+  ${color}
+  ${space}
+  ${fontSize}
+  ${fontWeight}
+`;
+
 const A = styled('a')`
   ${color}
   ${fontSize}
@@ -80,4 +97,4 @@ const Span = styled('span')`
 const H1 = Text.withComponent('h1');
 const P = Text.withComponent('p');
 
-export { H1, P, A, Span, Box, Button, Text, StyledLink };
+export { H1, P, A, Span, Box, Button, Text, StyledLink, TextButton };

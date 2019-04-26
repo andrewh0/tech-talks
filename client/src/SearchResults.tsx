@@ -25,6 +25,7 @@ function Hits(props: {
             isSearchResult={true}
             isSaved={!!get(props.savedTalks, [hit.objectID])}
             onVideoSave={props.onVideoSave}
+            filterable={true}
           />
         ))
       ) : (
