@@ -6,7 +6,7 @@ import numeral from 'numeral';
 import { space, fontSize, bottom, right, left, top } from 'styled-system';
 import { Link } from '@reach/router';
 import { Box, Text } from './design';
-import { OnVideoCardClickType, OnVideoSaveType } from './App';
+import { OnVideoSaveType, useCurrentVideo } from './App';
 import theme from './theme';
 import Icon, { check, add } from './Icon';
 
@@ -93,12 +93,18 @@ function VideoCard(props: {
   hit: VideoHit;
   isSearchResult: boolean;
   isSaved: boolean;
-  onVideoCardClick: OnVideoCardClickType;
   onVideoSave: OnVideoSaveType;
 }) {
   const [isSaved, setSaved] = useState(props.isSaved);
+  const { video, prevVideo, setCurrentVideo } = useCurrentVideo();
+
   const handleVideoCardClick = (e: React.MouseEvent) => {
-    props.onVideoCardClick(props.hit.objectID, props.hit.videoId);
+    // This happens when the user opens a video in a new tab while the minimized player is open.
+    if (!!prevVideo && prevVideo !== video) {
+      setCurrentVideo(null);
+    } else {
+      setCurrentVideo(props.hit);
+    }
   };
   return (
     <Card

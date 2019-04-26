@@ -4,18 +4,12 @@ import { sortBy, omit } from 'lodash';
 import { Span, Box, H1, P, StyledLink } from './design';
 import { CONTENT_MAX_WIDTH } from './theme';
 import VideoCard, { VideoHit } from './VideoCard';
-import {
-  OnVideoCardClickType,
-  SavedTalksMapType,
-  OnVideoSaveType
-} from './App';
+import { SavedTalksMapType, OnVideoSaveType, usePlayerState } from './App';
 import Icon, { add } from './Icon';
 
 function SavedPage(props: {
   path: string;
-  onVideoCardClick: OnVideoCardClickType;
   onVideoSave: OnVideoSaveType;
-  playerSize: string;
   savedTalks: SavedTalksMapType;
 }) {
   const initialSavedTalks = () =>
@@ -28,6 +22,7 @@ function SavedPage(props: {
     setSavedTalks(nextSavedTalks);
     props.onVideoSave(talk, shouldSave);
   };
+  const [playerSize, _setPlayerSize] = usePlayerState();
   return (
     <Box px={[0, 4]} mx="auto" maxWidth={CONTENT_MAX_WIDTH}>
       <H1
@@ -41,11 +36,10 @@ function SavedPage(props: {
       >
         My saved talks
       </H1>
-
       <Box
         display="flex"
         flexWrap="wrap"
-        pb={props.playerSize === 'minimized' ? 7 : 4}
+        pb={playerSize === 'minimized' ? 7 : 4}
       >
         {savedTalks.length === 0 ? (
           <P
@@ -75,7 +69,6 @@ function SavedPage(props: {
               hit={talk}
               isSearchResult={false}
               isSaved={true}
-              onVideoCardClick={props.onVideoCardClick}
               onVideoSave={onVideoSave}
             />
           ))

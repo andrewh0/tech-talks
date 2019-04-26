@@ -2,23 +2,14 @@ import React from 'react';
 import InstantSearchProvider from './SearchProvider';
 import SearchResults from './SearchResults';
 import SearchOptions from './SearchOptions';
-import {
-  OnVideoCardClickType,
-  SavedTalksMapType,
-  SetPlayerSizeType,
-  OnVideoSaveType
-} from './App';
+import { SavedTalksMapType, OnVideoSaveType } from './App';
 import { Box, H1 } from './design';
 import AlgoliaLogo from './AlgoliaLogo';
 import { CONTENT_MAX_WIDTH } from './theme';
 
 function Home(props: {
-  onVideoCardClick: OnVideoCardClickType;
   onVideoSave: OnVideoSaveType;
   path: string;
-  setPlayerSize: SetPlayerSizeType;
-  videoId?: string;
-  playerSize: string;
   savedTalks: SavedTalksMapType;
 }) {
   return (
@@ -47,8 +38,6 @@ function Home(props: {
       <InstantSearchProvider>
         <SearchOptions />
         <SearchResults
-          onVideoCardClick={props.onVideoCardClick}
-          playerSize={props.playerSize}
           onVideoSave={props.onVideoSave}
           savedTalks={props.savedTalks}
         />

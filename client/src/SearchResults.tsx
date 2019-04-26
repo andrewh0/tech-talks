@@ -4,33 +4,31 @@ import { get } from 'lodash';
 
 import VideoCard, { VideoHit } from './VideoCard';
 import {
-  OnVideoCardClickType,
   OnVideoSaveType,
-  SavedTalksMapType
+  SavedTalksMapType,
+  usePlayerState
 } from './App';
 import { Box, Button, P } from './design';
 
 function Hits(props: {
   hits: Array<VideoHit>;
-  onVideoCardClick: OnVideoCardClickType;
   hasMore: boolean;
   refine: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  playerSize: string;
   onVideoSave: OnVideoSaveType;
   savedTalks: SavedTalksMapType;
 }) {
+  const [playerSize, _setPlayerSize] = usePlayerState();
   return (
     <Box
       display="flex"
       flexWrap="wrap"
-      pb={props.playerSize === 'minimized' ? 7 : 4}
+      pb={playerSize === 'minimized' ? 7 : 4}
     >
       {props.hits.length > 0 ? (
         props.hits.map((hit: VideoHit) => (
           <VideoCard
             key={hit.objectID}
             hit={hit}
-            onVideoCardClick={props.onVideoCardClick}
             isSearchResult={true}
             isSaved={!!get(props.savedTalks, [hit.objectID])}
             onVideoSave={props.onVideoSave}
@@ -70,15 +68,11 @@ function Hits(props: {
 const CustomHits = connectInfiniteHits(Hits);
 
 function SearchResults(props: {
-  onVideoCardClick: OnVideoCardClickType;
-  playerSize: string;
   onVideoSave: OnVideoSaveType;
   savedTalks: SavedTalksMapType;
 }) {
   return (
     <CustomHits
-      onVideoCardClick={props.onVideoCardClick}
-      playerSize={props.playerSize}
       onVideoSave={props.onVideoSave}
       savedTalks={props.savedTalks}
     />

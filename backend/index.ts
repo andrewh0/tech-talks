@@ -2,6 +2,7 @@ import * as path from 'path';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import { prisma } from './prisma/generated/prisma-client';
+import { responseToVideoHit, TalkResponse } from './util';
 
 const app = express();
 
@@ -16,8 +17,29 @@ app.disable('x-powered-by');
 app.set('port', process.env.PORT || 3001);
 
 app.get('/api/talks/:objectId', async (req, res) => {
-  const talks = await prisma.talk({ id: req.params.objectId });
-  res.json(talks);
+  const talk = (await prisma.talk({ id: req.params.objectId }).$fragment(
+    `fragment TalkOrganizationNames on Talk {
+        id
+        viewCount
+        description
+        title
+        publishedAt
+        duration
+        source
+        videoId
+        private
+        thumbnailUrl
+        event {
+          organization {
+            id
+            name
+          }
+        }
+      }`
+  )) as TalkResponse;
+  if (!talk.private) {
+    res.json(responseToVideoHit(talk));
+  }
 });
 
 // app.get('/api/talks', async (req, res) => {
