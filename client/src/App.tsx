@@ -59,7 +59,7 @@ const PlayerContext = React.createContext<
 
 function CurrentVideoProvider(props: any) {
   const [video, setCurrentVideo] = React.useState<VideoHit | null>(null);
-  const value = React.useMemo(() => [video, setCurrentVideo], [video])
+  const value = React.useMemo(() => [video, setCurrentVideo], [video]);
   return <CurrentVideoContext.Provider {...props} value={value} />;
 }
 
@@ -136,16 +136,11 @@ function App() {
                 onVideoSave={handleSetSavedTalk}
                 savedTalks={savedTalks}
               />
-              <VideoPage
-                path="talks/:objectId"
-              />
+              <VideoPage path="talks/:objectId" />
             </Router>
             <Match path="/talks/:objectId">
               {({ navigate, match }) => (
-                <Player
-                  match={match}
-                  navigate={navigate}
-                />
+                <Player match={match} navigate={navigate} />
               )}
             </Match>
           </PlayerContextProvider>

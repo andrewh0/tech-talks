@@ -3,11 +3,7 @@ import { connectInfiniteHits } from 'react-instantsearch-dom';
 import { get } from 'lodash';
 
 import VideoCard, { VideoHit } from './VideoCard';
-import {
-  OnVideoSaveType,
-  SavedTalksMapType,
-  usePlayerState
-} from './App';
+import { OnVideoSaveType, SavedTalksMapType, usePlayerState } from './App';
 import { Box, Button, P } from './design';
 
 function Hits(props: {
@@ -19,11 +15,7 @@ function Hits(props: {
 }) {
   const [playerSize, _setPlayerSize] = usePlayerState();
   return (
-    <Box
-      display="flex"
-      flexWrap="wrap"
-      pb={playerSize === 'minimized' ? 7 : 4}
-    >
+    <Box display="flex" flexWrap="wrap" pb={playerSize === 'minimized' ? 7 : 4}>
       {props.hits.length > 0 ? (
         props.hits.map((hit: VideoHit) => (
           <VideoCard
@@ -72,10 +64,7 @@ function SearchResults(props: {
   savedTalks: SavedTalksMapType;
 }) {
   return (
-    <CustomHits
-      onVideoSave={props.onVideoSave}
-      savedTalks={props.savedTalks}
-    />
+    <CustomHits onVideoSave={props.onVideoSave} savedTalks={props.savedTalks} />
   );
 }
 
