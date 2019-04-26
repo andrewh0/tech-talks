@@ -111,6 +111,11 @@ const ControlledInstantSearch = ({
         ...nextSearchState,
         sortBy: TALKS_RELEVANT
       };
+    } else if (!!searchState.query && !nextSearchState.query) {
+      modifiedNextSearchState = {
+        ...nextSearchState,
+        sortBy: DEFAULT_INDEX_NAME
+      };
     }
     const debouncedNavigate = debounce(() => {
       navigate(searchStateToUrl(location, modifiedNextSearchState), {
