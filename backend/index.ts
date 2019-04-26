@@ -36,9 +36,11 @@ app.get('/api/talks/:objectId', async (req, res) => {
           }
         }
       }`
-  )) as TalkResponse;
-  if (!talk.private) {
+  )) as TalkResponse | null;
+  if (talk && !talk.private) {
     res.json(responseToVideoHit(talk));
+  } else {
+    res.sendStatus(404);
   }
 });
 

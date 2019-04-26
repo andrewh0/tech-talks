@@ -11,6 +11,7 @@ import Nav from './Nav';
 import Home from './Home';
 import About from './About';
 import VideoPage from './VideoPage';
+import NotFound from './NotFound';
 import Player from './Player';
 import CookieFooter from './CookieFooter';
 import SavedPage from './SavedPage';
@@ -90,6 +91,8 @@ function App() {
                 savedTalks={savedTalks}
               />
               <VideoPage path="talks/:objectId" />
+              <NotFound path="404" />
+              <NotFound path="*" />
             </Router>
             <Match path="/talks/:objectId">
               {({ navigate, match }) => (
