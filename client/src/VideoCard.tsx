@@ -117,7 +117,8 @@ function VideoCard(props: {
       refinementList: {
         ...(searchState.refinementList || {}),
         organizationName: [props.hit.organizationName]
-      }
+      },
+      page: 1
     };
     return searchStateToUrl(location, nextSearchState);
   };
