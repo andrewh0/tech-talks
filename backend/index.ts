@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'production') {
 app.disable('x-powered-by');
 
 app.set('port', process.env.PORT || 3001);
-throw 'error';
+
 app.get('/api/talks/:objectId', async (req, res) => {
   const talk = (await prisma.talk({ id: req.params.objectId }).$fragment(
     `fragment TalkOrganizationNames on Talk {
