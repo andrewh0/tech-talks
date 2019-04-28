@@ -37,8 +37,8 @@
     "googleapis": "^37.2.0",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
-    "node-supervisor": "^1.0.2",
     "prisma-client-lib": "^1.31.1",
+    "supervisor": "^0.12.0",
     "ts-node": "^8.0.2",
     "typescript": "^3.3.3333",
     "url-parse": "^1.4.4"
