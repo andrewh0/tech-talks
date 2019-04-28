@@ -37,11 +37,13 @@ app.get('/api/talks/:objectId', async (req, res) => {
         }
       }`
   )) as TalkResponse | null;
-  if (talk && !talk.private) {
-    res.json(responseToVideoHit(talk));
-  } else {
-    res.sendStatus(404);
-  }
+  // intentionally throw
+  throw 'error';
+  // if (talk && !talk.private) {
+  //   res.json(responseToVideoHit(talk));
+  // } else {
+  //   res.sendStatus(404);
+  // }
 });
 
 // app.get('/api/talks', async (req, res) => {
