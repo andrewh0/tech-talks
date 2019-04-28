@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'production') {
 app.disable('x-powered-by');
 
 app.set('port', process.env.PORT || 3001);
-
+throw 'error';
 app.get('/api/talks/:objectId', async (req, res) => {
   const talk = (await prisma.talk({ id: req.params.objectId }).$fragment(
     `fragment TalkOrganizationNames on Talk {
@@ -37,13 +37,11 @@ app.get('/api/talks/:objectId', async (req, res) => {
         }
       }`
   )) as TalkResponse | null;
-  // intentionally throw
-  throw 'error';
-  // if (talk && !talk.private) {
-  //   res.json(responseToVideoHit(talk));
-  // } else {
-  //   res.sendStatus(404);
-  // }
+  if (talk && !talk.private) {
+    res.json(responseToVideoHit(talk));
+  } else {
+    res.sendStatus(404);
+  }
 });
 
 // app.get('/api/talks', async (req, res) => {
