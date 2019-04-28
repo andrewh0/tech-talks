@@ -2652,6 +2652,11 @@ node-forge@^0.7.1, node-forge@^0.7.5:
   resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.7.6.tgz#fdf3b418aee1f94f0ef642cd63486c77ca9724ac"
   integrity sha512-sol30LUpz1jQFBjOKwbjxijiE3b6pjd74YwfD0fJOKPjF+fONKb2Yg8rYgS6+bK6VDl+/wfr4IYpC7jDzLUIfw==
 
+node-supervisor@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/node-supervisor/-/node-supervisor-1.0.2.tgz#ebc5f7fd6a09a66bc1268e15369c53b4ff0bf714"
+  integrity sha1-68X3/WoJpmvBJo4VNpxTtP8L9xQ=
+
 normalize-path@^2.0.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/normalize-path/-/normalize-path-2.1.1.tgz#1ab28b556e198363a8c1a6f7e6fa20137fe6aed9"
