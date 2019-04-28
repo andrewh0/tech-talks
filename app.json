@@ -1,0 +1,47 @@
+{
+  "addons": [
+    "algoliasearch",
+    "papertrail",
+    "scheduler"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "env": {
+    "ALGOLIA_API_KEY": {
+      "required": true
+    },
+    "ALGOLIA_APP_ID": {
+      "required": true
+    },
+    "ALGOLIASEARCH_API_KEY_SEARCH": {
+      "required": true
+    },
+    "PAPERTRAIL_API_TOKEN": {
+      "required": true
+    },
+    "PRISMA_ENDPOINT": {
+      "required": true
+    },
+    "PRISMA_MANAGEMENT_API_SECRET": {
+      "required": true
+    },
+    "PRISMA_SECRET": {
+      "required": true
+    },
+    "YOUTUBE_API_KEY": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "name": "tech-talks",
+  "scripts": {
+  },
+  "stack": "heroku-18"
+}
