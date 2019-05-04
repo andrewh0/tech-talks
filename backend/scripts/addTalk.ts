@@ -50,7 +50,7 @@ async function addTalkToExistingEvent(youtubeVideoId: string, eventId: string) {
   }
   const organizationName = event.organization.name;
   const organizationId = event.organization.id;
-  const videoDetails = await getVideoDetails([youtubeVideoId])[0];
+  const videoDetails = (await getVideoDetails([youtubeVideoId]))[0];
 
   if (!videoDetails) {
     console.log(`Could not find details on video id: ${youtubeVideoId}.`);
@@ -79,4 +79,3 @@ async function addTalkToExistingEvent(youtubeVideoId: string, eventId: string) {
     organizationId
   });
 }
-
