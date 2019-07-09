@@ -7,7 +7,7 @@ type YouTubePlayerProps = {
 };
 
 function YouTubePlayer(props: YouTubePlayerProps) {
-  const [playerSize, _setPlayerSize] = usePlayerState();
+  const [playerSize] = usePlayerState();
   return props.videoId ? (
     <YouTube
       containerClassName="youtube-player-container"

@@ -49,7 +49,7 @@ const PlayerControlsContainer = styled(Box)`
 
 function PlayerControls({ navigate }: { navigate: NavigateFn }) {
   const { video, setCurrentVideo } = useCurrentVideo();
-  const [_playerSize, setPlayerSize] = usePlayerState();
+  const setPlayerSize = usePlayerState()[1];
   const handleVideoClose = () => {
     setCurrentVideo(null);
     setPlayerSize('hidden');
@@ -98,17 +98,18 @@ function Player(props: {
   const { video } = useCurrentVideo();
   const videoId = video ? video.videoId : null;
   const [playerSize, setPlayerSize] = usePlayerState();
+  const isMatch = !!props.match;
   useEffect(() => {
     if (videoId) {
-      if (props.match && !previousMatch) {
+      if (isMatch && !previousMatch) {
         setPlayerSize('full');
-      } else if (!props.match && previousMatch) {
+      } else if (!isMatch && previousMatch) {
         setPlayerSize('minimized');
       }
     } else {
       setPlayerSize('hidden');
     }
-  }, [videoId, !!props.match]);
+  }, [videoId, isMatch, setPlayerSize, previousMatch]);
   const windowInnerHeight = useDebouncedWindowInnerHeight();
   return videoId ? (
     <VideoPlayerContainer

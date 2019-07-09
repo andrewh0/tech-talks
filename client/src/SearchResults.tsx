@@ -14,7 +14,7 @@ function Hits(props: {
   onVideoSave: OnVideoSaveType;
   savedTalks: SavedTalksMapType;
 }) {
-  const [playerSize, _setPlayerSize] = usePlayerState();
+  const [playerSize] = usePlayerState();
   return (
     <Box display="flex" flexWrap="wrap" pb={playerSize === 'minimized' ? 7 : 4}>
       {props.hits.length > 0 ? (

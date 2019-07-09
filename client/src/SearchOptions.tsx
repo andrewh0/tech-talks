@@ -59,7 +59,7 @@ const FilterButton = styled(Button)`
 
 function SearchOptions() {
   const [isOpen, toggleOpen] = useState(false);
-  const [searchState, _setSearchState] = useSearchState();
+  const [searchState] = useSearchState();
   const transformItems = (items: Array<RefinementItem>) =>
     items.slice().sort((a: RefinementItem, b: RefinementItem) => {
       const textA = a.label.toUpperCase();

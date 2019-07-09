@@ -23,7 +23,7 @@ function SavedPage(props: {
     setSavedTalks(nextSavedTalks);
     props.onVideoSave(talk, shouldSave);
   };
-  const [playerSize, _setPlayerSize] = usePlayerState();
+  const [playerSize] = usePlayerState();
   return (
     <Box px={[0, 4]} mx="auto" maxWidth={CONTENT_MAX_WIDTH}>
       <H1
