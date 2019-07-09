@@ -135,6 +135,7 @@ function VideoCard(props: {
       width={[1, 1 / 2, 1 / 4]}
       title={props.hit.title}
       to={`/talks/${props.hit.objectID}`}
+      color="almostWhite"
     >
       <CardImage>
         <StyledImage src={props.hit.thumbnailUrl} alt={props.hit.title} />
