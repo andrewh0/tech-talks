@@ -4,13 +4,14 @@ import {
   CurrentRefinements,
   ClearRefinements
 } from 'react-instantsearch-dom';
-import { Button, Box } from './design';
+import { Button, Box, Text } from './design';
 import Icon, { filter } from './Icon';
 import styled from '@emotion/styled';
 import SortBy from './SortBy';
 import SearchBox from './SearchBox';
 import theme from './theme';
 import { useSearchState } from './SearchProvider';
+import { Link } from '@reach/router';
 
 type RefinementItem = {
   count: number;
@@ -35,6 +36,16 @@ type CurrentRefinementItem = {
 
 const HideableBox = styled(Box)`
   ${props => (props.isHidden ? `display: none;` : `display: flex;`)}
+`;
+
+const StyledSuggestionLink = styled(Link)`
+  &:hover {
+    color: ${theme.colors.brandLighter};
+  }
+  &:visited {
+    color: ${theme.colors.brand};
+  }
+  color: ${theme.colors.brand};
 `;
 
 const DEFAULT_INDEX_NAME = 'TALKS';
@@ -105,6 +116,27 @@ function SearchOptions() {
             Filter conferences
           </FilterButton>
         </Box>
+      </Box>
+      <Box mt={3}>
+        <Text color="almostWhite">
+          Try searching for talks on{' '}
+          <StyledSuggestionLink to="?query=design%20systems&page=1&sort=rel">
+            design systems
+          </StyledSuggestionLink>
+          ,{' '}
+          <StyledSuggestionLink to="?query=server-side%20rendering&page=1&sort=rel">
+            server-side rendering
+          </StyledSuggestionLink>
+          ,{' '}
+          <StyledSuggestionLink to="?query=GraphQL&page=1&sort=rel">
+            GraphQL
+          </StyledSuggestionLink>
+          , or{' '}
+          <StyledSuggestionLink to="?query=web%20components&page=1&sort=rel">
+            web components
+          </StyledSuggestionLink>
+          .
+        </Text>
       </Box>
       <HideableBox
         isHidden={!isOpen}
