@@ -81,6 +81,7 @@ const TextButton = styled('button')`
   ${space}
   ${fontSize}
   ${fontWeight}
+  ${textAlign}
 `;
 
 const A = styled('a')`

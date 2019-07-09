@@ -17,7 +17,8 @@ function VideoCardLink(props: {
   const styleProps = {
     color: 'gray',
     fontSize: [1, 0],
-    fontWeight: 500
+    fontWeight: 500,
+    textAlign: 'left'
   };
   return props.filterable ? (
     <TextButton {...styleProps} onClick={handleClick}>
