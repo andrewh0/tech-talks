@@ -106,6 +106,21 @@ function SearchOptions() {
           </FilterButton>
         </Box>
       </Box>
+      <HideableBox
+        isHidden={!isOpen}
+        color="almostWhite"
+        p={3}
+        display="flex"
+        justifyContent="center"
+      >
+        <RefinementList
+          attribute="organizationName"
+          searchable={true}
+          transformItems={transformItems}
+          translations={{ placeholder: 'Filter conferences...' }}
+          limit={200}
+        />
+      </HideableBox>
       <Box color="almostWhite" px={3} pt={3} pb={0}>
         <CurrentRefinements
           transformItems={(items: Array<CurrentRefinement>) =>
@@ -121,22 +136,6 @@ function SearchOptions() {
           }}
         />
       </Box>
-      <HideableBox
-        isHidden={!isOpen}
-        color="almostWhite"
-        mb={3}
-        p={3}
-        display="flex"
-        justifyContent="center"
-      >
-        <RefinementList
-          attribute="organizationName"
-          searchable={true}
-          transformItems={transformItems}
-          translations={{ placeholder: 'Filter conferences...' }}
-          limit={200}
-        />
-      </HideableBox>
     </Box>
   );
 }
