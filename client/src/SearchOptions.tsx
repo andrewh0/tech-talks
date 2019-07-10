@@ -48,7 +48,7 @@ const StyledSuggestionLink = styled(Link)`
   color: ${theme.colors.brand};
 `;
 
-const DEFAULT_INDEX_NAME = 'TALKS';
+const TALKS_MOST_VIEWED = 'TALKS';
 const TALKS_RECENTLY_ADDED = 'TALKS_RECENTLY_ADDED';
 const TALKS_RELEVANT = 'TALKS_RELEVANT';
 
@@ -90,17 +90,17 @@ function SearchOptions() {
         <SearchBox />
         <Box display="flex" alignItems="center" flexWrap="wrap">
           <SortBy
-            defaultRefinement={DEFAULT_INDEX_NAME}
+            defaultRefinement={TALKS_RECENTLY_ADDED}
             items={
               shouldShowRelevantOption
                 ? [
                     { value: TALKS_RELEVANT, label: 'Relevance' },
-                    { value: DEFAULT_INDEX_NAME, label: 'Most viewed' },
-                    { value: TALKS_RECENTLY_ADDED, label: 'Newest' }
+                    { value: TALKS_RECENTLY_ADDED, label: 'Newest' },
+                    { value: TALKS_MOST_VIEWED, label: 'Most viewed' }
                   ]
                 : [
-                    { value: DEFAULT_INDEX_NAME, label: 'Most viewed' },
-                    { value: TALKS_RECENTLY_ADDED, label: 'Newest' }
+                    { value: TALKS_RECENTLY_ADDED, label: 'Newest' },
+                    { value: TALKS_MOST_VIEWED, label: 'Most viewed' }
                   ]
             }
           />
@@ -172,5 +172,5 @@ function SearchOptions() {
   );
 }
 
-export { DEFAULT_INDEX_NAME, TALKS_RECENTLY_ADDED, TALKS_RELEVANT };
+export { TALKS_MOST_VIEWED, TALKS_RECENTLY_ADDED, TALKS_RELEVANT };
 export default SearchOptions;

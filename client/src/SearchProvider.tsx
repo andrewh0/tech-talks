@@ -5,7 +5,7 @@ import { WindowLocation, Location, NavigateFn } from '@reach/router';
 import { debounce } from 'lodash';
 import { usePrevious } from './util';
 import {
-  DEFAULT_INDEX_NAME,
+  TALKS_MOST_VIEWED,
   TALKS_RECENTLY_ADDED,
   TALKS_RELEVANT
 } from './SearchOptions';
@@ -20,13 +20,13 @@ type SearchState = {
 };
 
 const INDEX_TO_URL_PARAMS: { [indexName: string]: string } = {
-  [DEFAULT_INDEX_NAME]: 'views',
+  [TALKS_MOST_VIEWED]: 'views',
   [TALKS_RECENTLY_ADDED]: 'newest',
   [TALKS_RELEVANT]: 'rel'
 };
 
 const URL_PARAMS_TO_INDEX_NAME: { [param: string]: string } = {
-  views: DEFAULT_INDEX_NAME,
+  views: TALKS_MOST_VIEWED,
   newest: TALKS_RECENTLY_ADDED,
   rel: TALKS_RELEVANT
 };
@@ -60,7 +60,7 @@ const urlToSearchState = (location: WindowLocation) => {
     page: routeState.page || 1,
     sortBy:
       (routeState.sort && URL_PARAMS_TO_INDEX_NAME[routeState.sort]) ||
-      DEFAULT_INDEX_NAME
+      TALKS_RECENTLY_ADDED
   };
 
   return searchState;
@@ -114,7 +114,7 @@ const ControlledInstantSearch = ({
     } else if (!!searchState.query && !nextSearchState.query) {
       modifiedNextSearchState = {
         ...nextSearchState,
-        sortBy: DEFAULT_INDEX_NAME
+        sortBy: TALKS_RECENTLY_ADDED
       };
     }
     const debouncedNavigate = debounce(() => {
@@ -128,7 +128,7 @@ const ControlledInstantSearch = ({
   return (
     <InstantSearch
       appId="TOYFG73GH3"
-      indexName={DEFAULT_INDEX_NAME}
+      indexName={TALKS_RECENTLY_ADDED}
       apiKey="dd15269aa4416b500656d26f74c4126c"
       searchState={searchState}
       onSearchStateChange={onSearchStateChange}
