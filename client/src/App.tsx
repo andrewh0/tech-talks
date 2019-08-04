@@ -13,7 +13,6 @@ import About from './About';
 import VideoPage from './VideoPage';
 import NotFound from './NotFound';
 import Player from './Player';
-import CookieFooter from './CookieFooter';
 import SavedPage from './SavedPage';
 import { VideoHit } from './VideoCard';
 import { CurrentVideoProvider } from './CurrentVideoProvider';
@@ -102,7 +101,6 @@ function App() {
           </PlayerContextProvider>
         </CurrentVideoProvider>
       </ContentContainer>
-      <CookieFooter />
     </ThemeProvider>
   );
 }
