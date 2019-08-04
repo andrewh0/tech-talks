@@ -2,13 +2,14 @@
 
 ![tech-talks-demo](https://user-images.githubusercontent.com/2905455/56312865-fedae580-6105-11e9-9079-9bbc27293a7e.gif)
 
-Tech Talks is a place to discover and watch conference talks about web development. So far, I've collected over 4,000 talks from a number of JavaScript conferences since 2017 by looking up their associated conference playlists on YouTube.
+Tech Talks is a place to discover and watch conference talks about web development. I've collected thousands of talks from a number of JavaScript conferences since 2017 by looking up their associated conference playlists on YouTube.
 
 This is a work-in-progress, but I'd thought I'd build in public and share what I have right now. Others have built similar apps as well; be sure to check out [Related Projects](#related-projects) below.
 
 ## Setup and Development
 
 Clone the git repository and navigate to the `tech-talks` folder.
+
 ```
 git clone git@github.com:andrewh0/tech-talks.git
 cd tech-talks
@@ -17,6 +18,7 @@ cd tech-talks
 This app uses TypeScript for both the frontend and backend, so you'll notice a `package.json` in both the `client` and `root` directories.
 
 Install dependencies for both the client and the server.
+
 ```
 yarn
 cd client && yarn
@@ -29,6 +31,7 @@ This app relies heavily on [Prisma](https://www.prisma.io/) to manage data. If y
 Once you have created a Prisma server and you have obtained your Prisma API credentials, you can add them to the `.env` folder in the root directory, using the `.env.example` file as a reference.
 
 When your credentials have been added, run the following command to deploy your service to Prisma.
+
 ```
 yarn prisma:deploy
 ```
@@ -42,12 +45,15 @@ This app uses [Algolia](https://www.algolia.com/) for search. You'll need an Alg
 The YouTube API is used to retrieve video and playlist data. You'll need to enable the YouTube API via the [Google Developer Console](https://console.developers.google.com) and get your API credentials there. Add them to the `.env` file in the root directory.
 
 ### Running the app locally
+
 Start the Express server with the following command.
+
 ```
 yarn start
 ```
 
 Navigate to the `client` directory to start the client server.
+
 ```
 cd client
 yarn start
@@ -58,6 +64,7 @@ Go to `localhost:3000` in your browser.
 ### Prettier
 
 From the client and root folders, you can run the following command to format the client and server code, respectively.
+
 ```
 yarn run prettier
 ```
@@ -73,6 +80,7 @@ This app uses:
 - Papertrail for logs
 
 ## Built with
+
 - [TypeScript](https://www.typescriptlang.org/)
 - [React](https://reactjs.org/)
 - [Emotion](https://emotion.sh/docs/introduction/)
@@ -84,12 +92,15 @@ This app uses:
 - [Heroku](https://heroku.com/)
 
 ## Credentials
+
 This app connects with some external services to get relevant data. You'll need to grab API Keys from them and add them to your `.env` file in the root directory.
+
 - [Prisma](https://app.prisma.io/)
 - [Algolia](https://www.algolia.com/manage/applications)
 - [YouTube](https://console.cloud.google.com/apis/library/youtube.googleapis.com/)
 
 ## Related Projects and Resources
+
 - https://confs.tech
 - https://awesometalks.party
 - https://highlight.app
@@ -98,4 +109,5 @@ This app connects with some external services to get relevant data. You'll need 
 - https://www.confreaks.com
 
 ## Contributing
+
 Contributions of any kind are welcome! Thank you 🙏
