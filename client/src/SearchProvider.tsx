@@ -127,9 +127,9 @@ const ControlledInstantSearch = ({
   };
   return (
     <InstantSearch
-      appId="TOYFG73GH3"
+      appId={process.env.REACT_APP_ALGOLIA_APP_ID}
       indexName={TALKS_RECENTLY_ADDED}
-      apiKey="dd15269aa4416b500656d26f74c4126c"
+      apiKey={process.env.REACT_APP_ALGOLIA_API_KEY}
       searchState={searchState}
       onSearchStateChange={onSearchStateChange}
       createURL={createURL}
