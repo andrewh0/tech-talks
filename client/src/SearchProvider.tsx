@@ -45,7 +45,7 @@ const createURL = (state: SearchState) => {
   return `?${qs.stringify(routeState)}`;
 };
 
-const URL_UPDATE_DEBOUNCE_TIME: number = 500;
+const URL_UPDATE_DEBOUNCE_TIME: number = 50;
 
 const searchStateToUrl = (location: WindowLocation, searchState: SearchState) =>
   searchState ? `${location.pathname}${createURL(searchState)}` : '';
