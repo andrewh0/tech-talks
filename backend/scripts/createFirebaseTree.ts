@@ -39,6 +39,32 @@ async function migrateOrganizations() {
   const orgs: [any] = await prisma.organizations().$fragment(orgFragment);
   const orgBatch = db.batch();
 
+
+  /*
+    There's some nesting here that can be avoided, but records are easier to understand this way and the performance boost isn't really needed.
+    Google recommends a flatter structure when possible: https://firebase.google.com/docs/database/admin/structure-data
+    This is what that would look like:
+    {
+      organizations: {
+        metadata: {
+          [organizationId]: {
+            name,
+            id,
+            ...
+          }
+        },
+        events: {
+          [organizationId]: {
+            [event_id]: {
+              name,
+              id,
+              ...
+            }
+          }
+        }
+      }
+    }
+  */
   orgs.forEach(org => {
     const orgRef = db.collection('organizations').doc(org.id);
     orgBatch.set(orgRef, {
