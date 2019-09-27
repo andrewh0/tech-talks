@@ -19,6 +19,15 @@
     "ALGOLIASEARCH_API_KEY_SEARCH": {
       "required": true
     },
+    "FIREBASE_CLIENT_EMAIL": {
+      "required": true
+    },
+    "FIREBASE_PRIVATE_KEY": {
+      "required": true
+    },
+    "FIREBASE_PROJECT_ID": {
+      "required": true
+    },
     "PAPERTRAIL_API_TOKEN": {
       "required": true
     },
