@@ -1,9 +1,63 @@
 import * as path from 'path';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import { prisma } from './prisma/generated/prisma-client';
-import { responseToVideoHit, TalkResponse } from './util';
+import admin from 'firebase-admin';
 
+import { responseToVideoHit } from './util';
+
+type FirebaseTalk = {
+  createdAt: string;
+  description: string;
+  duration: number;
+  eventId: string;
+  hidden: boolean;
+  id: string;
+  private: boolean;
+  publishedAt: string;
+  source: string;
+  thumbnailUrl: string;
+  title: string;
+  updatedAt: string;
+  videoId: string;
+  viewCount: number;
+};
+
+type FirebaseEvent = {
+  city: string;
+  country: string;
+  createdAt: string;
+  endDate: string;
+  id: string;
+  name: string;
+  organizationId: string;
+  startDate: string;
+  talks: {
+    [id: string]: boolean | null;
+  };
+  type: 'CONFERENCE' | 'MEETUP' | null;
+  updatedAt: string;
+  youtubePaylist: string;
+};
+
+type FirebaseOrganization = {
+  events: {
+    [id: string]: boolean | null;
+  };
+  id: string;
+  name: string;
+  twitterHandle: string;
+  updatedAt: string;
+  website: string;
+  youtubeChannel: string | null;
+};
+
+let serviceAccount = require('../tech-talks-firebase-creds.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
+let db = admin.firestore();
 const app = express();
 
 app.use(bodyParser.json());
@@ -17,47 +71,56 @@ app.disable('x-powered-by');
 app.set('port', process.env.PORT || 3001);
 
 app.get('/api/talks/:objectId', async (req, res) => {
-  const talk = (await prisma.talk({ id: req.params.objectId }).$fragment(
-    `fragment TalkOrganizationNames on Talk {
-        id
-        viewCount
-        description
-        title
-        publishedAt
-        duration
-        source
-        videoId
-        private
-        thumbnailUrl
-        event {
-          organization {
-            id
-            name
-          }
+  const talkObjectId = req.params.objectId;
+  let talk = null;
+  try {
+    const talkDoc = await db
+      .collection('talks')
+      .doc(talkObjectId)
+      .get();
+    const talkData = talkDoc.data() as FirebaseTalk;
+    if (talkData && talkDoc.exists) {
+      const {
+        eventId,
+        updatedAt,
+        createdAt,
+        hidden,
+        ...talkAttributes
+      } = talkData;
+      const eventDoc = await db
+        .collection('events')
+        .doc(eventId)
+        .get();
+      const eventData = eventDoc.exists && eventDoc.data();
+      if (eventData) {
+        const orgDoc = await db
+          .collection('organizations')
+          .doc(eventData.organizationId)
+          .get();
+        const orgData = orgDoc.exists && orgDoc.data();
+        if (orgData) {
+          talk = {
+            ...talkAttributes,
+            event: {
+              organization: {
+                id: orgData.id,
+                name: orgData.name
+              }
+            }
+          };
         }
-      }`
-  )) as TalkResponse | null;
+      }
+    }
+  } catch (e) {
+    console.log(e);
+  }
+
   if (talk && !talk.private) {
     res.json(responseToVideoHit(talk));
   } else {
     res.sendStatus(404);
   }
 });
-
-// app.get('/api/talks', async (req, res) => {
-//   const talks = await prisma.talks();
-//   res.json(talks);
-// });
-
-// app.get('/api/speakers', async (req, res) => {
-//   const speakers = await prisma.speakers();
-//   res.json(speakers);
-// });
-
-// app.get('/api/events', async (req, res) => {
-//   const events = await prisma.events();
-//   res.json(events);
-// });
 
 if (process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) => {

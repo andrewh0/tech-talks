@@ -7,7 +7,7 @@ export type TalkResponse = {
   source: string;
   videoId: string;
   thumbnailUrl: string;
-  publishedAt: number | null;
+  publishedAt: string | null;
   event: { organization: { name: string; id: string } };
   private: boolean;
 };
