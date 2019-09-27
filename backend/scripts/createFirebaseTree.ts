@@ -1,11 +1,12 @@
 import admin from 'firebase-admin';
-
 import { prisma } from '../prisma/generated/prisma-client';
 
-let serviceAccount = require('../../tech-talks-firebase-creds.json');
-
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert({
+    privateKey: process.env.FIREBASE_PRIVATE_KEY,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+  })
 });
 
 let db = admin.firestore();
