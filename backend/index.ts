@@ -1,7 +1,8 @@
 import * as path from 'path';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import admin from 'firebase-admin';
+
+import db from './firebaseDbClient';
 
 import { responseToVideoHit } from './util';
 
@@ -51,13 +52,6 @@ type FirebaseOrganization = {
   youtubeChannel: string | null;
 };
 
-let serviceAccount = require('../tech-talks-firebase-creds.json');
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
-
-let db = admin.firestore();
 const app = express();
 
 app.use(bodyParser.json());
