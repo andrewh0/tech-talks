@@ -1,5 +1,15 @@
 import * as algoliasearch from 'algoliasearch';
-import { prisma } from '../prisma/generated/prisma-client';
+import admin from 'firebase-admin';
+
+admin.initializeApp({
+  credential: admin.credential.cert({
+    privateKey: process.env.FIREBASE_PRIVATE_KEY,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    projectId: process.env.FIREBASE_PROJECT_ID
+  })
+});
+
+let db = admin.firestore();
 
 if (!process.env['ALGOLIA_APP_ID'] || !process.env['ALGOLIA_API_KEY']) {
   throw 'Missing Algolia credentials.';
@@ -12,26 +22,27 @@ const client = algoliasearch(
 
 const talksIndex = client.initIndex('TALKS');
 
-async function updateAlgoliaIndex() {
-  const talks = await prisma.talks({
-    where: {
-      private: false
-    }
-  });
-  const mappedTalks = talks.map(talk => ({
-    objectID: talk.id,
-    viewCount: talk.viewCount
-  }));
-  talksIndex.partialUpdateObjects(mappedTalks, (err, _content) => {
-    if (err) throw err;
-    console.log('Algolia Index updated!');
-  });
-  const privateTalks = await prisma.talks({
-    where: {
-      private: true
-    }
-  });
-  const privateTalkIds = privateTalks.map(talk => talk.id);
+function listFirebaseDocs(
+  snapshot: FirebaseFirestore.QuerySnapshot
+): Array<FirebaseFirestore.DocumentData> {
+  const result: Array<FirebaseFirestore.DocumentData> = [];
+  if (snapshot.empty) {
+    console.log('No matching documents in snapshot.');
+  } else {
+    snapshot.forEach(doc => {
+      result.push(doc.data());
+    });
+  }
+  return result;
+}
+
+async function removePrivateTalks() {
+  const talksSnapshot = await db
+    .collection('talks')
+    .where('private', '==', true)
+    .get();
+  const privateTalkIds = listFirebaseDocs(talksSnapshot).map(talk => talk.id);
+
   talksIndex.getObjects(
     privateTalkIds,
     (
@@ -64,6 +75,26 @@ async function updateAlgoliaIndex() {
       }
     }
   );
+}
+
+async function updateAlgoliaTalkViewCounts() {
+  const talksSnapshot = await db
+    .collection('talks')
+    .where('private', '==', false)
+    .get();
+  const mappedTalks = listFirebaseDocs(talksSnapshot).map(talk => ({
+    objectID: talk.id,
+    viewCount: talk.viewCount
+  }));
+  talksIndex.partialUpdateObjects(mappedTalks, (err, _content) => {
+    if (err) throw err;
+    console.log('Algolia Index updated!');
+  });
+}
+
+async function updateAlgoliaIndex() {
+  await updateAlgoliaTalkViewCounts();
+  await removePrivateTalks();
 }
 /*
 Heroku's Scheduler can only be set to Daily / Hourly / 10 minutes.
