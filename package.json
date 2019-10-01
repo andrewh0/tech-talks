@@ -1,17 +1,10 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node --require dotenv/config backend/index.ts",
-    "start:prod": "supervisor build/index.js",
     "prettier": "prettier --config package.json --write \"backend/index.ts\" --loglevel warn",
-    "heroku-postbuild": "yarn run tsc",
-    "prisma:generate": "prisma generate",
-    "prisma:deploy": "prisma deploy --env-file .env",
-    "prisma:seed": "prisma seed --env-file .env --reset",
-    "prisma:reset": "prisma reset --env-file .env"
+    "heroku-postbuild": "yarn run tsc"
   },
   "keywords": [],
   "author": "",
@@ -21,12 +14,10 @@
     "@types/json2csv": "^4.2.0",
     "csvtojson": "^2.0.8",
     "json2csv": "^4.3.5",
-    "prettier": "^1.16.4",
-    "prisma": "^1.31.1"
+    "prettier": "^1.16.4"
   },
   "dependencies": {
     "@types/algoliasearch": "^3.30.5",
-    "@types/graphql": "^14.0.7",
     "@types/lodash": "^4.14.136",
     "@types/url-parse": "^1.4.3",
     "algoliasearch": "^3.32.0",
@@ -35,7 +26,6 @@
     "googleapis": "^37.2.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "prisma-client-lib": "^1.31.1",
     "ts-node": "^8.0.2",
     "typescript": "^3.3.3333",
     "url-parse": "^1.4.4"
