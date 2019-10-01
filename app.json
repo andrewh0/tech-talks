@@ -31,15 +31,6 @@
     "PAPERTRAIL_API_TOKEN": {
       "required": true
     },
-    "PRISMA_ENDPOINT": {
-      "required": true
-    },
-    "PRISMA_MANAGEMENT_API_SECRET": {
-      "required": true
-    },
-    "PRISMA_SECRET": {
-      "required": true
-    },
     "REACT_APP_ALGOLIA_API_KEY": {
       "required": true
     },
