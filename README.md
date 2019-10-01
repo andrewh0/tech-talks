@@ -24,18 +24,6 @@ yarn
 cd client && yarn
 ```
 
-### Deploying a Prisma Service
-
-This app relies heavily on [Prisma](https://www.prisma.io/) to manage data. If you're unfamiliar, Prisma provides a GraphQL layer over your database, replacing a traditional ORM. You'll need a running Prisma server to continue. This project uses [Prisma's Heroku integration](https://www.prisma.io/blog/heroku-integration-homihof6eifi) to manage an AWS RDS instance, but you can also opt to use a local database.
-
-Once you have created a Prisma server and you have obtained your Prisma API credentials, you can add them to the `.env` folder in the root directory, using the `.env.example` file as a reference.
-
-When your credentials have been added, run the following command to deploy your service to Prisma.
-
-```
-yarn prisma:deploy
-```
-
 ### Setting up Algolia
 
 This app uses [Algolia](https://www.algolia.com/) for search. You'll need an Algolia account to start managing your search index. Be sure to add your Algolia API credentials to `.env`. The `createAlgoliaIndex.ts` script in the `scripts` folder may be helpful here for seeding the index.
@@ -71,7 +59,7 @@ yarn run prettier
 
 ## Deployment
 
-This app is hosted on Heroku and uses many of its built-in features.
+This app's frontend is hosted on Netlify. It also uses many of Heroku's add-ons.
 Remember to add your API credentials to the production environment.
 
 This app uses:
@@ -86,7 +74,7 @@ This app uses:
 - [Emotion](https://emotion.sh/docs/introduction/)
 - [styled-system](https://styled-system.com/)
 - [reach-router](https://reach.tech/)
-- [Prisma](https://www.prisma.io/)
+- [Firebase Cloud Firestore](https://firebase.google.com/products/firestore/)
 - [Algolia Search](https://www.algolia.com/)
 - [Postgres](https://www.postgresql.org/)
 - [Heroku](https://heroku.com/)
@@ -95,7 +83,7 @@ This app uses:
 
 This app connects with some external services to get relevant data. You'll need to grab API Keys from them and add them to your `.env` file in the root directory.
 
-- [Prisma](https://app.prisma.io/)
+- [Firebase](https://console.firebase.google.com/)
 - [Algolia](https://www.algolia.com/manage/applications)
 - [YouTube](https://console.cloud.google.com/apis/library/youtube.googleapis.com/)
 
