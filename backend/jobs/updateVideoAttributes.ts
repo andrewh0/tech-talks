@@ -1,6 +1,16 @@
-import { prisma, TalkUpdateInput } from '../prisma/generated/prisma-client';
 import { google } from 'googleapis';
 import { get } from 'lodash';
+import admin from 'firebase-admin';
+
+admin.initializeApp({
+  credential: admin.credential.cert({
+    privateKey: process.env.FIREBASE_PRIVATE_KEY,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    projectId: process.env.FIREBASE_PROJECT_ID
+  })
+});
+
+let db = admin.firestore();
 
 if (!process.env['YOUTUBE_API_KEY']) {
   throw 'Missing YouTube credentials.';
@@ -17,23 +27,30 @@ This task will run every 10 minutes via Heroku Scheduler (~144 times / day).
 */
 
 async function updateVideoAttributes() {
-  const talks = await prisma.talks({
-    first: 10,
-    orderBy: 'updatedAt_ASC'
-  });
-  talks.forEach(async ({ id, videoId }) => {
-    if (videoId) {
-      try {
-        const updateData = await getYouTubeVideoData(videoId);
-        await updateTalkInDb(id, updateData);
-      } catch (e) {
-        console.log(
-          `Could not update view count for videoId ${videoId} / talk id ${id}:`,
-          e
-        );
+  const talksRef = db.collection('talks');
+  const talksSnapshot = await talksRef
+    .orderBy('updatedAt')
+    .limit(10)
+    .get();
+  if (talksSnapshot.empty) {
+    console.log(`No talks found.`);
+    return;
+  } else {
+    talksSnapshot.forEach(async talk => {
+      const { id, videoId } = talk.data();
+      if (videoId) {
+        try {
+          const updateData = await getYouTubeVideoData(videoId);
+          await updateTalkInDb(id, updateData);
+        } catch (e) {
+          console.log(
+            `Could not update view count for videoId ${videoId} / talk id ${id}:`,
+            e
+          );
+        }
       }
-    }
-  });
+    });
+  }
 }
 
 /*
@@ -62,13 +79,19 @@ async function getYouTubeVideoData(
   }
 }
 
-async function updateTalkInDb(id: string, updateData: TalkUpdateInput) {
-  await prisma.updateTalk({
-    data: updateData,
-    where: {
-      id
-    }
-  });
+async function updateTalkInDb(
+  id: string,
+  updateData: { viewCount?: number; private: boolean }
+) {
+  const talkRef = db.collection('talks').doc(id);
+  try {
+    await talkRef.update({
+      ...updateData,
+      updatedAt: new Date().toISOString()
+    });
+  } catch (e) {
+    console.log(`Error updating talk id ${id} in Firebase:`, e);
+  }
 }
 
 updateVideoAttributes();
