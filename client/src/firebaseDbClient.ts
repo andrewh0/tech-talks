@@ -32,7 +32,7 @@ export type FirebaseEvent = {
   };
   type: 'CONFERENCE' | 'MEETUP' | null;
   updatedAt: string;
-  youtubePaylist: string;
+  youtubePlaylist: string;
 };
 
 export type FirebaseOrganization = {
