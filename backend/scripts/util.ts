@@ -1,11 +1,7 @@
 import { compact, get, merge, chunk, flatten } from 'lodash';
 import * as moment from 'moment';
 import { google } from 'googleapis';
-
-export enum Source {
-  YOUTUBE = 'YOUTUBE',
-  VIMEO = 'VIMEO'
-}
+import { Source } from '../firebaseUtil';
 
 const youtube = google.youtube({
   version: 'v3',
@@ -24,25 +20,67 @@ async function getVideoDetails(videoIds: Array<string>) {
       });
       const data = res.data;
       const items = get(data, 'items') || [];
-      return items.map(item => {
-        const duration = get(item, ['contentDetails', 'duration']);
-        const privacyStatus = get(item, ['status', 'privacyStatus']);
-        const viewCount = get(item, ['statistics', 'viewCount']);
-        return {
-          description: get(item, ['snippet', 'description']),
-          duration: duration
-            ? moment.duration(duration).asSeconds()
-            : undefined,
-          private: privacyStatus !== 'public',
-          hidden: false,
-          publishedAt: get(item, ['snippet', 'publishedAt']),
-          thumbnailUrl: get(item, ['snippet', 'thumbnails', 'medium', 'url']),
-          title: get(item, ['snippet', 'title']) || '',
-          viewCount: viewCount ? parseInt(viewCount) : undefined,
-          source: Source.YOUTUBE,
-          videoId: get(item, ['id'])
-        };
-      });
+      return compact(
+        items.map(item => {
+          const description = get(item, ['snippet', 'description']);
+          const duration = get(item, ['contentDetails', 'duration']);
+          const privacyStatus = get(item, ['status', 'privacyStatus']);
+          const publishedAt = get(item, ['snippet', 'publishedAt']);
+          const thumbnailUrl = get(item, [
+            'snippet',
+            'thumbnails',
+            'medium',
+            'url'
+          ]);
+          const title = get(item, ['snippet', 'title']);
+          const viewCount = get(item, ['statistics', 'viewCount']);
+          const videoId = get(item, ['id']);
+
+          if (
+            !(
+              description &&
+              duration &&
+              privacyStatus &&
+              publishedAt &&
+              thumbnailUrl &&
+              title &&
+              viewCount &&
+              videoId
+            )
+          ) {
+              throw 'Could not get all required attributes from video.';
+            return null;
+          }
+          // return;
+          // if (
+          //   ![
+          //     description,
+          //     duration,
+          //     privacyStatus,
+          //     publishedAt,
+          //     thumbnailUrl,
+          //     title,
+          //     viewCount,
+          //     videoId
+          //   ].every(item => !!item)
+          // ) {
+          //   console.log(item);
+          //   throw 'Could not get all required attributes from video.';
+          // }
+          return {
+            description,
+            duration: moment.duration(duration).asSeconds(),
+            private: privacyStatus !== 'public',
+            hidden: false,
+            publishedAt,
+            thumbnailUrl,
+            title,
+            viewCount: parseInt(viewCount),
+            source: Source.YOUTUBE,
+            videoId
+          };
+        })
+      );
     })
   );
   return flatten(results);
