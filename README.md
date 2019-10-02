@@ -15,14 +15,16 @@ git clone git@github.com:andrewh0/tech-talks.git
 cd tech-talks
 ```
 
-This app uses TypeScript for both the frontend and backend, so you'll notice a `package.json` in both the `client` and `root` directories.
+This app uses TypeScript throughout, so you'll notice a `package.json` in both the `client` and root directories.
 
-Install dependencies for both the client and the server.
+Install dependencies for both the client and the backend.
 
 ```
 yarn
 cd client && yarn
 ```
+
+Talks are currently added manually roughly every month by running the scripts in `backend/scripts`.
 
 ### Setting up Algolia
 
@@ -32,13 +34,11 @@ This app uses [Algolia](https://www.algolia.com/) for search. You'll need an Alg
 
 The YouTube API is used to retrieve video and playlist data. You'll need to enable the YouTube API via the [Google Developer Console](https://console.developers.google.com) and get your API credentials there. Add them to the `.env` file in the root directory.
 
-### Running the app locally
+### Setting up Firebase Firestore
 
-Start the Express server with the following command.
+Firestore uses three collections: `organizations`, `events`, and `talks`. Because Firestore is a document-based data store, we need to store ids on each document to establish relationships between each document type. `organizations` have many `events` and `events` have many `talks`. For an idea of the shape of each document, see the `FirebaseOrganization`, `FirebaseEvent`, and `FirebaseTalk` types declared in `firebaseUtil.ts`. Documents are designed to be as "flat" as possible to avoid overfetching.
 
-```
-yarn start
-```
+### Running the frontend client locally
 
 Navigate to the `client` directory to start the client server.
 
@@ -51,7 +51,7 @@ Go to `localhost:3000` in your browser.
 
 ### Prettier
 
-From the client and root folders, you can run the following command to format the client and server code, respectively.
+From the client and root folders, you can run the following command to format the client and backend code, respectively.
 
 ```
 yarn run prettier
@@ -69,15 +69,19 @@ This app uses:
 
 ## Built with
 
+### Frontend technologies
 - [TypeScript](https://www.typescriptlang.org/)
 - [React](https://reactjs.org/)
 - [Emotion](https://emotion.sh/docs/introduction/)
 - [styled-system](https://styled-system.com/)
 - [reach-router](https://reach.tech/)
+
+### Services and hosting
+To reduce cost, this app is now ["serverless"](https://serverless.css-tricks.com) and uses a number of free or cheap cloud-based services to persist data.
 - [Firebase Cloud Firestore](https://firebase.google.com/products/firestore/)
 - [Algolia Search](https://www.algolia.com/)
-- [Postgres](https://www.postgresql.org/)
-- [Heroku](https://heroku.com/)
+- [Heroku](https://heroku.com/) for running scheduled jobs
+- [Netlify](https://netlify.com) for hosting
 
 ## Credentials
 
