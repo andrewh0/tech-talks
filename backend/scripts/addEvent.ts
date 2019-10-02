@@ -5,8 +5,9 @@ import db, {
   OrgOpts,
   FirebaseEvent,
   FirebaseTalk,
+  EventKind,
   getOrgById,
-  createTimestamp,
+  createEvent,
   createOrg,
   FirebaseOrganization
 } from '../firebaseUtil';
@@ -31,29 +32,29 @@ const client = algoliasearch(
 
 const talksIndex = client.initIndex('TALKS');
 
-type EventOpts = {
+type CreateEventOpts = {
   city: string;
   country: string;
   endDate: string;
   name: string;
   organizationId?: string;
   startDate: string;
-  type: 'CONFERENCE' | 'MEETUP';
+  type: EventKind;
 };
 
 async function createEventWithPlaylists(
   playlistIds: Array<string>,
-  eventOpts: EventOpts,
+  eventOpts: CreateEventOpts,
   orgOpts?: OrgOpts
 ) {
-  if (eventOpts.organizationId && orgOpts) {
-    throw 'Invalid params. An org id and org opts were provided. Choose one or the other.';
-  }
   const videoIds = await getManyPlaylistVideos(playlistIds);
   const talksToCreate = await getVideoDetails(videoIds);
 
+  // create an org or fetch one
   let org: FirebaseOrganization;
-  if (eventOpts.organizationId) {
+  if (eventOpts.organizationId && orgOpts) {
+    throw 'Invalid params. An org id and org opts were provided. Choose one or the other.';
+  } else if (eventOpts.organizationId) {
     org = await getOrgById(eventOpts.organizationId);
   } else if (orgOpts) {
     org = await createOrg(orgOpts);
@@ -61,25 +62,16 @@ async function createEventWithPlaylists(
     throw 'Invalid params. Add an organization id or add organization params.';
   }
 
+  // create an event
   const orgId = eventOpts.organizationId || org.id;
-  const eventId = cuid();
-  const now = createTimestamp();
-  const newEvent: FirebaseEvent = {
+  const newEvent: FirebaseEvent = await createEvent({
     ...eventOpts,
     organizationId: orgId,
-    createdAt: now,
-    updatedAt: now,
-    id: eventId,
-    talks: {},
     youtubePlaylist: `https://www.youtube.com/playlist?list=${playlistIds[0]}`
-  };
-  await db
-    .collection('events')
-    .doc(eventId)
-    .set(newEvent);
+  });
 
+  // create talks and associate them to the event
   const createdTalks: Array<FirebaseTalk> = [];
-
   const addTalksBatch = db.batch();
   talksToCreate.forEach(talkItem => {
     const talkId = cuid();
@@ -87,31 +79,23 @@ async function createEventWithPlaylists(
       ...talkItem,
       id: talkId,
       eventId: newEvent.id,
-      createdAt: now,
-      updatedAt: now
+      createdAt: newEvent.createdAt,
+      updatedAt: newEvent.updatedAt
     };
     addTalksBatch.set(db.collection('talks').doc(talkId), newTalk);
     createdTalks.push(newTalk);
   });
   await addTalksBatch.commit();
-
   createdTalks.forEach(async createdTalk => {
     await db
       .collection('events')
-      .doc(eventId)
+      .doc(newEvent.id)
       .update({
         [`talks.${createdTalk.id}`]: true
       });
   });
 
-  await db
-    .collection('organizations')
-    .doc(orgId)
-    .update({
-      [`events.${eventId}`]: true,
-      updatedAt: now
-    });
-
+  // add talks to algolia
   const algoliaTalks = createdTalks.map(createdTalk => ({
     viewCount: createdTalk.viewCount,
     description: createdTalk.description,
@@ -151,5 +135,3 @@ createEventWithPlaylists([''], {
   }
 );
 */
-
-
