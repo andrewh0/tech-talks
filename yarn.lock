@@ -361,6 +361,11 @@ csvtojson@^2.0.8:
     lodash "^4.17.3"
     strip-bom "^2.0.0"
 
+cuid@^2.1.6:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/cuid/-/cuid-2.1.6.tgz#dc3a20b5a7497d36d32c0bf8a2997524c9c796c4"
+  integrity sha512-ZFp7PS6cSYMJNch9fc3tyHdE4T8TDo3Y5qAxb0KSA9mpiYDo7z9ql1CznFuuzxea9STVIDy0tJWm2lYiX2ZU1Q==
+
 date-and-time@^0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/date-and-time/-/date-and-time-0.10.0.tgz#53825b774167b55fbdf0bbd0f17f19357df7bc70"

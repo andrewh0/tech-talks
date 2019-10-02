@@ -4,6 +4,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prettier": "prettier --config package.json --write \"backend/index.ts\" --loglevel warn",
+    "task:addEvent": "yarn run ts-node --require dotenv/config backend/scripts/addEvent.ts",
+    "task:addTalks": "yarn run ts-node --require dotenv/config backend/scripts/addTalks.ts",
+    "task:createCuid": "yarn run ts-node backend/scripts/createCuid.ts",
     "heroku-postbuild": "yarn run tsc"
   },
   "keywords": [],
@@ -21,6 +24,7 @@
     "@types/lodash": "^4.14.136",
     "@types/url-parse": "^1.4.3",
     "algoliasearch": "^3.32.0",
+    "cuid": "^2.1.6",
     "dotenv": "^6.2.0",
     "firebase-admin": "^8.6.0",
     "googleapis": "^37.2.0",
