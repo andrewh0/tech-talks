@@ -1,16 +1,6 @@
 import { google } from 'googleapis';
 import { get } from 'lodash';
-import admin from 'firebase-admin';
-
-admin.initializeApp({
-  credential: admin.credential.cert({
-    privateKey: process.env.FIREBASE_PRIVATE_KEY,
-    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    projectId: process.env.FIREBASE_PROJECT_ID
-  })
-});
-
-let db = admin.firestore();
+import db from '../firebaseUtil';
 
 if (!process.env['YOUTUBE_API_KEY']) {
   throw 'Missing YouTube credentials.';
