@@ -6,6 +6,11 @@ export enum Source {
   VIMEO = 'VIMEO'
 }
 
+export enum EventKind {
+  CONFERENCE = 'CONFERENCE',
+  MEETUP = 'MEETUP'
+}
+
 export type FirebaseTalk = {
   createdAt: string;
   description: string;
@@ -35,9 +40,9 @@ export type FirebaseEvent = {
   talks: {
     [id: string]: boolean | null;
   };
-  type: 'CONFERENCE' | 'MEETUP' | null;
+  type: EventKind | null;
   updatedAt: string;
-  youtubePlaylist: string;
+  youtubePlaylist?: string;
 };
 
 export type FirebaseOrganization = {
@@ -58,6 +63,31 @@ export type OrgOpts = {
   twitterHandle: string | null;
   website: string | null;
   youtubeChannel: string | null;
+};
+
+export type EventOpts = {
+  city: string;
+  country: string;
+  endDate: string;
+  name: string;
+  organizationId: string;
+  startDate: string;
+  type: EventKind | null;
+  youtubePlaylist?: string;
+};
+
+export type TalkOpts = {
+  eventId: string;
+  description: string;
+  duration: number;
+  private: boolean;
+  hidden: boolean;
+  publishedAt: string;
+  thumbnailUrl: string;
+  title: string;
+  viewCount: number;
+  source: Source;
+  videoId: string;
 };
 
 if (
@@ -132,13 +162,13 @@ async function getTalkById(orgId: string): Promise<FirebaseTalk> {
   return await getFirebaseDocById<FirebaseTalk>(orgId, 'talks');
 }
 
-async function createOrg(opts: OrgOpts, events = {}) {
+async function createOrg(opts: OrgOpts): Promise<FirebaseOrganization> {
   const orgId = cuid();
   const now = createTimestamp();
   const newOrg: FirebaseOrganization = {
     ...opts,
     id: orgId,
-    events,
+    events: {},
     createdAt: now,
     updatedAt: now
   };
@@ -146,8 +176,54 @@ async function createOrg(opts: OrgOpts, events = {}) {
     .collection('organizations')
     .doc(orgId)
     .set(newOrg);
+  return newOrg;
+}
 
-  return await getOrgById(orgId);
+async function createEvent(opts: EventOpts): Promise<FirebaseEvent> {
+  const eventId = cuid();
+  const now = createTimestamp();
+  const newEvent: FirebaseEvent = {
+    ...opts,
+    id: eventId,
+    createdAt: now,
+    updatedAt: now,
+    talks: {}
+  };
+  await db
+    .collection('events')
+    .doc(eventId)
+    .set(newEvent);
+  await db
+    .collection('organizations')
+    .doc(opts.organizationId)
+    .update({
+      [`events.${eventId}`]: true,
+      updatedAt: now
+    });
+  return newEvent;
+}
+
+async function createTalk(opts: TalkOpts): Promise<FirebaseTalk> {
+  const talkId = cuid();
+  const now = createTimestamp();
+  const newTalk: FirebaseTalk = {
+    ...opts,
+    id: talkId,
+    createdAt: now,
+    updatedAt: now
+  };
+  await db
+    .collection('talks')
+    .doc(talkId)
+    .set(newTalk);
+  await db
+    .collection('events')
+    .doc(opts.eventId)
+    .update({
+      [`talks.${talkId}`]: true,
+      updatedAt: now
+    });
+  return newTalk;
 }
 
 export {
@@ -157,6 +233,8 @@ export {
   getOrgById,
   getEventById,
   getTalkById,
-  createOrg
+  createOrg,
+  createEvent,
+  createTalk
 };
 export default db;
