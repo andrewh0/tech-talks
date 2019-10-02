@@ -30,8 +30,8 @@
     "googleapis": "^37.2.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "ts-node": "^8.0.2",
-    "typescript": "^3.3.3333",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.3",
     "url-parse": "^1.4.4"
   },
   "prettier": {
