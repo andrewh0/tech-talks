@@ -125,7 +125,7 @@ createEventWithPlaylists([''], {
   startDate: '',
   endDate: '',
   name: '',
-  type: 'CONFERENCE'
+  type: EventKind.CONFERENCE
 },
  ? {
     name: '',
