@@ -38,7 +38,6 @@ async function getVideoDetails(videoIds: Array<string>) {
 
           if (
             !(
-              description &&
               duration &&
               privacyStatus &&
               publishedAt &&
@@ -48,25 +47,8 @@ async function getVideoDetails(videoIds: Array<string>) {
               videoId
             )
           ) {
-              throw 'Could not get all required attributes from video.';
-            return null;
+            throw 'Could not get all required attributes from video.';
           }
-          // return;
-          // if (
-          //   ![
-          //     description,
-          //     duration,
-          //     privacyStatus,
-          //     publishedAt,
-          //     thumbnailUrl,
-          //     title,
-          //     viewCount,
-          //     videoId
-          //   ].every(item => !!item)
-          // ) {
-          //   console.log(item);
-          //   throw 'Could not get all required attributes from video.';
-          // }
           return {
             description,
             duration: moment.duration(duration).asSeconds(),
